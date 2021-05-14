@@ -7,6 +7,7 @@ import edu.bd.inCognito.comptes.entity.Compte;
 import edu.bd.inCognito.comptes.service.ComptesService;
 import edu.bd.inCognito.exceptions.InCognitoCompteException;
 import edu.bd.inCognito.exceptions.InCognitoException;
+import edu.bd.inCognito.profils.entity.Profil;
 import edu.bd.inCognito.utilisateur.service.UtilisateurService;
 
 /**
@@ -74,6 +75,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 			throw new InCognitoException("Problème de supression", e);
 		}
 
+	}
+
+	@Override
+	public Profil creerProfil(String pseudo) throws InCognitoException {
+		verifierPseudo(pseudo);
+		this.profilDao.obtenirNou
+		this.profilDao.creer()
+		return null;
 	}
 
 }

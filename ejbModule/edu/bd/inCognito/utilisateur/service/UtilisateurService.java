@@ -4,6 +4,7 @@ import javax.ejb.Local;
 
 import edu.bd.inCognito.comptes.entity.Compte;
 import edu.bd.inCognito.exceptions.InCognitoException;
+import edu.bd.inCognito.profils.entity.Profil;
 
 /**
  * Service utilisateur
@@ -46,6 +47,11 @@ public interface UtilisateurService {
 	 * @throws InCognitoException
 	 */
 	void consulterProfil(String login) throws InCognitoException;
+	
+	/**
+	 * Creer un profil
+	 */
+	Profil creerProfil(String pseudo) throws InCognitoException;
 
 	/**
 	 * Supprimer son propre compte utilisateur.
