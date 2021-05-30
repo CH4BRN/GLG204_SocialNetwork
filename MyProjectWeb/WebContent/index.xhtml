@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+<h:head></h:head>
+<h:body>
+	<h1>Bienvenue sur inCognito</h1>
+	<h:form>
+		<h:outputText value="#{testBean.serviceValue}"></h:outputText>
+	</h:form>
+
+	<table>
+		<tr>
+			<td>Creer un compte :</td>
+			<td><h:form>
+					<h:commandButton value="Créer compte"
+						action="#{navigationBean.createAccount()}" />
+				</h:form></td>
+		</tr>
+		<tr>
+			<td>Se connecter :</td>
+
+			<td><h:form id="authent">
+					<table>
+						<tr>
+							<td><h:outputText value="Login" /></td>
+							<td><h:inputText value="#{authenticationBean.login}">
+									<f:validator binding="#{authenticationLoginvalidator}" />
+								</h:inputText></td>
+							<td><h:message for="login" /></td>
+						</tr>
+						<tr>
+							<td><h:outputText value="Password" /></td>
+							<td><h:inputText id="password"
+									value="#{authenticationBean.password}">
+								</h:inputText></td>
+							<td><h:message for="password" /></td>
+
+						</tr>
+						<tr>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Valider"
+									action="#{authenticationBean.authentifier()}"></h:commandButton></td>
+
+						</tr>
+						<tr>
+							<td><h:message for="authent" /></td>
+						</tr>
+					</table>
+				</h:form></td>
+		</tr>
+
+	</table>
+
+</h:body>
+</html>

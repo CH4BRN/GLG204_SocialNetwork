@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+    version="2.3">
+    <navigation-rule>
+    <from-view-id>index.xhtml</from-view-id>
+    	<navigation-case>
+        	<from-outcome>createAccount</from-outcome>
+        	<to-view-id>createAccount.xhtml</to-view-id>
+    	</navigation-case> 
+    	<navigation-case>
+        	<from-outcome>accountCreation</from-outcome>
+        	<to-view-id>accountCreation.xhtml</to-view-id>
+    	</navigation-case>   	
+	</navigation-rule>
+	
+	   <navigation-rule>
+    <from-view-id>adminDashboard.xhtml</from-view-id>
+    	<navigation-case>
+        	<from-outcome>seeAccount</from-outcome>
+        	<to-view-id>seeAccount.xhtml</to-view-id>
+    	</navigation-case> 
+    	<navigation-case>
+        	<from-outcome>index</from-outcome>
+        	<to-view-id>index.xhtml</to-view-id>
+    	</navigation-case>  	
+	</navigation-rule>
+
+</faces-config>

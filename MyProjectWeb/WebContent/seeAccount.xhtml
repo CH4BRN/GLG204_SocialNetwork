@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+	<h1>See accounts</h1>
+	<h:form>
+		<h:commandButton value="Rafraichir"
+			action="#{adminBean.rafraichirListe()}" />
+	</h:form>
+	<h:dataTable value="#{adminBean.comptes}" var="comptes">
+		<h:column>
+			<f:facet name="header">ID</f:facet>
+			#{comptes.id}
+		</h:column>
+		<h:column>
+			<f:facet name="header">LOGIN</f:facet>
+			#{comptes.login}
+		</h:column>
+		<h:column>
+			<f:facet name="header">EMAIL</f:facet>
+			#{comptes.email}
+		</h:column>
+		<h:column>
+			<f:facet name="header">ACTIF</f:facet>
+
+			<h:form>
+				<h:commandButton value="Actif #{comptes.isActif}"
+					action="#{adminBean.makeUserActive(comptes.id)}" />
+			</h:form>
+
+		</h:column>
+		<h:column>
+			<f:facet name="header">ADMIN</f:facet>
+			<h:form>
+				<h:commandButton value="Admin #{comptes.isAdmin}"
+					action="#{adminBean.makeUserAdmin(comptes.id)}" />
+			</h:form>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Supprimer</f:facet>
+			<h:form>
+				<h:commandButton value="Supprimer"
+					action="#{adminBean.supprimer(comptes.id)}" />
+			</h:form>
+		</h:column>
+
+	</h:dataTable>
+	<h:form>
+		<h:commandButton value="Retour" action="adminDashboard" />
+	</h:form>
+</h:body>
+</html>
