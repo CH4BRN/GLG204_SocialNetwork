@@ -5,23 +5,83 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jstl/core">
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
 <h:body>
-	<h1>Bienvenue sur inCognito</h1>
+	<p:outputLabel value="Bienvenue sur inCognito" />
 	<h:form>
-		<h:outputText value="#{testBean.serviceValue}"></h:outputText>
+		<p:outputLabel value="#{testBean.serviceValue}" />
 	</h:form>
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<p:panelGrid>
+					<p:row>
+						<p:commandButton value="Créer compte"
+							action="#{navigationBean.createAccount()}" />
 
+					</p:row>
+				</p:panelGrid>
+			</p:column>
+			<p:column>
+				<p:panelGrid>
+					<p:row>
+						<p:outputLabel value="Se connecter : " />
+					</p:row>
+					<p:row>
+						<h:form>
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Login : " />
+									</p:column>
+									<p:column>
+										<p:inputText id="login" value="#{authenticationBean.login}">
+											<f:validator validatorId="authenticationLoginValidator" />
+										</p:inputText>
+									</p:column>
+									<p:column>
+										<p:message for="login" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Password" />
+									</p:column>
+									<p:column>
+										<p:inputText id="password"
+											value="#{authenticationBean.password}">
+											<f:validator validatorId="authenticationPasswordValidator" />
+										</p:inputText>
+									</p:column>
+									<p:column>
+										<p:message for="password" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column></p:column>
+									<p:column></p:column>
+									<p:column>
+										<p:commandButton value="Valider"
+											action="#{authenticationBean.authentifier()}" ajax="false"></p:commandButton>
+									</p:column>
+
+								</p:row>
+							</p:panelGrid>>
+						</h:form>
+					</p:row>
+				</p:panelGrid>
+			</p:column>
+		</p:row>
+
+
+
+	</p:panelGrid>
+	<!-- 
 	<table>
-		<tr>
-			<td>Creer un compte :</td>
-			<td><h:form>
-					<h:commandButton value="Créer compte"
-						action="#{navigationBean.createAccount()}" />
-				</h:form></td>
-		</tr>
+
 		<tr>
 			<td>Se connecter :</td>
 
@@ -60,6 +120,7 @@
 		</tr>
 
 	</table>
+	 -->
 
 </h:body>
 </html>

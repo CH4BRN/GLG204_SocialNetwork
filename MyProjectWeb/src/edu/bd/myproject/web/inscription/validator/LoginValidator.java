@@ -1,18 +1,16 @@
 package edu.bd.myproject.web.inscription.validator;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myproject.web.framework.validators.StringValidator;
 
-@Named("loginValidator")
-@RequestScoped
+@FacesValidator(value="loginValidator")
 public class LoginValidator extends StringValidator {
 
 	/**

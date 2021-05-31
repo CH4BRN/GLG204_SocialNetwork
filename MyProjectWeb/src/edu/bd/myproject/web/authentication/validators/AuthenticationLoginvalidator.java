@@ -5,6 +5,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,12 +18,8 @@ import edu.bd.myproject.web.framework.validators.StringValidator;
  * @author pierr
  *
  */
-@Named("authenticationLoginvalidator")
-@RequestScoped
+@FacesValidator(value = "authenticationLoginValidator")
 public class AuthenticationLoginvalidator extends StringValidator {
-
-	@Inject
-	CompteDao comptesDao;
 
 	/**
 	 * 
@@ -36,7 +33,6 @@ public class AuthenticationLoginvalidator extends StringValidator {
 	@Override
 	public void validate(FacesContext arg0, UIComponent arg1, String value) throws ValidatorException {
 		String login = value;
-
 		checkForNull(login);
 		checkForEmpty(login);
 

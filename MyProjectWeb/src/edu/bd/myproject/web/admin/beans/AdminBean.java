@@ -22,10 +22,7 @@ public class AdminBean implements Serializable {
 	@Inject
 	private AdminService adminService;
 
-	@PostConstruct
-	private void init() {
-		this.login = this.adminService.getAdmin().getLogin();
-	}
+
 
 	public String seDeconnecter() {
 		this.adminService.seDeconnecter();

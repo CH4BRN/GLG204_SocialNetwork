@@ -4,12 +4,12 @@ package edu.bd.myProject.authentication.service.impl;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import edu.bd.myProject.admin.service.AdminService;
 import edu.bd.myProject.authentication.service.AuthenticationService;
 import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
-import edu.bd.myProject.compte.service.CompteService;
-import edu.bd.myProject.user.service.UserService;
+import edu.bd.myProject.core.service.CoreService;
+import edu.bd.myProject.core.service.ServiceA;
+import edu.bd.myProject.core.service.ServiceU;
 
 /**
  * @author pierr
@@ -22,22 +22,36 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	CompteDao comptesDao;
 
 	@Inject
-	AdminService adminService;
+	@ServiceA
+	CoreService coreAdminService;
 
 	@Inject
-	UserService userService;
+	@ServiceU
+	CoreService coreUserService;
 
 	/**
 	 * @see edu.bd.myProject.authentication.service.AuthenticationService#authentifier(java.lang.String,
 	 *      java.lang.String)
 	 */
 	@Override
-	public Compte authentifier(String login, String motDePasse) throws Exception {
+	public CoreService authentifier(String login, String motDePasse) throws Exception {
 		Compte compte = comptesDao.obtenirParLogin(login);
-		if (compte.getMotDePasse().equals(motDePasse)) {
-			return compte;
+		if (compte == null) {
+			throw new Exception("Erreur connexion");
 		}
-		return null;
+		if (!compte.getMotDePasse().equals(motDePasse)) {
+			throw new Exception("Erreur connexion");
+		}
+		if (!compte.getIsActif()) {
+			throw new Exception("Erreur connexion");
+		}
+		if (compte.getIsAdmin()) {
+			coreAdminService.setUser(compte);
+			return coreAdminService;
+		} else {
+			coreUserService.setUser(compte);
+			return coreUserService;
+		}
 	}
 
 }
