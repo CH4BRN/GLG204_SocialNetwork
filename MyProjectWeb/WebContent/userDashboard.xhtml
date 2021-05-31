@@ -7,9 +7,13 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
 	<h1>User dashboard</h1>
-	
+
 	<table>
-	
+		<tr>
+			<td><h:outputText
+					value="#{currentUserBean.currentAccount.login}"></h:outputText></td>
+		</tr>
+
 	</table>
 </h:body>
 </html>

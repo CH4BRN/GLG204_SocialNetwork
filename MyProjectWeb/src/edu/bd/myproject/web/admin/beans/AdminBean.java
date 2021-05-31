@@ -1,4 +1,4 @@
-package edu.bd.myproject.web.admin;
+package edu.bd.myproject.web.admin.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;

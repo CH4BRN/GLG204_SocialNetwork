@@ -13,18 +13,27 @@
 			action="#{adminBean.rafraichirListe()}" />
 	</h:form>
 	<h:dataTable value="#{adminBean.comptes}" var="comptes">
+		<!--  ID  -->
 		<h:column>
 			<f:facet name="header">ID</f:facet>
 			#{comptes.id}
 		</h:column>
+		<!--  LOGIN  -->
 		<h:column>
 			<f:facet name="header">LOGIN</f:facet>
 			#{comptes.login}
 		</h:column>
+		<!--  EMAIL -->
 		<h:column>
 			<f:facet name="header">EMAIL</f:facet>
 			#{comptes.email}
 		</h:column>
+		<!--  MOT DE PASSE -->
+		<h:column>
+			<f:facet name="header">MOT DE PASSE</f:facet>
+			#{comptes.motDePasse}
+		</h:column>
+		<!--  IS ACTIF  -->
 		<h:column>
 			<f:facet name="header">ACTIF</f:facet>
 
@@ -34,6 +43,7 @@
 			</h:form>
 
 		</h:column>
+		<!--  IS ADMIN -->
 		<h:column>
 			<f:facet name="header">ADMIN</f:facet>
 			<h:form>
@@ -41,6 +51,7 @@
 					action="#{adminBean.makeUserAdmin(comptes.id)}" />
 			</h:form>
 		</h:column>
+		<!--  SUPPRIMER -->
 		<h:column>
 			<f:facet name="header">Supprimer</f:facet>
 			<h:form>

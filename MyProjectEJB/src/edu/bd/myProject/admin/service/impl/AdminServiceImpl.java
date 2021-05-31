@@ -25,7 +25,6 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void seDeconnecter() {
 		this.compte = null;
-
 	}
 
 	@Override

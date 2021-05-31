@@ -13,6 +13,8 @@ import javax.inject.Named;
 import edu.bd.myProject.admin.service.AdminService;
 import edu.bd.myProject.authentication.service.AuthenticationService;
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.user.service.UserService;
+import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("authenticationBean")
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
@@ -24,7 +26,9 @@ public class AuthenticationBean implements Serializable {
 
 	@Inject
 	AdminService adminService;
-	
+
+	@Inject
+	UserService userService;
 
 	/**
 	 * 
@@ -61,6 +65,7 @@ public class AuthenticationBean implements Serializable {
 				return "index";
 			}
 			if (!compte.getIsAdmin()) {
+				this.userService.setUser(compte);
 				return "userDashboard";
 			} else {
 				this.adminService.setAdmin(compte);
