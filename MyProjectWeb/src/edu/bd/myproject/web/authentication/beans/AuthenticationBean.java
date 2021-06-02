@@ -15,6 +15,7 @@ import edu.bd.myProject.authentication.service.AuthenticationService;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.core.service.CoreService;
 import edu.bd.myProject.user.service.UserService;
+import edu.bd.myproject.web.admin.beans.AdminBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("authenticationBean")
@@ -25,12 +26,13 @@ public class AuthenticationBean implements Serializable {
 	@Inject
 	AuthenticationService authenticationService;
 
+	@Named
 	@Inject
-	AdminService adminService;
+	AdminBean adminBean;
 
+	@Named
 	@Inject
-	UserService userService;
-
+	CurrentUserBean currentUserBean;
 	/**
 	 * 
 	 */
@@ -61,11 +63,16 @@ public class AuthenticationBean implements Serializable {
 	public String authentifier() {
 		try {
 			CoreService service = this.authenticationService.authentifier(this.login, this.password);
-			String redirect = service.getDashboard();
 
-			System.out.println("redirect : " + redirect);
-			// TODO : Impélments admin things
-			return redirect;
+			// Admin case
+			if (service.getUser().getIsAdmin()) {
+				adminBean.setUser(service.getUser());
+			} else {
+			// User case
+				currentUserBean.setCurrentAccount(service.getUser());
+			}
+
+			return service.getDashboard();
 		} catch (Exception e) {
 
 			FacesContext.getCurrentInstance().addMessage(null,

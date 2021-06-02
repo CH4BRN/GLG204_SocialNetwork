@@ -16,7 +16,7 @@ public class CoreUserService implements CoreService {
 
 	@Override
 	public String getDashboard() {
-		return "userDahboard";
+		return "userDashboard";
 	}
 
 	@Override

@@ -61,6 +61,7 @@ public class CompteDaoImpl extends GenericDao implements CompteDao {
 					.getSingleResult();
 
 		} catch (Exception e) {
+
 		}
 		return null;
 	}
@@ -72,7 +73,7 @@ public class CompteDaoImpl extends GenericDao implements CompteDao {
 					.getSingleResult();
 
 		} catch (Exception e) {
-			
+
 		}
 		return null;
 	}

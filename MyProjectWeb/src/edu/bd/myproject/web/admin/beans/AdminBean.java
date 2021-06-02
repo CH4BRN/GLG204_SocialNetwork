@@ -19,10 +19,19 @@ import edu.bd.myProject.compte.service.CompteService;
 @ApplicationScoped
 public class AdminBean implements Serializable {
 
+	private Compte user;
+
+	public Compte getUser() {
+		return user;
+	}
+
+	public void setUser(Compte user) {
+		this.user = user;
+		this.login = user.getLogin();
+	}
+
 	@Inject
 	private AdminService adminService;
-
-
 
 	public String seDeconnecter() {
 		this.adminService.seDeconnecter();
@@ -65,25 +74,20 @@ public class AdminBean implements Serializable {
 	CompteService compteService;
 
 	public void makeUserAdmin(String id) {
-		if (!id.equals(adminService.getAdmin().getId())) {
-			this.adminService.makeUserAdmin(id);
-			rafraichirListe();
-		}
+		this.adminService.makeUserAdmin(id);
+		rafraichirListe();
 	}
 
 	public void makeUserActive(String id) {
-		if (!id.equals(adminService.getAdmin().getId())) {
-			this.adminService.makeUserActif(id);
-			rafraichirListe();
-		}
+		this.adminService.makeUserActif(id);
+		rafraichirListe();
 
 	}
 
 	public void supprimer(String id) {
-		if (!id.equals(adminService.getAdmin().getId())) {
-			this.adminService.supprimer(id);
-			rafraichirListe();
-		}
+		this.adminService.supprimer(id);
+		rafraichirListe();
+
 	}
 
 }

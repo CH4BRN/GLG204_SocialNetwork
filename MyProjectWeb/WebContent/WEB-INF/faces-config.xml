@@ -14,6 +14,10 @@
         	<from-outcome>accountCreation</from-outcome>
         	<to-view-id>accountCreation.xhtml</to-view-id>
     	</navigation-case>   	
+    	 <navigation-case>
+        	<from-outcome>userDashboard</from-outcome>
+        	<to-view-id>userDashboard.xhtml</to-view-id>
+    	</navigation-case> 
 	</navigation-rule>
 	
 	   <navigation-rule>

@@ -4,16 +4,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
 <h:body>
-	<h1>User dashboard</h1>
+	<h1>
+		<p:outputLabel value="User Dashboard" />
+	</h1>
+	<h2>
+		<p:outputLabel
+			value="Bienvenue, #{currentUserBean.currentAccount.login}" />
+	</h2>
 
-	<table>
-		<tr>
-			<td><h:outputText
-					value="#{currentUserBean.currentAccount.login}"></h:outputText></td>
-		</tr>
+	<p:panelGrid>
+		<p:row>
+			<h:form>
+				<p:column>
+					<p:commandButton value="Gerer salons" action="manageSalon" />
+				</p:column>
+				<p:column>
+					<h:form>
+						<p:commandButton value="Se déconnecter"
+							action="#{currentUserBean.seDeconnecter()}" ajax="false" />
+					</h:form>
+				</p:column>
 
-	</table>
+			</h:form>
+		</p:row>
+
+	</p:panelGrid>
 </h:body>
 </html>

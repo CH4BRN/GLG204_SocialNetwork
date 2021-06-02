@@ -10,8 +10,8 @@ import javax.inject.Inject;
 import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myproject.web.framework.validators.StringValidator;
 
-@FacesValidator(value="loginValidator")
-public class LoginValidator extends StringValidator {
+@FacesValidator(value = "inscriptionLoginValidator")
+public class InscriptionLoginValidator extends StringValidator {
 
 	/**
 	 * 
@@ -30,10 +30,11 @@ public class LoginValidator extends StringValidator {
 	private void checkForExisting(String value) {
 		try {
 			comptesDao.obtenirParLogin(value);
-		} catch (Exception e) {
-			throw new ValidatorException(new FacesMessage("Echec validation login", "Le login existe déjà."));
 
+		} catch (Exception e) {
+			return;
 		}
+		throw new ValidatorException(new FacesMessage("Echec validation login", "Le login existe déjà."));
 	}
 
 }

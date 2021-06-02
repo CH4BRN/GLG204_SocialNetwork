@@ -2,16 +2,19 @@
 package edu.bd.myProject.compte.entity.impl;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.salons.entity.Salon;
 
 /**
  * @author pierr
@@ -55,6 +58,12 @@ public class CompteImpl implements Compte {
 	public void setLogin(String login) {
 		this.login = login;
 
+	}
+
+	@Override
+	public String toString() {
+		return "CompteImpl [login=" + login + ", email=" + email + ", motDePasse=" + motDePasse + ", isActif=" + isActif
+				+ ", dateCreation=" + dateCreation + ", id=" + id + ", isAdmin=" + isAdmin + "]";
 	}
 
 	/**

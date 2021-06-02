@@ -4,65 +4,66 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
+<h:head></h:head>
 <h:body>
 	<h1>See accounts</h1>
 	<h:form>
-		<h:commandButton value="Rafraichir"
+		<p:commandButton value="Rafraichir"
 			action="#{adminBean.rafraichirListe()}" />
 	</h:form>
-	<h:dataTable value="#{adminBean.comptes}" var="comptes">
-		<!--  ID  -->
-		<h:column>
-			<f:facet name="header">ID</f:facet>
-			#{comptes.id}
-		</h:column>
-		<!--  LOGIN  -->
-		<h:column>
-			<f:facet name="header">LOGIN</f:facet>
-			#{comptes.login}
-		</h:column>
-		<!--  EMAIL -->
-		<h:column>
-			<f:facet name="header">EMAIL</f:facet>
-			#{comptes.email}
-		</h:column>
-		<!--  MOT DE PASSE -->
-		<h:column>
-			<f:facet name="header">MOT DE PASSE</f:facet>
-			#{comptes.motDePasse}
-		</h:column>
-		<!--  IS ACTIF  -->
-		<h:column>
-			<f:facet name="header">ACTIF</f:facet>
+	<p:tabView>
+		<p:tab>
+			<p:dataTable value="#{adminBean.comptes}" var="comptes"
+				selectionMode="single" rowKey="#{comptes.id}" paginator="true"
+				rows="10">
+				<!--  ID  -->
+				<p:column headerText="Id">
+					<h:outputText value="#{comptes.id}" />
+				</p:column>
+				<!--  LOGIN  -->
+				<p:column headerText="Login">
+					<h:outputText value="#{comptes.login}" />
+				</p:column>
+				<!--  EMAIL -->
+				<p:column headerText="Email">
+					<h:outputText value="#{comptes.email}" />
+				</p:column>
+				<!--  MOT DE PASSE -->
+				<p:column headerText="Mot de passe">
+					<h:outputText value="#{comptes.motDePasse}" />
+				</p:column>
+				<!--  IS ACTIF  -->
+				<p:column headerText="Actif">
+					<h:form>
+						<p:commandButton value="Actif #{comptes.isActif}"
+							actionListener="#{adminBean.makeUserActive(comptes.id)}"
+							ajax="false" />
+					</h:form>
+				</p:column>
+				<!--  IS ADMIN -->
+				<p:column headerText="Admin">
+					<h:form>
+						<p:commandButton value="Admin #{comptes.isAdmin}"
+							actionListener="#{adminBean.makeUserAdmin(comptes.id)}"
+							ajax="false" />
+					</h:form>
+				</p:column>
+				<!--  SUPPRIMER -->
+				<p:column headerText="Supprimer">
+					<h:form>
+						<p:commandButton value="Supprimer"
+							actionListener="#{adminBean.supprimer(comptes.id)}" ajax="false" />
+					</h:form>
+				</p:column>
 
-			<h:form>
-				<h:commandButton value="Actif #{comptes.isActif}"
-					action="#{adminBean.makeUserActive(comptes.id)}" />
-			</h:form>
-
-		</h:column>
-		<!--  IS ADMIN -->
-		<h:column>
-			<f:facet name="header">ADMIN</f:facet>
-			<h:form>
-				<h:commandButton value="Admin #{comptes.isAdmin}"
-					action="#{adminBean.makeUserAdmin(comptes.id)}" />
-			</h:form>
-		</h:column>
-		<!--  SUPPRIMER -->
-		<h:column>
-			<f:facet name="header">Supprimer</f:facet>
-			<h:form>
-				<h:commandButton value="Supprimer"
-					action="#{adminBean.supprimer(comptes.id)}" />
-			</h:form>
-		</h:column>
-
-	</h:dataTable>
+			</p:dataTable>
+		</p:tab>
+	</p:tabView>
 	<h:form>
-		<h:commandButton value="Retour" action="adminDashboard" />
+		<p:commandButton value="Retour" action="adminDashboard" />
 	</h:form>
 </h:body>
 </html>

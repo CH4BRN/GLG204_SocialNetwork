@@ -4,6 +4,9 @@ import java.util.Date;
 
 public interface Compte {
 
+	@Override
+	String toString();
+
 	/**
 	 * Obtenir le login
 	 * 

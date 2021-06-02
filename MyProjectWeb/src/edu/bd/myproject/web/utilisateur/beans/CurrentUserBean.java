@@ -13,6 +13,12 @@ import edu.bd.myProject.user.service.UserService;
 @ApplicationScoped
 public class CurrentUserBean {
 
+	@Override
+	public String toString() {
+
+		return "CurrentUserBean [currentAccount=" + currentAccount.toString() + "]";
+	}
+
 	@Inject
 	UserService userService;
 
@@ -26,6 +32,7 @@ public class CurrentUserBean {
 	}
 
 	public void setCurrentAccount(Compte currentAccount) {
+		System.out.println(currentAccount.toString());
 		this.currentAccount = currentAccount;
 	}
 

@@ -8,6 +8,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,9 +20,8 @@ import edu.bd.myproject.web.framework.validators.StringValidator;
  * @author pierr
  *
  */
-@Named("emailValidator")
-@RequestScoped
-public class EmailValidator extends StringValidator {
+@FacesValidator(value = "inscriptionEmailValidator")
+public class InscriptionEmailValidator extends StringValidator {
 
 	/**
 	 * 
@@ -58,8 +58,9 @@ public class EmailValidator extends StringValidator {
 	private void checkForExisting(String value) {
 		try {
 			comptesDao.obtenirParEmail(value);
+			throw new ValidatorException(new FacesMessage("Echec validation email", "Le mail existe déjà."));
 		} catch (Exception e) {
-			throw new ValidatorException(new FacesMessage("Echec validation email", "Le login existe déjà."));
+			return;
 
 		}
 	}

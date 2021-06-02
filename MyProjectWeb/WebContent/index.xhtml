@@ -10,7 +10,7 @@
 
 <h:head></h:head>
 <h:body>
-	<p:outputLabel value="Bienvenue sur inCognito" />
+	<h1>Bienvenue sur InCognito</h1>
 	<h:form>
 		<p:outputLabel value="#{testBean.serviceValue}" />
 	</h:form>
@@ -19,9 +19,10 @@
 			<p:column>
 				<p:panelGrid>
 					<p:row>
-						<p:commandButton value="Créer compte"
-							action="#{navigationBean.createAccount()}" />
-
+						<h:form>
+							<p:commandButton value="Créer compte"
+								action="#{navigationBean.createAccount()}" ajax="false" />
+						</h:form>
 					</p:row>
 				</p:panelGrid>
 			</p:column>
@@ -62,65 +63,20 @@
 								</p:row>
 								<p:row>
 									<p:column></p:column>
-									<p:column></p:column>
 									<p:column>
-										<p:commandButton value="Valider"
+										<p:messages id="authentMessages" />
+									</p:column>
+									<p:column>
+										<p:commandButton value="Valider" update="authentMessages"
 											action="#{authenticationBean.authentifier()}" ajax="false"></p:commandButton>
 									</p:column>
-
 								</p:row>
-							</p:panelGrid>>
+							</p:panelGrid>
 						</h:form>
 					</p:row>
 				</p:panelGrid>
 			</p:column>
 		</p:row>
-
-
-
 	</p:panelGrid>
-	<!-- 
-	<table>
-
-		<tr>
-			<td>Se connecter :</td>
-
-			<td><h:form id="authent">
-					<table>
-						<tr>
-							<td><h:outputText value="Login" /></td>
-							<td><h:inputText value="#{authenticationBean.login}">
-									<f:validator binding="#{authenticationLoginvalidator}" />
-								</h:inputText></td>
-							<td><h:message for="login" /></td>
-						</tr>
-						<tr>
-							<td><h:outputText value="Password" /></td>
-							<td><h:inputText id="password"
-									value="#{authenticationBean.password}">
-								</h:inputText></td>
-							<td><h:message for="password" /></td>
-
-						</tr>
-						<tr>
-							<td></td>
-
-						</tr>
-						<tr>
-							<td></td>
-							<td><h:commandButton value="Valider"
-									action="#{authenticationBean.authentifier()}"></h:commandButton></td>
-
-						</tr>
-						<tr>
-							<td><h:message for="authent" /></td>
-						</tr>
-					</table>
-				</h:form></td>
-		</tr>
-
-	</table>
-	 -->
-
 </h:body>
 </html>

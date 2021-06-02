@@ -10,45 +10,68 @@
 </h:head>
 <h:body>
 	<h1>Account creation</h1>
-	<h:form>
-		<table>
-			<tr>
-				<td><p:outputLabel value="LOGIN :"></p:outputLabel></td>
-				<td><p:inputText value="#{inscriptionBean.login}" id="login">
-						<f:validator validatorId="loginValidator" />
-					</p:inputText></td>
-				<td><p:message for="login" /></td>
-			</tr>
-			<tr>
-				<td>EMAIL :</td>
-				<td><p:inputText value="#{inscriptionBean.email}" id="email">
-						<f:validator binding="#{emailValidator}" />
-					</p:inputText></td>
-				<td><p:message for="email" /></td>
-			</tr>
-			<tr>
-				<td>MOT DE PASSE :</td>
-				<td><p:inputText value="#{inscriptionBean.motDePasse}"
-						id="motDePasse">
-						<f:validator binding="#{passwordValidator}" />
-					</p:inputText></td>
-				<td><p:message for="motDePasse" /></td>
-			</tr>
-			<tr>
-				<td><p:commandButton value="Valider"
-						action="#{inscriptionBean.inscrire()}" /></td>
-			</tr>
-
-
-		</table>
-	</h:form>
-	<h:form>
-		<table>
-			<tr>
-				<td></td>
-				<td><p:commandButton value="Retour" action="index" /></td>
-			</tr>
-		</table>
-	</h:form>
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Retour" action="index" />
+				</h:form>
+			</p:column>
+			<p:column></p:column>
+			<p:column></p:column>
+		</p:row>
+		<h:form>
+			<!--  LOGIN  -->
+			<p:row>
+				<p:column>
+					<p:outputLabel value="LOGIN :"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:inputText value="#{inscriptionBean.login}" id="login">
+						<f:validator validatorId="inscriptionLoginValidator" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="login" />
+				</p:column>
+			</p:row>
+			<!--  EMAIL -->
+			<p:row>
+				<p:column>
+					<p:outputLabel value="EMAIL :"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:inputText value="#{inscriptionBean.email}" id="email">
+						<f:validator validatorId="inscriptionEmailValidator" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="email" />
+				</p:column>
+			</p:row>
+			<!-- PASSWORD -->
+			<p:row>
+				<p:column>
+					<p:outputLabel value="MOT DE PASSE :"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:inputText value="#{inscriptionBean.motDePasse}" id="motDePasse">
+						<f:validator validatorId="inscriptionPasswordValidator" />
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:message for="motDePasse" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column></p:column>
+				<p:column></p:column>
+				<p:column>
+					<p:commandButton value="Valider"
+						action="#{inscriptionBean.inscrire()}" ajax="false" />
+				</p:column>
+			</p:row>
+		</h:form>
+	</p:panelGrid>
 </h:body>
 </html>
