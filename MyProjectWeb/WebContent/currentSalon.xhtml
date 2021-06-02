@@ -12,7 +12,22 @@
 <h:body>
 	<p:outputLabel value="Current salon" />
 	<h:form>
-		<p:commandButton value="Retour" action="manageSalon" />
+		<p:outputLabel value="#{currentSalonBean.yourProfile.pseudo}" />
+		<p:commandButton value="Retour" action="#{currentSalonBean.quit()}" />
 	</h:form>
+	<p:tabView>
+		<p:tab>
+			<p:dataTable value="#{currentSalonBean.registeredProfiles}"
+				var="registeredProfiles" selectionMode="single"
+				rowKey="#{registeredProfiles.id}" rows="10">
+				<!--  ID -->
+				<p:column headerText="Id">
+					<h:outputText value="#{registeredProfiles.id}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</p:tab>
+	</p:tabView>
 </h:body>
 </html>

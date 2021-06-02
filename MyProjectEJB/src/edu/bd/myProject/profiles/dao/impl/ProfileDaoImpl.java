@@ -3,6 +3,8 @@ package edu.bd.myProject.profiles.dao.impl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.GenericDao;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
@@ -15,6 +17,7 @@ import edu.bd.myProject.salons.entity.Salon;
  * @author pierr
  *
  */
+@Stateless
 public class ProfileDaoImpl extends GenericDao implements ProfileDao {
 
 	/**

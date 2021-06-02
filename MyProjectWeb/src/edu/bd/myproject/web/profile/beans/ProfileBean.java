@@ -4,9 +4,14 @@ import java.io.Serializable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.profiles.entity.Profile;
+import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
+import edu.bd.myproject.web.salons.CurrentSalonBean;
 
 @Named("profileBean")
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
@@ -19,7 +24,24 @@ public class ProfileBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String newProfileName;
 
+	@Inject
+	ProfileService profileService;
+
+	@Named
+	@Inject
+	CurrentSalonBean currentSalonBean;
+
 	private Salon salon;
+
+	private Compte compte;
+
+	public Compte getCompte() {
+		return compte;
+	}
+
+	public void setCompte(Compte compte) {
+		this.compte = compte;
+	}
 
 	public Salon getSalon() {
 		return salon;
@@ -37,8 +59,16 @@ public class ProfileBean implements Serializable {
 		this.newProfileName = newProfileName;
 	}
 
-	public void createProfileForSalon() {
-		System.out.println("PSEUDO : " + newProfileName + " SALON : " + salon.toString());
+	public String createProfileForSalon() {
+		try {
+			Profile profile = profileService.createProfile(this.newProfileName, this.compte, this.salon);
+			System.out.println("PROFILE : " + profile.toString());
+			currentSalonBean.setYourProfile(profile);
+			return "currentSalon";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "createProfile";
+		}
 
 	}
 }

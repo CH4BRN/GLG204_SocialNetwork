@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
 import edu.bd.myProject.profiles.entity.Profile;
+import edu.bd.myProject.profiles.entity.impl.ProfileImpl;
 import edu.bd.myProject.salons.entity.Salon;
 
 /**
@@ -43,9 +45,6 @@ public class SalonImpl implements Salon {
 	private String id;
 
 	private Date dateCreation;
-
-	@ManyToMany
-	Set<Profile> profile;
 
 	@ManyToOne(targetEntity = CompteImpl.class)
 	private Compte createur;

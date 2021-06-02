@@ -41,11 +41,11 @@ public class SalonBean {
 		this.currentUserSalons = currentUserSalons;
 	}
 
-	@Named
+	@Named("currentUserBean")
 	@Inject
 	CurrentUserBean currentUserBean;
 
-	@Named
+	@Named("profileBean")
 	@Inject
 	ProfileBean profileBean;
 
@@ -103,6 +103,7 @@ public class SalonBean {
 		try {
 			Salon salon = salonService.obtenirSalonParId(id);
 			profileBean.setSalon(salon);
+			profileBean.setCompte(currentUserBean.getCurrentAccount());
 
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
