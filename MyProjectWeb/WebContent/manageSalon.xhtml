@@ -16,51 +16,64 @@
 		<p:outputLabel
 			value="Bienvenue, #{currentUserBean.currentAccount.login}" />
 	</h2>
-	<h:form>
-		<p:commandButton value="retour" action="userDashboard" />
-	</h:form>
-	<h:form>
-		<p:panelGrid>
-			<p:row>
 
-				<p:column>
-					<p:inputText value="#{salonBean.newSalonName}" />
-				</p:column>
-				<p:column>
-					<p:commandButton value="Creer nouveau salon" action="createSalon"
-						ajax="false" />
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+	<p:panelGrid>
+		<p:row>
+			<h:form>
+				<p:panelGrid>
+					<p:row>
 
-		<p:tabView>
-			<p:tab>
-				<p:dataTable value="#{salonBean.currentUserSalons}" var="salon">
-					<!--  NOM -->
-					<p:column headerText="Nom">
-						<p:outputLabel value="#{salon.nom}" />
-					</p:column>
-					<!--  REJOINDRE -->
-					<p:column headerText="Rejoindre">
-						<h:form>
-							<p:commandButton value="Rejoindre"
-								action="#{salonBean.rejoindreSalon(salon.id)}" ajax="false" />
-						</h:form>
-					</p:column>
-					<!--  SUPPRIMER -->
-					<p:column headerText="Supprimer">
-						<h:form>
-							<p:commandButton value="Supprimer"
-								actionListener="#{salonBean.supprimerSalon(salon.id)}"
+						<p:column>
+							<p:inputText value="#{salonBean.newSalonName}" id="salonName">
+								<f:validator validatorId="salonNameValidator" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<p:commandButton value="Creer nouveau salon" action="createSalon"
 								ajax="false" />
-						</h:form>
-					</p:column>
-				</p:dataTable>
-			</p:tab>
-		</p:tabView>
+						</p:column>
+						<p:column>
+							<p:message for="salonName" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<p:tabView>
+					<p:tab>
+						<p:dataTable value="#{salonBean.currentUserSalons}" var="salon">
+							<!--  NOM -->
+							<p:column headerText="Nom">
+								<p:outputLabel value="#{salon.nom}" />
+							</p:column>
+							<!--  REJOINDRE -->
+							<p:column headerText="Rejoindre">
+								<h:form>
+									<p:commandButton value="Rejoindre"
+										action="#{salonBean.rejoindreSalon(salon.id)}" ajax="false" />
+								</h:form>
+							</p:column>
+							<!--  SUPPRIMER -->
+							<p:column headerText="Supprimer">
+								<h:form>
+									<p:commandButton value="Supprimer"
+										actionListener="#{salonBean.supprimerSalon(salon.id)}"
+										ajax="false" />
+								</h:form>
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+				</p:tabView>
 
 
-	</h:form>
+			</h:form>
+		</p:row>
+		<p:row>
+			<h:form>
+				<p:commandButton value="retour" action="userDashboard" />
+			</h:form>
+		</p:row>
+	</p:panelGrid>
+
 </h:body>
 
 </html>

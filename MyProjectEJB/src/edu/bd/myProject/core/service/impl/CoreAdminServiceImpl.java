@@ -14,7 +14,7 @@ public class CoreAdminServiceImpl implements CoreService {
 
 	@Override
 	public String getDashboard() {
-		return "adminDashboard";
+		return "adminDashboard?faces-redirect=true";
 	}
 
 	@Override

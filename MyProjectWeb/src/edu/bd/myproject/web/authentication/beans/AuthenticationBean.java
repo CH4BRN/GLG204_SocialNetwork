@@ -16,6 +16,7 @@ import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.core.service.CoreService;
 import edu.bd.myProject.user.service.UserService;
 import edu.bd.myproject.web.admin.beans.AdminBean;
+import edu.bd.myproject.web.navigation.beans.NavigationBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("authenticationBean")
@@ -33,6 +34,10 @@ public class AuthenticationBean implements Serializable {
 	@Named
 	@Inject
 	CurrentUserBean currentUserBean;
+
+	@Named
+	@Inject
+	NavigationBean navigationBean;
 	/**
 	 * 
 	 */
@@ -68,7 +73,7 @@ public class AuthenticationBean implements Serializable {
 			if (service.getUser().getIsAdmin()) {
 				adminBean.setUser(service.getUser());
 			} else {
-			// User case
+				// User case
 				currentUserBean.setCurrentAccount(service.getUser());
 			}
 

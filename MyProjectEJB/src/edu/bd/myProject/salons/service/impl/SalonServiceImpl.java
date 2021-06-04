@@ -77,4 +77,15 @@ public class SalonServiceImpl implements SalonService {
 
 	}
 
+	@Override
+	public Salon obtenirSalonParNom(String nom) throws Exception {
+		try {
+			Salon salon = salonDao.obtenirParNom(nom);
+			return salon;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Erreur obtention",e);
+		}
+	}
+
 }

@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
-import edu.bd.myProject.framework.dao.GenericDao;
+import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 
 /**
@@ -17,7 +17,7 @@ import edu.bd.myProject.framework.dao.InCognitoDaoException;
  *
  */
 @Stateless
-public class CompteDaoImpl extends GenericDao implements CompteDao {
+public class CompteDaoImpl extends GenericDaoImpl implements CompteDao {
 
 	/**
 	 * @throws InCognitoDaoException
@@ -97,6 +97,7 @@ public class CompteDaoImpl extends GenericDao implements CompteDao {
 	@Override
 	public void supprimerCompte(Compte compte) {
 		try {
+			compte = getEm().merge(compte);
 			this.getEm().remove(compte);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import edu.bd.myProject.compte.entity.Compte;
-import edu.bd.myProject.framework.dao.GenericDao;
+import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
@@ -18,7 +18,7 @@ import edu.bd.myProject.salons.entity.Salon;
  *
  */
 @Stateless
-public class ProfileDaoImpl extends GenericDao implements ProfileDao {
+public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 
 	/**
 	 * @see edu.bd.myProject.profiles.dao.ProfileDao#inserer(edu.bd.myProject.profiles.entity.Profile)
@@ -26,6 +26,7 @@ public class ProfileDaoImpl extends GenericDao implements ProfileDao {
 	@Override
 	public Profile inserer(Profile profile) throws InCognitoDaoException {
 		try {
+			System.out.println("INSERER " + profile.toString());
 			this.getEm().persist(profile);
 			return profile;
 		} catch (Exception e) {
@@ -86,10 +87,10 @@ public class ProfileDaoImpl extends GenericDao implements ProfileDao {
 	 * @see edu.bd.myProject.profiles.dao.ProfileDao#obtenirPourUnSalon(edu.bd.myProject.salons.entity.Salon)
 	 */
 	@Override
-	public List<Profile> obtenirPourUnSalon(String salonId) throws InCognitoDaoException {
+	public List<Profile> obtenirPourUnSalon(Salon salon) throws InCognitoDaoException {
 		try {
-			return (List<Profile>) this.getEm().createQuery("FROM ProfileImpl p WHERE p.salon.id = :salonId")
-					.setParameter("salonId", salonId).getResultList();
+			return (List<Profile>) this.getEm().createQuery("FROM ProfileImpl p WHERE p.salon = :salon")
+					.setParameter("salon", salon).getResultList();
 		} catch (Exception e) {
 			throw new InCognitoDaoException("Erreur obtenir", e);
 		}

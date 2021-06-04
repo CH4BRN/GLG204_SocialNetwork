@@ -17,6 +17,8 @@ public interface SalonService {
 
 	public Salon obtenirSalonParId(String id) throws InCognitoDaoException;
 
+	public Salon obtenirSalonParNom(String nom) throws Exception;
+
 	public Salon supprimerSalon(String id) throws InCognitoDaoException;
 
 }

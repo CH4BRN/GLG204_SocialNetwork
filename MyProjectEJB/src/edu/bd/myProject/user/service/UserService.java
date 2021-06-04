@@ -13,4 +13,6 @@ public interface UserService {
 
 	public void seDeconnecter();
 
+	public void supprimerSonCompte() throws Exception;
+
 }

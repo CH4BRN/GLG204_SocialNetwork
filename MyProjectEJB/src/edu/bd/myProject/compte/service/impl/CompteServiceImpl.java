@@ -45,6 +45,7 @@ public class CompteServiceImpl implements CompteService {
 		} catch (InCognitoDaoException e) {
 			throw new Exception("erreur creerCompte", e);
 		}
+		
 
 		return compte;
 	}

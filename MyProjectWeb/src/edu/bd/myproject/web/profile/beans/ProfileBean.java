@@ -60,15 +60,17 @@ public class ProfileBean implements Serializable {
 	}
 
 	public String createProfileForSalon() {
+		System.out.println("\n\nCREATE PROFILE FOR SALON\n\n");
 		try {
 			Profile profile = profileService.createProfile(this.newProfileName, this.compte, this.salon);
 			System.out.println("PROFILE : " + profile.toString());
 			currentSalonBean.setYourProfile(profile);
-			return "currentSalon";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "createProfile";
 		}
+		return "currentSalon";
 
 	}
 }

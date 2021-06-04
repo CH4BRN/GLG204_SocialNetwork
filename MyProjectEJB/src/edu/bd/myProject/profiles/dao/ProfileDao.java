@@ -22,7 +22,7 @@ public interface ProfileDao {
 
 	public List<Profile> obtenirPourUnCompte(String compteId) throws InCognitoDaoException;
 
-	public List<Profile> obtenirPourUnSalon(String salonId) throws InCognitoDaoException;
+	public List<Profile> obtenirPourUnSalon(Salon salon) throws InCognitoDaoException;
 
 	public Profile obtenirPourUnCompteEtUnSalon(String compteId, String salonId) throws InCognitoDaoException;
 

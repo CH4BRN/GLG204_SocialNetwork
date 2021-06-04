@@ -3,7 +3,7 @@ package edu.bd.myProject.framework.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public abstract class GenericDao {
+public abstract class GenericDaoImpl {
 	/**
 	 * EntityManager pour la persistance.
 	 */
@@ -18,4 +18,6 @@ public abstract class GenericDao {
 	protected EntityManager getEm() {
 		return this.em;
 	}
+
+
 }

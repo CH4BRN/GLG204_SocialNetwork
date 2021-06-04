@@ -16,42 +16,92 @@ public class NavigationBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String FACES_REDIRECT = "?faces-redirect=true";
+
+	private static final String ACCOUNT_CREATION = "accountCreation";
+	private static final String ADMIN_DASHBOARD = "adminDashboard";
+	private static final String AUTHENTICATION = "authentication";
+	private static final String PROFILE_CREATION = "createProfile";
+	private static final String SALON_CREATION = "createSalon";
+	private static final String CURRENT_SALON = "currentSalon";
+	private final String echecInscription = "echecInscription";
+	private static final String INDEX = "index";
+	private final String joinedSalon = "joinedSalon";
+	private static final String MANAGE_INVITATIONS = "manageInvitations";
+	private static final String MANAGE_SALONS = "manageSalon";
+	private final String seeAccount = "seeAccount";
+	private final String succesInscription = "succesInscription";
+	private static final String USER_DASHBOARD = "userDashboard";
+
 	@Inject
 	@Named("inscriptionBean")
 	InscriptionBean inscriptionBean;
 
-	private String index = "index";
+	public String getAccountCreation() {
+		String value = ACCOUNT_CREATION + FACES_REDIRECT;
+		System.out.println("redirect : " + value);
+		return value;
+	}
 
-	private String authentication = "authentication";
+	public String getAdminDashboard() {
+		return ADMIN_DASHBOARD + FACES_REDIRECT;
+	}
 
-	private String createAccount = "accountCreation";
+	public String getCreateProfile() {
+		return PROFILE_CREATION + FACES_REDIRECT;
+	}
+
+	public String getCreateSalon() {
+		return SALON_CREATION + FACES_REDIRECT;
+	}
+
+	public String getCurrentSalon() {
+		return CURRENT_SALON + FACES_REDIRECT;
+	}
+
+	public String getEchecInscription() {
+		return echecInscription + FACES_REDIRECT;
+	}
+
+	public String getJoinedSalon() {
+		return joinedSalon + FACES_REDIRECT;
+	}
+
+	public String getManageInvitations() {
+		return MANAGE_INVITATIONS + FACES_REDIRECT;
+	}
+
+	public String getManageSalon() {
+		return MANAGE_SALONS + FACES_REDIRECT;
+	}
+
+	public String getSeeAccount() {
+		return seeAccount + FACES_REDIRECT;
+	}
+
+	public String getSuccesInscription() {
+		return succesInscription + FACES_REDIRECT;
+	}
+
+	public String getUserDahboard() {
+		return USER_DASHBOARD + FACES_REDIRECT;
+	}
 
 	public String createAccount() {
-		return this.createAccount;
+		return this.ACCOUNT_CREATION;
 	}
 
 	public String getCreateAccount() {
-		return createAccount;
-	}
-
-	public void setCreateAccount(String createAccount) {
-		this.createAccount = createAccount;
+		return ACCOUNT_CREATION;
 	}
 
 	public String getAuthentication() {
-		return authentication;
-	}
-
-	public void setAuthentication(String authentication) {
-		this.authentication = authentication;
+		return AUTHENTICATION;
 	}
 
 	public String getIndex() {
-		return index;
+		String value = INDEX + FACES_REDIRECT;
+		System.out.println("REDIRECT : " + value);
+		return value;
 	}
-
-	public void setIndex(String index) {
-		this.index = index;
-	}
-
 }

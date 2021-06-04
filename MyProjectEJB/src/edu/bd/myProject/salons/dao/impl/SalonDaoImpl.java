@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
-import edu.bd.myProject.framework.dao.GenericDao;
+import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
@@ -19,7 +19,7 @@ import edu.bd.myProject.salons.entity.impl.SalonImpl;
  *
  */
 @Stateless
-public class SalonDaoImpl extends GenericDao implements SalonDao {
+public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 
 	@Override
 	public Salon inserer(Salon salon) throws InCognitoDaoException {
@@ -63,9 +63,9 @@ public class SalonDaoImpl extends GenericDao implements SalonDao {
 		try {
 			return (Salon) this.getEm().createNamedQuery("getSalon_byName").setParameter("name", nom).getSingleResult();
 		} catch (Exception e) {
-
+			e.printStackTrace();
+			throw new InCognitoDaoException("Pas de salon");
 		}
-		return null;
 	}
 
 	@Override

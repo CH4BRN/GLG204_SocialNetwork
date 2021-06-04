@@ -19,20 +19,46 @@
 
 	<p:panelGrid>
 		<p:row>
-			<h:form>
-				<p:column>
-					<p:commandButton value="Gerer salons" action="manageSalon" />
-				</p:column>
-				<p:column>
-					<h:form>
-						<p:commandButton value="Se déconnecter"
-							action="#{currentUserBean.seDeconnecter()}" ajax="false" />
-					</h:form>
-				</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Gerer salons"
+						action="#{navigationBean.getManageSalon()}" />
+				</h:form>
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Consulter invitations"
+						action="#{navigationBean.getManageInvitations()}" />
+				</h:form>
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Se déconnecter"
+						action="#{currentUserBean.seDeconnecter()}" />
+				</h:form>
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:growl id="messages" showDetail="true" />
+					<p:commandButton value="Supprimer son compte"
+						action="#{currentUserBean.supprimerSonCompte()}" update="messages">
 
-			</h:form>
+						<p:confirm header="Confirmation" message="Etes vous sûr ?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						responsive="true">
+						<p:commandButton value="Yes" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+				</h:form>
+			</p:column>
 		</p:row>
-
 	</p:panelGrid>
 </h:body>
 </html>

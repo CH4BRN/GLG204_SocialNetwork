@@ -16,7 +16,7 @@ public class CoreUserService implements CoreService {
 
 	@Override
 	public String getDashboard() {
-		return "userDashboard";
+		return "userDashboard?faces-redirect=true";
 	}
 
 	@Override

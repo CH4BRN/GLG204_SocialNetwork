@@ -38,6 +38,7 @@ public class CurrentSalonBean implements Serializable {
 	public ArrayList<Profile> getRegisteredProfiles() {
 		this.registeredProfiles = new ArrayList<Profile>();
 		try {
+			System.out.println("There are " + registeredProfiles.size() + " profiles for this salon.");
 			this.registeredProfiles.addAll(profileService.getProfilesForSalon(thisSalon));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,7 +67,7 @@ public class CurrentSalonBean implements Serializable {
 	public void setThisSalon(Salon thisSalon) {
 		System.out.println("This salon : " + thisSalon.toString());
 		try {
-			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(thisSalon.getId());
+			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(thisSalon);
 			this.registeredProfiles = new ArrayList<Profile>(profiles);
 
 		} catch (InCognitoDaoException e) {

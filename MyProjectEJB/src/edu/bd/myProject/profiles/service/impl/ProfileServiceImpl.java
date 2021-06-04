@@ -57,7 +57,7 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<Profile> getProfilesForSalon(Salon salon) throws Exception {
 		try {
-			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(salon.getId());
+			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(salon);
 			return profiles;
 		} catch (Exception e) {
 			throw new Exception("erreur obtention pour salon", e);
