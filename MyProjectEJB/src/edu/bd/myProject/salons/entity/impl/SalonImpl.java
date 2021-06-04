@@ -4,8 +4,10 @@ package edu.bd.myProject.salons.entity.impl;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -13,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.bd.myProject.compte.entity.Compte;
@@ -37,6 +40,8 @@ public class SalonImpl implements Salon {
 				+ "]";
 	}
 
+
+
 	@Column(name = "nom", unique = true, nullable = false)
 	private String nom;
 
@@ -46,7 +51,7 @@ public class SalonImpl implements Salon {
 
 	private Date dateCreation;
 
-	@ManyToOne(targetEntity = CompteImpl.class)
+	@ManyToOne(targetEntity = CompteImpl.class, cascade = { CascadeType.REMOVE })
 	private Compte createur;
 
 	/**

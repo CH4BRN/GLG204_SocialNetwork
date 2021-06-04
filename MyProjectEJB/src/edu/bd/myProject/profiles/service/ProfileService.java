@@ -15,4 +15,6 @@ public interface ProfileService {
 
 	public List<Profile> getProfilesForSalon(Salon salon) throws Exception;
 
+	public Profile mettreAJour(Profile yourProfile, String newProfileName);
+
 }

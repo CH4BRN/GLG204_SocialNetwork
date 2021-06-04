@@ -23,4 +23,6 @@ public interface SalonDao {
 
 	public List<Salon> obtenirSalonsParCreateur(Compte createur) throws InCognitoDaoException;
 
+	public List<Salon> obtenirSalonsParticipe(Compte utilisateur);
+
 }

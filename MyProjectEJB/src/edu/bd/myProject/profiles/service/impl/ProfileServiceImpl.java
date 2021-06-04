@@ -40,10 +40,8 @@ public class ProfileServiceImpl implements ProfileService {
 		try {
 			Profile profile = profileDao.obtenirNouvelleEntite();
 			profile.setPseudo(pseudo);
-			Compte gotCompte = compteDao.obtenir(compte.getId());
-			Salon gotSalon = salonDao.obtenir(salon.getId());
-			profile.setUser(gotCompte);
-			profile.setSalon(gotSalon);
+			profile.setUser(compte);
+			profile.setSalon(salon);
 			profileDao.inserer(profile);
 			return profile;
 
@@ -63,6 +61,17 @@ public class ProfileServiceImpl implements ProfileService {
 			throw new Exception("erreur obtention pour salon", e);
 		}
 
+	}
+
+	@Override
+	public Profile mettreAJour(Profile yourProfile, String newProfileName) {
+		yourProfile.setPseudo(newProfileName);
+		try {
+			this.profileDao.modifier(yourProfile);
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+		}
+		return yourProfile;
 	}
 
 }

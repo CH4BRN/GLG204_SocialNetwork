@@ -4,10 +4,13 @@ package edu.bd.myProject.profiles.dao.impl;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.invitation.dao.InvitationDao;
+import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.entity.impl.ProfileImpl;
@@ -19,6 +22,9 @@ import edu.bd.myProject.salons.entity.Salon;
  */
 @Stateless
 public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
+
+	@Inject
+	InvitationDao invitationDao;
 
 	/**
 	 * @see edu.bd.myProject.profiles.dao.ProfileDao#inserer(edu.bd.myProject.profiles.entity.Profile)
@@ -40,6 +46,11 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 	 */
 	@Override
 	public Profile supprimer(Profile profile) throws InCognitoDaoException {
+		List<Invitation> invitations = this.invitationDao.obtenirTousPourUnCompte(profile.getUser());
+		for (Invitation invitation : invitations) {
+			invitationDao.supprimer(invitation);
+		}
+
 		try {
 			this.getEm().remove(profile);
 			return profile;
@@ -107,6 +118,7 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 					.createQuery("FROM ProfileImpl p WHERE p.salon.id = :salonId AND p.user.id = :compteId")
 					.setParameter("salonId", salonId).setParameter("compteId", compteId).getSingleResult();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new InCognitoDaoException("Erreur obtenir", e);
 		}
 	}

@@ -16,6 +16,7 @@ import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.invitation.dao.InvitationDao;
 import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.post.service.PostService;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
@@ -40,6 +41,9 @@ public class Bootstrap {
 	@Inject
 	InvitationDao invitationDao;
 
+	@Inject
+	PostService postService;
+
 	@PostConstruct
 	private void init() {
 
@@ -47,9 +51,24 @@ public class Bootstrap {
 			initializeAdmin();
 			initializeUser();
 
-			demoInvitation();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+
+	}
+
+	private void demoPost() throws Exception {
+		try {
+			Compte compte = compteService.creerCompte("USR", "ee@ee.ee", "aaA", true, new Date(), true);
+
+			Salon salon = salonService.creerSalon("SALON", compte, Arrays.asList("aa@aa.aa"));
+
+			Profile profile = profileService.createProfile("BOLOGNAISE", compte, salon);
+
+			postService.creerNouveauPost(salon, profile, "CHEVAL ?", "Bonjour ! ");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
 
 	}
@@ -57,8 +76,8 @@ public class Bootstrap {
 	private void demoInvitation() throws Exception {
 		try {
 			// Creer comptes destinataire
-			Compte destinataire = compteService.creerCompte("LOOOGIN", "ee@ee.ee", "aa@@", true, new Date(), true);
-			Compte expediteur = compteService.creerCompte("LOGIN", "a@aa.aa", "@@aa", true, new Date(), true);
+			Compte destinataire = compteService.creerCompte("LOGIN1", "a@a.a", "SECRET", true, new Date(), true);
+			Compte expediteur = compteService.creerCompte("LOGIN2", "b@b.b", "SECRET", true, new Date(), true);
 
 			ArrayList<Compte> comptes = new ArrayList<Compte>();
 			for (int i = 0; i <= 4; i++) {
@@ -121,13 +140,25 @@ public class Bootstrap {
 
 	private void initializeUser() throws Exception {
 		Compte compte = comptesDao.obtenirNouvelleEntité();
-		compte.setEmail("user@email.com");
+		compte.setEmail("user1@mail.com");
 		compte.setIsActif(true);
-		compte.setLogin("USER");
+		compte.setLogin("USER1");
 		compte.setMotDePasse("SECRET");
 		compte.setIsAdmin(false);
 		try {
 			comptesDao.inserer(compte);
+		} catch (InCognitoDaoException e) {
+			throw new Exception("Erreur insertion user", e);
+		}
+
+		Compte compte2 = comptesDao.obtenirNouvelleEntité();
+		compte2.setEmail("user2@mail.com");
+		compte2.setIsActif(true);
+		compte2.setLogin("USER2");
+		compte2.setMotDePasse("SECRET");
+		compte2.setIsAdmin(false);
+		try {
+			comptesDao.inserer(compte2);
 		} catch (InCognitoDaoException e) {
 			throw new Exception("Erreur insertion user", e);
 		}

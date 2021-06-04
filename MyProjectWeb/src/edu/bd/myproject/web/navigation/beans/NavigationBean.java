@@ -33,6 +33,8 @@ public class NavigationBean implements Serializable {
 	private final String succesInscription = "succesInscription";
 	private static final String USER_DASHBOARD = "userDashboard";
 
+	private static final String MODIFY_PROFILE = "modifyProfile";
+
 	@Inject
 	@Named("inscriptionBean")
 	InscriptionBean inscriptionBean;
@@ -102,6 +104,11 @@ public class NavigationBean implements Serializable {
 	public String getIndex() {
 		String value = INDEX + FACES_REDIRECT;
 		System.out.println("REDIRECT : " + value);
+		return value;
+	}
+
+	public String getModifyProfile() {
+		String value = MODIFY_PROFILE + FACES_REDIRECT;
 		return value;
 	}
 }

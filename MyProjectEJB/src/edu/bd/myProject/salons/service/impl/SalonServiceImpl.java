@@ -8,6 +8,12 @@ import javax.inject.Inject;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.invitation.dao.InvitationDao;
+import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.post.dao.PostsDao;
+import edu.bd.myProject.post.entity.Post;
+import edu.bd.myProject.profiles.dao.ProfileDao;
+import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
@@ -22,6 +28,14 @@ public class SalonServiceImpl implements SalonService {
 	@Inject
 	SalonDao salonDao;
 
+	@Inject
+	ProfileDao profileDao;
+	
+	@Inject
+	InvitationDao invitationDao;
+
+	@Inject
+	PostsDao postDao;
 	/**
 	 * @throws InCognitoDaoException
 	 * @see edu.bd.myProject.salons.service.SalonService#creerSalon(java.lang.String,
@@ -42,7 +56,7 @@ public class SalonServiceImpl implements SalonService {
 	}
 
 	@Override
-	public List<Salon> obtenirSalonsPourUtilisateur(Compte utilisateur) throws InCognitoDaoException {
+	public List<Salon> obtenirSalonsCreesParUtilisateur(Compte utilisateur) throws InCognitoDaoException {
 		try {
 			List<Salon> salons = this.salonDao.obtenirSalonsParCreateur(utilisateur);
 			return salons;
@@ -50,13 +64,37 @@ public class SalonServiceImpl implements SalonService {
 			e.printStackTrace();
 			throw e;
 		}
-
 	}
 
 	@Override
-	public Salon supprimerSalon(String id) throws InCognitoDaoException {
+	public List<Salon> obtenirSalonsAuxquelsUtilisateurParticipe(Compte utilisateur) throws InCognitoDaoException {
 		try {
-			Salon salon = salonDao.obtenir(id);
+			List<Salon> salons = this.salonDao.obtenirSalonsParticipe(utilisateur);
+			return salons;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public Salon supprimerSalon(Salon salon) throws InCognitoDaoException {
+		try {
+			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(salon);
+			for (Profile profile : profiles) {
+				this.profileDao.supprimer(profile);
+			}
+
+			List<Invitation> invitations = this.invitationDao.obtenirTousPourUnSalon(salon);
+			for (Invitation invitation : invitations) {
+				this.invitationDao.supprimer(invitation);
+			}			
+
+			List<Post> posts = this.postDao.obtenirPourUnSalon(salon);
+			for (Post post : posts) {
+				this.postDao.supprimer(post);
+			}
+			
 			salonDao.supprimer(salon);
 			return salon;
 		} catch (Exception e) {
@@ -84,7 +122,7 @@ public class SalonServiceImpl implements SalonService {
 			return salon;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Erreur obtention",e);
+			throw new Exception("Erreur obtention", e);
 		}
 	}
 

@@ -16,6 +16,7 @@ import edu.bd.myProject.invitation.service.InvitationService;
 import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
+import edu.bd.myproject.web.navigation.beans.NavigationBean;
 import edu.bd.myproject.web.profile.beans.ProfileBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
@@ -24,14 +25,32 @@ import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 @ApplicationScoped
 public class SalonBean {
 
-	private ArrayList<Salon> salons;
+	private ArrayList<Salon> participatedSalons;
+
+	public ArrayList<Salon> getParticipatedSalons() {
+		participatedSalons = new ArrayList<Salon>();
+		try {
+			List<Salon> salons = salonService
+					.obtenirSalonsAuxquelsUtilisateurParticipe(currentUserBean.getCurrentAccount());
+			participatedSalons.addAll(salons);
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+		}
+
+		return participatedSalons;
+	}
+
+	public void setParticipatedSalons(ArrayList<Salon> participatedSalons) {
+		this.participatedSalons = participatedSalons;
+	}
 
 	private ArrayList<Salon> currentUserSalons;
 
 	public ArrayList<Salon> getCurrentUserSalons() {
 		this.currentUserSalons = new ArrayList<Salon>();
 		try {
-			List<Salon> salons = this.salonService.obtenirSalonsPourUtilisateur(currentUserBean.getCurrentAccount());
+			List<Salon> salons = this.salonService
+					.obtenirSalonsCreesParUtilisateur(currentUserBean.getCurrentAccount());
 			this.currentUserSalons.addAll(salons);
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
@@ -51,6 +70,14 @@ public class SalonBean {
 	@Named("profileBean")
 	@Inject
 	ProfileBean profileBean;
+	
+	@Named
+	@Inject
+	CurrentSalonBean currentSalonBean;
+
+	@Named
+	@Inject
+	NavigationBean navigationBean;
 
 	private String newSalonName;
 
@@ -87,8 +114,10 @@ public class SalonBean {
 			e.printStackTrace();
 		}
 
+		profileBean.setSalon(salon);
+		profileBean.setCompte(createur);
+
 		for (String string : emails) {
-			System.out.println("M : " + string);
 			try {
 				Compte compte = compteDao.obtenirParEmail(string);
 				if (compte != null) {
@@ -101,23 +130,28 @@ public class SalonBean {
 			}
 		}
 
-		return "currentSalon";
+		return navigationBean.getCreateProfile();
 	}
 
-	public void supprimerSalon(String id) {
+	public void supprimerSalon(String id) throws InCognitoDaoException {
 		System.out.println("SUPPRIMER");
 		try {
-			this.salonService.supprimerSalon(id);
+			Salon salon = salonService.obtenirSalonParId(id);
+			System.out.println("SUPPRIMER : " + salon.getNom());
+			this.salonService.supprimerSalon(salon);
 			rafraichirListe();
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
+			throw e;
+
 		}
 
 	}
 
 	private void rafraichirListe() {
 		try {
-			List<Salon> salons = this.salonService.obtenirSalonsPourUtilisateur(currentUserBean.getCurrentAccount());
+			List<Salon> salons = this.salonService
+					.obtenirSalonsCreesParUtilisateur(currentUserBean.getCurrentAccount());
 			this.currentUserSalons.addAll(salons);
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
@@ -129,6 +163,8 @@ public class SalonBean {
 			Salon salon = salonService.obtenirSalonParId(id);
 			profileBean.setSalon(salon);
 			profileBean.setCompte(currentUserBean.getCurrentAccount());
+			this.currentSalonBean.setThisSalon(salon);
+			
 
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();

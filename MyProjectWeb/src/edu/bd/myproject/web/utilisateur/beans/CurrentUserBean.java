@@ -41,6 +41,8 @@ public class CurrentUserBean {
 	@Named
 	@Inject
 	NavigationBean navigationBean;
+	
+	
 
 	@Inject
 	UserService userService;
@@ -92,7 +94,9 @@ public class CurrentUserBean {
 
 	public String accepterInvitation(String id) throws Exception {
 		System.out.println("ACCEPTER");
-		return "";
+		
+
+		return "createProfile";
 	}
 
 	public void addMessage(String summary, String detail) {

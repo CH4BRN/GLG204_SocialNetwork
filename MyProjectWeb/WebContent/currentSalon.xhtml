@@ -13,6 +13,8 @@
 	<p:outputLabel value="Current salon" />
 	<h:form>
 		<p:outputLabel value="#{currentSalonBean.yourProfile.pseudo}" />
+		<p:commandButton value="Modifier"
+			action="#{currentSalonBean.modifierSonProfil()}" />
 		<p:commandButton value="Retour" action="#{currentSalonBean.quit()}" />
 	</h:form>
 	<p:tabView>
@@ -30,8 +32,37 @@
 				</p:column>
 
 			</p:dataTable>
-
 		</p:tab>
 	</p:tabView>
+	<p:panelGrid>
+		<p:row>
+			<h:form>
+				<p:column>
+					<p:outputLabel value="Poster quelque chose ..." />
+				</p:column>
+				<p:column>
+					<p:row>
+						<p:outputLabel value="Titre : " />
+						<p:inputText value="#{postBean.newPostTitle}" />
+					</p:row>
+					<p:row>
+						<p:outputLabel value="Message: " />
+						<p:inputText value="#{postBean.newPostBody}" />
+					</p:row>
+				</p:column>
+				<p:column>
+					<p:commandButton value="poster"
+						action="#{postBean.publishNewPost()}" />
+				</p:column>
+			</h:form>
+		</p:row>
+		<p:row>
+			<ui:repeat value="#{currentSalonBean.postedContent}" var="posts">
+				<li><h:outputLabel value="#{posts.titre}" /> <br/> <h:outputLabel value=">> #{posts.body}" /></li>
+			</ui:repeat>
+
+		</p:row>
+	</p:panelGrid>
+
 </h:body>
 </html>

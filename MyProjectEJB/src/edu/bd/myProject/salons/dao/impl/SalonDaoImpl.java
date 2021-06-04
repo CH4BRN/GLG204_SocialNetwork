@@ -1,15 +1,23 @@
 // SalonDaoImpl.java - Copyright pierr
 package edu.bd.myProject.salons.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
 import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.invitation.dao.InvitationDao;
+import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.post.dao.PostsDao;
+import edu.bd.myProject.post.entity.Post;
+import edu.bd.myProject.profiles.dao.ProfileDao;
+import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.entity.impl.SalonImpl;
@@ -20,6 +28,15 @@ import edu.bd.myProject.salons.entity.impl.SalonImpl;
  */
 @Stateless
 public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
+
+	@Inject
+	ProfileDao profileDao;
+
+	@Inject
+	InvitationDao invitationDao;
+
+	@Inject
+	PostsDao postDao;
 
 	@Override
 	public Salon inserer(Salon salon) throws InCognitoDaoException {
@@ -43,6 +60,7 @@ public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 	@Override
 	public Salon supprimer(Salon salon) throws InCognitoDaoException {
 		try {
+			salon = this.getEm().merge(salon);
 			this.getEm().remove(salon);
 			return salon;
 		} catch (Exception e) {
@@ -77,6 +95,17 @@ public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 			e.printStackTrace();
 			throw new InCognitoDaoException("erreur obtention salon", e);
 		}
+	}
+
+	@Override
+	public List<Salon> obtenirSalonsParticipe(Compte utilisateur) {
+		String query = "SELECT p FROM ProfileImpl p WHERE p.user = :user";
+		List<Profile> profiles = this.getEm().createQuery(query).setParameter("user", utilisateur).getResultList();
+		List<Salon> salons = new ArrayList<Salon>();
+		for (Profile profile : profiles) {
+			salons.add(profile.getSalon());
+		}
+		return salons;
 	}
 
 }

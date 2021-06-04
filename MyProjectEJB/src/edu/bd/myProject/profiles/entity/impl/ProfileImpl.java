@@ -1,8 +1,10 @@
 package edu.bd.myProject.profiles.entity.impl;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -19,10 +21,10 @@ public class ProfileImpl implements Profile {
 	@GeneratedValue(generator = "uuid")
 	private String id;
 
-	@ManyToOne(targetEntity = CompteImpl.class)
+	@ManyToOne(targetEntity = CompteImpl.class, cascade = { CascadeType.REMOVE })
 	private Compte user;
 
-	@ManyToOne(targetEntity = SalonImpl.class)
+	@ManyToOne(targetEntity = SalonImpl.class, cascade = { CascadeType.REMOVE })
 	private Salon salon;
 
 	private String pseudo;
