@@ -7,15 +7,11 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myproject.web.authentication.beans.AuthenticationBean;
 import edu.bd.myproject.web.framework.validators.StringValidator;
 
 @FacesValidator(value = "authenticationPasswordValidator")
 public class AuthenticationPasswordValidator extends StringValidator {
-
-	@Inject
-	CompteDao comptesDao;
 	/**
 	 * 
 	 */

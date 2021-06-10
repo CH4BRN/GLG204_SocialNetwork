@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.inject.Inject;
@@ -13,11 +12,16 @@ import javax.inject.Named;
 import edu.bd.myProject.admin.service.AdminService;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
+import edu.bd.myproject.web.navigation.beans.NavigationBean;
 
 @Named("adminBean")
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
 @ApplicationScoped
 public class AdminBean implements Serializable {
+
+	@Named
+	@Inject
+	NavigationBean navigationBean;
 
 	private Compte user;
 
@@ -35,13 +39,19 @@ public class AdminBean implements Serializable {
 
 	public String seDeconnecter() {
 		this.adminService.seDeconnecter();
-		return "index";
+		return navigationBean.getIndex();
 	}
 
 	public void rafraichirListe() {
-		List<Compte> comptes = compteService.obtenirTousLesComptes();
-		this.comptes = new ArrayList<Compte>();
-		this.comptes.addAll(comptes);
+		List<Compte> comptes;
+		try {
+			comptes = compteService.obtenirTousLesComptes();
+			this.comptes = new ArrayList<Compte>();
+			this.comptes.addAll(comptes);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private String login;
@@ -85,7 +95,11 @@ public class AdminBean implements Serializable {
 	}
 
 	public void supprimer(String id) {
-		this.adminService.supprimer(id);
+		try {
+			this.adminService.supprimer(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		rafraichirListe();
 
 	}

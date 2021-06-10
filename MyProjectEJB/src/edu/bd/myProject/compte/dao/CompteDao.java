@@ -25,10 +25,10 @@ public interface CompteDao {
 
 	public Compte obtenirParEmail(String value) throws InCognitoDaoException;
 
-	public List<Compte> obtenirTousLesComptes();
+	public List<Compte> obtenirTousLesComptes() throws InCognitoDaoException;
 
-	public Compte modifier(Compte compte);
+	public Compte modifier(Compte compte) throws InCognitoDaoException;
 
-	public void supprimerCompte(Compte compte);
+	public Compte supprimerCompte(Compte compte) throws InCognitoDaoException;
 
 }

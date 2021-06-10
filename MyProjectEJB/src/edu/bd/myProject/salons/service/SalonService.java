@@ -11,7 +11,7 @@ import edu.bd.myProject.salons.entity.Salon;
 @Local
 public interface SalonService {
 
-	public Salon creerSalon(String name, Compte createur, List<String> emails) throws InCognitoDaoException;
+	public Salon creerSalon(String name, Compte createur, List<String> emails, Boolean isPersistant) throws Exception;
 
 	public List<Salon> obtenirSalonsCreesParUtilisateur(Compte utilisateur) throws InCognitoDaoException;
 

@@ -10,13 +10,53 @@
 <h:head>
 </h:head>
 <h:body>
-	<p:outputLabel value="Current salon" />
-	<h:form>
-		<p:outputLabel value="#{currentSalonBean.yourProfile.pseudo}" />
-		<p:commandButton value="Modifier"
-			action="#{currentSalonBean.modifierSonProfil()}" />
-		<p:commandButton value="Retour" action="#{currentSalonBean.quit()}" />
-	</h:form>
+	<p:panelGrid>
+		<p:row>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel value="Vous etes : " />
+			</p:column>
+			<p:column>
+				<p:outputLabel value="#{currentSalonBean.yourProfile.user.login}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<p:outputLabel
+					value="	Vous apparaissez en tant que : #{currentSalonBean.yourProfile.pseudo} sur le salon : #{currentSalonBean.thisSalon.nom}" />
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<p:outputLabel value="#{currentSalonBean.yourProfile.pseudo}" />
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Modifier"
+						action="#{currentSalonBean.modifierSonProfil()}" />
+				</h:form>
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Retour"
+						action="#{navigationBean.getManageSalon()}" />
+				</h:form>
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Quitter"
+						action="#{currentSalonBean.quit()}">
+						<f:ajax execute="@this" onevent="pop" />
+					</p:commandButton>
+				</h:form>
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+
 	<p:tabView>
 		<p:tab>
 			<p:dataTable value="#{currentSalonBean.registeredProfiles}"
@@ -42,10 +82,6 @@
 				</p:column>
 				<p:column>
 					<p:row>
-						<p:outputLabel value="Titre : " />
-						<p:inputText value="#{postBean.newPostTitle}" />
-					</p:row>
-					<p:row>
 						<p:outputLabel value="Message: " />
 						<p:inputText value="#{postBean.newPostBody}" />
 					</p:row>
@@ -58,11 +94,20 @@
 		</p:row>
 		<p:row>
 			<ui:repeat value="#{currentSalonBean.postedContent}" var="posts">
-				<li><h:outputLabel value="#{posts.titre}" /> <br/> <h:outputLabel value=">> #{posts.body}" /></li>
+				<li><h:outputLabel
+						value="#{posts.profile.pseudo} - #{posts.date}" /> <br /> <h:outputLabel
+						value=">> #{posts.body}" /></li>
 			</ui:repeat>
 
 		</p:row>
 	</p:panelGrid>
-
+	<script type="text/javascript">
+		function pop(data) {
+			if (data.status == "success") {
+				window.close();
+			}
+		}
+	</script>
 </h:body>
+
 </html>

@@ -3,6 +3,7 @@ package edu.bd.myProject.invitation.entity.impl;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,15 +27,15 @@ public class InvitationImpl implements Invitation {
 	@GeneratedValue(generator = "uuid")
 	private String id;
 
-	@ManyToOne(targetEntity = SalonImpl.class)
+	@ManyToOne(targetEntity = SalonImpl.class, cascade = CascadeType.REMOVE)
 	private Salon salon;
 
 	private Date dateCreation;
 
-	@ManyToOne(targetEntity = CompteImpl.class)
+	@ManyToOne(targetEntity = CompteImpl.class, cascade = CascadeType.REMOVE)
 	private Compte expediteur;
 
-	@ManyToOne(targetEntity = CompteImpl.class)
+	@ManyToOne(targetEntity = CompteImpl.class, cascade = CascadeType.REMOVE)
 	private Compte destinataire;
 
 	@Override

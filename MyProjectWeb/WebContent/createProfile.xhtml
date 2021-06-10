@@ -10,23 +10,51 @@
 <h:head>
 </h:head>
 <h:body>
-	<h1>Create profile for salon #{profileBean.salon.nom}</h1>
 	<p:panelGrid>
 		<p:row>
-			<h:form>
-				<p:column>
-					<p:outputLabel value="Pseudo : " />
-				</p:column>
-				<p:column>
-					<p:inputText value="#{profileBean.newProfileName}" />
-				</p:column>
-				<p:column>
-					<p:commandButton value="valider"
-						action="#{profileBean.createProfileForSalon()}" ajax="false" />
-				</p:column>
-			</h:form>
+			<h1>Creation de profile</h1>
 		</p:row>
-
+		<p:row>
+			<p:column>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<h2>Pour le compte :</h2>
+						</p:column>
+						<p:column>
+							<h2>#{currentUserBean.currentAccount.login}</h2>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h2>Pour le salon :</h2>
+						</p:column>
+						<p:column>
+							<h2>#{currentSalonBean.thisSalon.nom}</h2>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:column>
+			<p:column>
+				<p:panelGrid>
+					<p:row>
+						<h:form>
+							<p:column>
+								<p:outputLabel value="Pseudo : " />
+							</p:column>
+							<p:column>
+								<p:inputText value="#{profileBean.newProfileName}" />
+							</p:column>
+							<p:column>
+								<p:commandButton value="valider"
+									onclick="this.form.target='_blank'"
+									action="#{profileBean.createProfileForSalon()}" ajax="false" />
+							</p:column>
+						</h:form>
+					</p:row>
+				</p:panelGrid>
+			</p:column>
+		</p:row>
 	</p:panelGrid>
 </h:body>
 </html>

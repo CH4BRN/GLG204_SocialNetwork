@@ -2,16 +2,12 @@
 package edu.bd.myProject.salons.entity.impl;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,6 +16,8 @@ import javax.persistence.Table;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
+import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.invitation.entity.impl.InvitationImpl;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.entity.impl.ProfileImpl;
 import edu.bd.myProject.salons.entity.Salon;
@@ -40,7 +38,7 @@ public class SalonImpl implements Salon {
 				+ "]";
 	}
 
-
+	private Boolean isPersistant = false;
 
 	@Column(name = "nom", unique = true, nullable = false)
 	private String nom;
@@ -51,8 +49,14 @@ public class SalonImpl implements Salon {
 
 	private Date dateCreation;
 
-	@ManyToOne(targetEntity = CompteImpl.class, cascade = { CascadeType.REMOVE })
+	@ManyToOne(targetEntity = CompteImpl.class)
 	private Compte createur;
+
+	@OneToMany(targetEntity = InvitationImpl.class)
+	private List<Invitation> invitations;
+
+	@OneToMany(targetEntity = ProfileImpl.class)
+	private List<Profile> profiles;
 
 	/**
 	 * @see edu.bd.myProject.salons.entity.Salon#getNom()
@@ -102,6 +106,38 @@ public class SalonImpl implements Salon {
 	public void setCreateur(Compte compte) {
 		this.createur = compte;
 
+	}
+
+	@Override
+	public void setPersitant(Boolean persistant) {
+		this.isPersistant = persistant;
+
+	}
+
+	@Override
+	public Boolean getPersistant() {
+		return this.isPersistant;
+	}
+
+	@Override
+	public List<Invitation> getInvitations() {
+		return this.invitations;
+	}
+
+	@Override
+	public void setInvitations(List<Invitation> invitations) {
+		this.invitations = invitations;
+
+	}
+
+	@Override
+	public List<Profile> getProfiles() {
+		return this.profiles;
+	}
+
+	@Override
+	public void setProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
 }

@@ -6,17 +6,17 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+
 <h:head>
 </h:head>
-
 <h:body>
-	<h1>Succes inscription !</h1>
-
-	<h2>Merci de vous être inscrit.</h2>
-	<p>Un administrateur va valider votre compte prochainement.</p>
+	<h1>Succes creation du profile :</h1>
+	<h2>Profile : #{currentSalonBean.yourProfile.pseudo}</h2>
+	<h2>Compte : #{currentSalonBean.yourProfile.user.login}</h2>
+	<h2>Salon : #{currentSalonBean.thisSalon.nom}</h2>
 	<h:form>
-		<p:commandButton value="Retourner a la page d'accueil ?"
-			action="#{inscriptionBean.goToIndex()}"></p:commandButton>
+		<p:commandButton value="Continuer"
+			action="#{navigationBean.getCurrentSalon()}" />
 	</h:form>
 </h:body>
 </html>

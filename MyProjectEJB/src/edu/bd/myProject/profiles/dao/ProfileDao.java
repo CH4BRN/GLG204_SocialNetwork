@@ -5,12 +5,13 @@ import java.util.List;
 import javax.ejb.Local;
 
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.framework.dao.IGenericDao;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.salons.entity.Salon;
 
 @Local
-public interface ProfileDao {
+public interface ProfileDao extends IGenericDao<Profile, String> {
 
 	public Profile inserer(Profile profile) throws InCognitoDaoException;
 
@@ -24,7 +25,9 @@ public interface ProfileDao {
 
 	public List<Profile> obtenirPourUnSalon(Salon salon) throws InCognitoDaoException;
 
-	public Profile obtenirPourUnCompteEtUnSalon(String compteId, String salonId) throws InCognitoDaoException;
+	public List<Profile> obtenirActifsPourUnSalon(Salon salon) throws InCognitoDaoException;
+
+	public Profile obtenirPourUnCompteEtUnSalon(Compte compte, Salon salon) throws InCognitoDaoException;
 
 	public Profile obtenirNouvelleEntite();
 

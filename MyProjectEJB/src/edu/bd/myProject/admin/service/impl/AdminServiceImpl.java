@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import edu.bd.myProject.admin.service.AdminService;
 import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 
 @Singleton
@@ -15,6 +16,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Inject
 	CompteDao compteDao;
+	
+	@Inject
+	CompteService compteService;
 
 	@Override
 	public void setAdmin(Compte compte) {
@@ -64,10 +68,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void supprimer(String id) {
+	public void supprimer(String id) throws Exception {
 		try {
 			Compte compte = compteDao.obtenir(id);
-			compteDao.supprimerCompte(compte);
+			compteService.supprimerCompte(compte);
+			
 		} catch (InCognitoDaoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -5,11 +5,12 @@ import java.util.List;
 import javax.ejb.Local;
 
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.framework.dao.IGenericDao;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.salons.entity.Salon;
 
 @Local
-public interface SalonDao {
+public interface SalonDao extends IGenericDao<Salon, String> {
 
 	public Salon inserer(Salon salon) throws InCognitoDaoException;
 

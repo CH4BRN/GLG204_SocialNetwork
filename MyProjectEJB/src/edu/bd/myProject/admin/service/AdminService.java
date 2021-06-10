@@ -17,6 +17,6 @@ public interface AdminService {
 	
 	public Compte makeUserActif(String id);
 
-	public void supprimer(String id);
+	public void supprimer(String id) throws Exception;
 
 }

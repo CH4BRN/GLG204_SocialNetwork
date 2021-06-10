@@ -9,6 +9,8 @@ import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.invitation.dao.InvitationDao;
+import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
@@ -34,6 +36,9 @@ public class ProfileServiceImpl implements ProfileService {
 	@Inject
 	ProfileDao profileDao;
 
+	@Inject
+	InvitationDao invitationDao;
+
 	@Override
 	public Profile createProfile(String pseudo, Compte compte, Salon salon) throws Exception {
 
@@ -42,6 +47,7 @@ public class ProfileServiceImpl implements ProfileService {
 			profile.setPseudo(pseudo);
 			profile.setUser(compte);
 			profile.setSalon(salon);
+			profile.setConnected(true);
 			profileDao.inserer(profile);
 			return profile;
 
@@ -74,4 +80,70 @@ public class ProfileServiceImpl implements ProfileService {
 		return yourProfile;
 	}
 
+	@Override
+	public Profile supprimer(Profile profile) throws Exception {
+		List<Invitation> invitations = this.invitationDao.obtenirTousPourUnCompte(profile.getUser());
+		for (Invitation invitation : invitations) {
+			invitationDao.supprimer(invitation);
+		}
+		profile = this.profileDao.supprimer(profile);
+
+		return profile;
+
+	}
+
+	@Override
+	public Profile passerHorsLigne(Profile yourProfile) {
+		try {
+			yourProfile.setConnected(false);
+			this.profileDao.modifier(yourProfile);
+			return yourProfile;
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	@Override
+	public List<Profile> obtenirActifsPourUnSalon(Salon thisSalon) {
+		try {
+			return this.profileDao.obtenirActifsPourUnSalon(thisSalon);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public List<Profile> obtenirPourUnSalon(Salon thisSalon) {
+		try {
+			return this.profileDao.obtenirPourUnSalon(thisSalon);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public Profile obtenirPourUnCompteEtUnSalon(Compte currentAccount, Salon salon) {
+		try {
+			return this.profileDao.obtenirPourUnCompteEtUnSalon(currentAccount, salon);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public Profile activerConnexion(Profile profile) throws Exception {
+		try {
+			profile.setConnected(true);
+			profile = profileDao.modifier(profile);
+			return profile;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw e;
+		}
+	}
 }

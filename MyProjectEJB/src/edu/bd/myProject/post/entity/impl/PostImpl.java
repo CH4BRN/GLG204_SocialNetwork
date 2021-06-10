@@ -1,5 +1,8 @@
 package edu.bd.myProject.post.entity.impl;
 
+import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,10 +22,10 @@ public class PostImpl implements Post {
 	@Column(name = "titre")
 	private String titre;
 
-	@ManyToOne(targetEntity = SalonImpl.class)
+	@ManyToOne(targetEntity = SalonImpl.class, cascade = CascadeType.REMOVE)
 	private Salon salon;
 
-	@ManyToOne(targetEntity = ProfileImpl.class)
+	@ManyToOne(targetEntity = ProfileImpl.class, cascade = CascadeType.REMOVE)
 	private Profile profile;
 
 	private String body;
@@ -30,6 +33,8 @@ public class PostImpl implements Post {
 	@Id()
 	@GeneratedValue(generator = "uuid")
 	private String id;
+
+	private Date date = new Date();
 
 	@Override
 	public String getTitre() {
@@ -83,6 +88,17 @@ public class PostImpl implements Post {
 	@Override
 	public void setId(String id) {
 		this.id = id;
+
+	}
+
+	@Override
+	public Date getDate() {
+		return this.date;
+	}
+
+	@Override
+	public void setDate(Date date) {
+		this.date = date;
 
 	}
 

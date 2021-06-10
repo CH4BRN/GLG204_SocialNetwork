@@ -9,13 +9,10 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import edu.bd.myProject.compte.entity.Compte;
-import edu.bd.myProject.compte.entity.impl.CompteImpl;
 import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.invitation.dao.InvitationDao;
-import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.post.dao.PostsDao;
-import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.salons.dao.SalonDao;
@@ -81,22 +78,22 @@ public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 		try {
 			return (Salon) this.getEm().createNamedQuery("getSalon_byName").setParameter("name", nom).getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new InCognitoDaoException("Pas de salon");
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Salon> obtenirSalonsParCreateur(Compte createur) throws InCognitoDaoException {
 		try {
 			return (List<Salon>) this.getEm().createQuery("FROM SalonImpl s WHERE s.createur.id = :id")
 					.setParameter("id", createur.getId()).getResultList();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new InCognitoDaoException("erreur obtention salon", e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Salon> obtenirSalonsParticipe(Compte utilisateur) {
 		String query = "SELECT p FROM ProfileImpl p WHERE p.user = :user";
@@ -106,6 +103,18 @@ public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 			salons.add(profile.getSalon());
 		}
 		return salons;
+	}
+
+	@Override
+	public Salon modifier(Salon t) throws InCognitoDaoException {
+		t = this.getEm().merge(t);
+		return t;
+	}
+
+	@Override
+	public List<Salon> obtenirTous() throws InCognitoDaoException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

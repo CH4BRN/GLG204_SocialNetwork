@@ -1,4 +1,4 @@
-package edu.bd.myproject.web.invitation;
+package edu.bd.myproject.web.invitation.beans;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -50,15 +50,11 @@
 			<p:outputLabel value="#{emails}" />
 		</p:column>
 		<p:column>
-
 			<h:form>
 				<p:commandButton value="Supprimer"
 					actionListener="#{invitSomeoneBean.deleteEmail(emails)}"
 					ajax="false" />
-
-
 			</h:form>
-
 		</p:column>
 	</p:dataTable>
 
@@ -66,13 +62,17 @@
 		<p:panelGrid>
 			<p:row>
 				<p:column>
+					<p:outputLabel value="Persistant ?" />
 				</p:column>
 				<p:column>
+					<p:selectBooleanCheckbox value="#{salonBean.isPersistant}"></p:selectBooleanCheckbox>
 				</p:column>
 				<p:column>
-					<p:commandButton value="Creer salon"
-						action="#{salonBean.creerSalon(invitSomeoneBean.emailList, currentUserBean.currentAccount)}"
-						ajax="false" />
+					<p:commandButton value="Creer salon" update="existingMessages"
+						action="#{salonBean.creerSalon()}" ajax="false" />
+				</p:column>
+				<p:column>
+					<p:messages id="existingMessages" />
 				</p:column>
 			</p:row>
 		</p:panelGrid>

@@ -4,7 +4,6 @@ package edu.bd.myProject.invitation.dao.impl;
 import java.util.List;
 
 import edu.bd.myProject.compte.entity.Compte;
-import edu.bd.myProject.compte.entity.impl.CompteImpl;
 import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.invitation.dao.InvitationDao;
@@ -97,7 +96,7 @@ public class InvitationDaoImpl extends GenericDaoImpl implements InvitationDao {
 	public List<Invitation> obtenirTousPourUnSalon(Salon salon) throws InCognitoDaoException {
 		try {
 			return (List<Invitation>) this.getEm().createQuery("SELECT i FROM InvitationImpl i WHERE i.salon = :salon")
-					.setParameter("salon", salon);
+					.setParameter("salon", salon).getResultList();
 		} catch (Exception e) {
 			throw new InCognitoDaoException("Erreur obtenir pour un salon", e);
 		}

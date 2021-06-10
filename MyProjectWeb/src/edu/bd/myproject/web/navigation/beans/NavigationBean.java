@@ -19,6 +19,9 @@ public class NavigationBean implements Serializable {
 	private static final String FACES_REDIRECT = "?faces-redirect=true";
 
 	private static final String ACCOUNT_CREATION = "accountCreation";
+	private static final String SUCCES_SALON_CREATION = "succesCreationSalon";
+	private static final String SUCCES_PROFILE_CREATION = "succesCreationProfile";
+
 	private static final String ADMIN_DASHBOARD = "adminDashboard";
 	private static final String AUTHENTICATION = "authentication";
 	private static final String PROFILE_CREATION = "createProfile";
@@ -32,8 +35,8 @@ public class NavigationBean implements Serializable {
 	private final String seeAccount = "seeAccount";
 	private final String succesInscription = "succesInscription";
 	private static final String USER_DASHBOARD = "userDashboard";
-
 	private static final String MODIFY_PROFILE = "modifyProfile";
+	private static final String MANAGE_CURRENT_SALON = "manageCurrentSalon";
 
 	@Inject
 	@Named("inscriptionBean")
@@ -43,6 +46,10 @@ public class NavigationBean implements Serializable {
 		String value = ACCOUNT_CREATION + FACES_REDIRECT;
 		System.out.println("redirect : " + value);
 		return value;
+	}
+
+	public String getSuccesSalonCreation() {
+		return SUCCES_SALON_CREATION + FACES_REDIRECT;
 	}
 
 	public String getAdminDashboard() {
@@ -90,7 +97,7 @@ public class NavigationBean implements Serializable {
 	}
 
 	public String createAccount() {
-		return this.ACCOUNT_CREATION;
+		return ACCOUNT_CREATION;
 	}
 
 	public String getCreateAccount() {
@@ -109,6 +116,16 @@ public class NavigationBean implements Serializable {
 
 	public String getModifyProfile() {
 		String value = MODIFY_PROFILE + FACES_REDIRECT;
+		return value;
+	}
+
+	public String getManageCurrentSalon() {
+		String value = MANAGE_CURRENT_SALON + FACES_REDIRECT;
+		return value;
+	}
+
+	public String getSuccesProfileCreation() {
+		String value = SUCCES_PROFILE_CREATION + FACES_REDIRECT;
 		return value;
 	}
 }

@@ -4,11 +4,13 @@ import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
+import edu.bd.myproject.web.navigation.beans.NavigationBean;
 
 @Named
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
@@ -18,22 +20,40 @@ public class InscriptionBean {
 	@Inject
 	CompteService compteService;
 
+	@Named
+	@Inject
+	NavigationBean navigationBean;
+
 	public String inscrire() {
 		try {
 			compteService.creerCompte(this.login, this.email, this.motDePasse, false, new Date(), false);
-			return "succesInscription";
+			return navigationBean.getSuccesInscription();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "echecInscription";
+			switch (e.getMessage()) {
+			case "LOGIN_EXISTS":
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Le login existe déjà.", null));
+				break;
+			case "EMAIL_EXISTS":
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Le mail existe déjà.", null));
+				break;
+			default:
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, e.getMessage(), null));
+				break;
+			}
 
+			return "";
 		}
+
 	}
 
 	public String goToIndex() {
 		this.email = "";
 		this.login = "";
 		this.motDePasse = "";
-		return "index";
+		return navigationBean.getIndex();
 	}
 
 	public String getLogin() {

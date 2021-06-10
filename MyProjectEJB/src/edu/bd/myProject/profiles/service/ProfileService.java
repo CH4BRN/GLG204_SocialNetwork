@@ -15,6 +15,18 @@ public interface ProfileService {
 
 	public List<Profile> getProfilesForSalon(Salon salon) throws Exception;
 
-	public Profile mettreAJour(Profile yourProfile, String newProfileName);
+	public Profile mettreAJour(Profile yourProfile, String newProfileName) throws Exception;
+
+	public Profile supprimer(Profile profile) throws Exception;
+
+	public Profile passerHorsLigne(Profile yourProfile);
+
+	public List<Profile> obtenirActifsPourUnSalon(Salon thisSalon);
+
+	public List<Profile> obtenirPourUnSalon(Salon thisSalon);
+
+	public Profile obtenirPourUnCompteEtUnSalon(Compte currentAccount, Salon salon);
+
+	public Profile activerConnexion(Profile profile) throws Exception;
 
 }

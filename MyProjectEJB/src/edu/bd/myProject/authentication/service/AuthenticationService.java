@@ -2,7 +2,6 @@ package edu.bd.myProject.authentication.service;
 
 import javax.ejb.Local;
 
-import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.core.service.CoreService;
 
 @Local

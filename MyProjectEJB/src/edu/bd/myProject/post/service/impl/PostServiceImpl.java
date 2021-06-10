@@ -1,6 +1,8 @@
 // PostServiceImpl.java - Copyright pierr
 package edu.bd.myProject.post.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
@@ -34,12 +36,23 @@ public class PostServiceImpl implements PostService {
 			post.setTitre(titre);
 			post.setBody(body);
 			postDao.inserer(post);
+			return post;
 		} catch (InCognitoDaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
 		}
 
-		return null;
+	}
+
+	@Override
+	public List<Post> obtenirPourUnSalon(Salon thisSalon) {
+		List<Post> posts;
+		try {
+			return postDao.obtenirPourUnSalon(thisSalon);
+		} catch (InCognitoDaoException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 }

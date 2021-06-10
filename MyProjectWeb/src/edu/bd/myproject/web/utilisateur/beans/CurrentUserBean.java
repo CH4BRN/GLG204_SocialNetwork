@@ -70,7 +70,6 @@ public class CurrentUserBean {
 	public Compte getCurrentAccount() {
 		if (currentAccount == null) {
 			currentAccount = userService.getUser();
-			System.out.println("\n\ncurrent : " + currentAccount.getLogin());
 		}
 
 		return currentAccount;

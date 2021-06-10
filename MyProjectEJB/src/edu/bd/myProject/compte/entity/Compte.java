@@ -1,8 +1,28 @@
 package edu.bd.myProject.compte.entity;
 
 import java.util.Date;
+import java.util.List;
+
+import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.profiles.entity.Profile;
 
 public interface Compte {
+
+	public List<Profile> getCreatedProfiles();
+
+	public void setCreatedProfiles(List<Profile> profiles);
+
+	public List<Invitation> getInvitationsExpedies();
+
+	public void setInvitationsExpedies(List<Invitation> invitations);
+
+	public List<Invitation> getInvitationsRecues();
+
+	public void setInvitationsRecues(List<Invitation> invitations);
+
+	public Boolean getIsConnecte();
+
+	public void setIsCOnnecte(Boolean isConnecte);
 
 	@Override
 	String toString();
@@ -97,12 +117,14 @@ public interface Compte {
 
 	/**
 	 * Le compte est il admin ?
+	 * 
 	 * @return
 	 */
 	Boolean getIsAdmin();
 
 	/**
 	 * Deginir le compte en tant qu'admin
+	 * 
 	 * @param isAdmin
 	 */
 	void setIsAdmin(Boolean isAdmin);

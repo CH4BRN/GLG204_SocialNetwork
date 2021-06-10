@@ -10,7 +10,6 @@ import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.GenericDaoImpl;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.invitation.dao.InvitationDao;
-import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.entity.impl.ProfileImpl;
@@ -46,12 +45,8 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 	 */
 	@Override
 	public Profile supprimer(Profile profile) throws InCognitoDaoException {
-		List<Invitation> invitations = this.invitationDao.obtenirTousPourUnCompte(profile.getUser());
-		for (Invitation invitation : invitations) {
-			invitationDao.supprimer(invitation);
-		}
-
 		try {
+			profile = getEm().merge(profile);
 			this.getEm().remove(profile);
 			return profile;
 		} catch (Exception e) {
@@ -76,20 +71,21 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 		try {
 			return this.getEm().find(ProfileImpl.class, id);
 		} catch (Exception e) {
-			throw new InCognitoDaoException("Erreur obtenir", e);
+			return null;
 		}
 	}
 
 	/**
 	 * @see edu.bd.myProject.profiles.dao.ProfileDao#obtenirPourUnCompte(edu.bd.myProject.compte.entity.Compte)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Profile> obtenirPourUnCompte(String compteId) throws InCognitoDaoException {
 		try {
 			return (List<Profile>) this.getEm().createQuery("FROM ProfileImpl p WHERE p.user.id = :compteId")
 					.setParameter("compteId", compteId).getResultList();
 		} catch (Exception e) {
-			throw new InCognitoDaoException("Erreur obtenir", e);
+			return null;
 		}
 
 	}
@@ -97,13 +93,14 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 	/**
 	 * @see edu.bd.myProject.profiles.dao.ProfileDao#obtenirPourUnSalon(edu.bd.myProject.salons.entity.Salon)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Profile> obtenirPourUnSalon(Salon salon) throws InCognitoDaoException {
 		try {
 			return (List<Profile>) this.getEm().createQuery("FROM ProfileImpl p WHERE p.salon = :salon")
 					.setParameter("salon", salon).getResultList();
 		} catch (Exception e) {
-			throw new InCognitoDaoException("Erreur obtenir", e);
+			return null;
 		}
 	}
 
@@ -112,20 +109,39 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 	 *      edu.bd.myProject.salons.entity.Salon)
 	 */
 	@Override
-	public Profile obtenirPourUnCompteEtUnSalon(String compteId, String salonId) throws InCognitoDaoException {
+	public Profile obtenirPourUnCompteEtUnSalon(Compte compte, Salon salon) throws InCognitoDaoException {
 		try {
-			return (Profile) this.getEm()
-					.createQuery("FROM ProfileImpl p WHERE p.salon.id = :salonId AND p.user.id = :compteId")
-					.setParameter("salonId", salonId).setParameter("compteId", compteId).getSingleResult();
+			return (Profile) this.getEm().createQuery("FROM ProfileImpl p WHERE p.salon = :salon AND p.user = :compte")
+					.setParameter("salon", salon).setParameter("compte", compte).getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new InCognitoDaoException("Erreur obtenir", e);
+			return null;
 		}
 	}
 
 	@Override
 	public Profile obtenirNouvelleEntite() {
 		return new ProfileImpl();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Profile> obtenirTous() throws InCognitoDaoException {
+		try {
+			return (List<Profile>) this.getEm().createQuery("SELECT p FROM ProfileImpl p").getResultList();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Profile> obtenirActifsPourUnSalon(Salon salon) throws InCognitoDaoException {
+		try {
+			return (List<Profile>) this.getEm()
+					.createQuery("FROM ProfileImpl p WHERE p.salon = :salon").getResultList();// AND p.connected = TRUE").getResultList();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

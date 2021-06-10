@@ -61,9 +61,9 @@ public class CompteDaoImpl extends GenericDaoImpl implements CompteDao {
 					.getSingleResult();
 
 		} catch (Exception e) {
-
+			return null;
 		}
-		return null;
+
 	}
 
 	@Override
@@ -73,34 +73,42 @@ public class CompteDaoImpl extends GenericDaoImpl implements CompteDao {
 					.getSingleResult();
 
 		} catch (Exception e) {
-
+			return null;
 		}
-		return null;
+
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Compte> obtenirTousLesComptes() {
+	public List<Compte> obtenirTousLesComptes() throws InCognitoDaoException {
 		try {
 			return this.getEm().createNamedQuery("getAccount_all").getResultList();
 		} catch (Exception e) {
+			throw new InCognitoDaoException("Erreur obtenir tous", e);
 		}
-		return null;
-	}
-
-	@Override
-	public Compte modifier(Compte compte) {
-		compte = this.getEm().merge(compte);
-		return compte;
 
 	}
 
 	@Override
-	public void supprimerCompte(Compte compte) {
+	public Compte modifier(Compte compte) throws InCognitoDaoException {
+		try {
+			compte = this.getEm().merge(compte);
+			return compte;
+		} catch (Exception e) {
+			throw new InCognitoDaoException("Erreur modifier", e);
+		}
+
+	}
+
+	@Override
+	public Compte supprimerCompte(Compte compte) throws InCognitoDaoException {
+
 		try {
 			compte = getEm().merge(compte);
 			this.getEm().remove(compte);
+			return compte;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new InCognitoDaoException("Erreur supprimer", e);
 		}
 
 	}

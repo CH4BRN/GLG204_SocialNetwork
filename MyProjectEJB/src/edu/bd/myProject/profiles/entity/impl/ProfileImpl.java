@@ -1,15 +1,19 @@
 package edu.bd.myProject.profiles.entity.impl;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
+import edu.bd.myProject.post.entity.Post;
+import edu.bd.myProject.post.entity.impl.PostImpl;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.entity.impl.SalonImpl;
@@ -21,11 +25,14 @@ public class ProfileImpl implements Profile {
 	@GeneratedValue(generator = "uuid")
 	private String id;
 
-	@ManyToOne(targetEntity = CompteImpl.class, cascade = { CascadeType.REMOVE })
+	@ManyToOne(targetEntity = CompteImpl.class)
 	private Compte user;
 
-	@ManyToOne(targetEntity = SalonImpl.class, cascade = { CascadeType.REMOVE })
+	@ManyToOne(targetEntity = SalonImpl.class)
 	private Salon salon;
+
+	@OneToMany(targetEntity = PostImpl.class, cascade = CascadeType.REMOVE)
+	private List<Post> posts;
 
 	private String pseudo;
 

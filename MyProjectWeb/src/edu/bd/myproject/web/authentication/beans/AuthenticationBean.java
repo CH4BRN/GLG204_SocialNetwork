@@ -6,15 +6,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import edu.bd.myProject.admin.service.AdminService;
 import edu.bd.myProject.authentication.service.AuthenticationService;
-import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.core.service.CoreService;
-import edu.bd.myProject.user.service.UserService;
 import edu.bd.myproject.web.admin.beans.AdminBean;
 import edu.bd.myproject.web.navigation.beans.NavigationBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;

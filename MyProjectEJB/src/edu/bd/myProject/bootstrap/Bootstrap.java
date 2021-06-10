@@ -57,11 +57,12 @@ public class Bootstrap {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void demoPost() throws Exception {
 		try {
 			Compte compte = compteService.creerCompte("USR", "ee@ee.ee", "aaA", true, new Date(), true);
 
-			Salon salon = salonService.creerSalon("SALON", compte, Arrays.asList("aa@aa.aa"));
+			Salon salon = salonService.creerSalon("SALON", compte, Arrays.asList("aa@aa.aa"), true);
 
 			Profile profile = profileService.createProfile("BOLOGNAISE", compte, salon);
 
@@ -73,6 +74,7 @@ public class Bootstrap {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void demoInvitation() throws Exception {
 		try {
 			// Creer comptes destinataire
@@ -87,7 +89,7 @@ public class Bootstrap {
 			destinataire = comptes.get(0);
 			expediteur = comptes.get(1);
 
-			Salon salon = salonService.creerSalon("JUDO", expediteur, Arrays.asList("poulet@poulet.poulet"));
+			Salon salon = salonService.creerSalon("JUDO", expediteur, Arrays.asList("poulet@poulet.poulet"), true);
 
 			Invitation invitation = invitationDao.obtenirNouvelleEntite();
 			invitation.setDate(new Date());
@@ -107,6 +109,7 @@ public class Bootstrap {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void demoProfile() throws Exception {
 		Compte compte;
 		try {
@@ -117,8 +120,8 @@ public class Bootstrap {
 		}
 		Salon salon;
 		try {
-			salon = salonService.creerSalon("SALON", compte, new ArrayList<String>(Arrays.asList("ee@aa.aa")));
-		} catch (InCognitoDaoException e) {
+			salon = salonService.creerSalon("SALON", compte, new ArrayList<String>(Arrays.asList("ee@aa.aa")), true);
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}

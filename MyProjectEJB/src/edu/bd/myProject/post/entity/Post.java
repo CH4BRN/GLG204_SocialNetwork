@@ -1,5 +1,7 @@
 package edu.bd.myProject.post.entity;
 
+import java.util.Date;
+
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.salons.entity.Salon;
 
@@ -23,6 +25,10 @@ public interface Post {
 
 	public void setBody(String body);
 
-	void setId(String id);
+	public void setId(String id);
+
+	public Date getDate();
+
+	public void setDate(Date date);
 
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<h1>
+					<p:outputLabel
+						value="Manage current salon : #{manageSalonBean.salonToManage.nom}" />
+				</h1>
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="retour"
+						action="#{navigationBean.getManageSalon()}" />
+				</h:form>
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<p:outputLabel value="Nom : " />
+			</p:column>
+			<p:column>
+				<p:inputText value="#{manageSalonBean.salonToManage.nom}" />
+			</p:column>
+			<p:column>
+				<h:form>
+					<p:commandButton value="Modifier"
+						action="#{manageSalonBean.modifierNom()}" />
+				</h:form>
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+
+	<p:tabView>
+		<p:tab>
+			<p:dataTable value="#{manageSalonBean.registeredProfiles}"
+				var="registeredProfiles" selectionMode="single"
+				rowKey="#{registeredProfiles.id}" rows="10">
+				<!--  ID -->
+				<p:column headerText="Id">
+					<h:outputText value="#{registeredProfiles.id}" />
+				</p:column>
+				<!--  PSEUDO  -->
+				<p:column headerText="Pseudo">
+					<h:outputText value="#{registeredProfiles.pseudo}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:tab>
+	</p:tabView>
+
+</h:body>
+</html>

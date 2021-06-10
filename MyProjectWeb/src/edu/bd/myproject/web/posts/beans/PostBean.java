@@ -1,4 +1,4 @@
-package edu.bd.myproject.web.posts;
+package edu.bd.myproject.web.posts.beans;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.post.dao.PostsDao;
-import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.post.service.PostService;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
-import edu.bd.myproject.web.salons.CurrentSalonBean;
+import edu.bd.myproject.web.salons.beans.CurrentSalonBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("postBean")
@@ -67,12 +66,13 @@ public class PostBean {
 
 	public String publishNewPost() throws Exception {
 		Salon salon = currentSalonBean.getThisSalon();
+		System.out.println("SALON : " + salon.toString());
 		Compte compte = currentUserBean.getCurrentAccount();
-
+		System.out.println("COMPTE : " + compte.toString());
 		Profile profile;
 		try {
-			profile = profileDao.obtenirPourUnCompteEtUnSalon(compte.getId(), salon.getId());
-			Post post = postService.creerNouveauPost(salon, profile, this.newPostTitle, this.newPostBody);
+			profile = profileDao.obtenirPourUnCompteEtUnSalon(compte, salon);
+			postService.creerNouveauPost(salon, profile, this.newPostTitle, this.newPostBody);
 			currentSalonBean.rafraichirPosts();
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.redirect(((HttpServletRequest) externalContext.getRequest()).getRequestURI());

@@ -8,11 +8,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myproject.web.navigation.beans.NavigationBean;
-import edu.bd.myproject.web.salons.CurrentSalonBean;
+import edu.bd.myproject.web.salons.beans.CurrentSalonBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("profileBean")
@@ -28,6 +30,9 @@ public class ProfileBean implements Serializable {
 
 	@Inject
 	ProfileService profileService;
+
+	// @Inject
+	// ProfileDao profileDao;
 
 	@Named
 	@Inject
@@ -74,24 +79,58 @@ public class ProfileBean implements Serializable {
 
 	public String createProfileForSalon() {
 		System.out.println("\n\nCREATE PROFILE FOR SALON\n\n");
-		try {
-			Profile profile = profileService.createProfile(this.newProfileName, this.getCompte(), this.salon);
-			System.out.println("PROFILE : " + profile.toString());
-			currentSalonBean.setYourProfile(profile);
-			currentSalonBean.setThisSalon(this.salon);
+		Profile profile = null;
+		Compte currentAccount = getCompte();
+		Salon currentSalon = currentSalonBean.getThisSalon();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "createProfile";
+		profile = profileService.obtenirPourUnCompteEtUnSalon(currentAccount, currentSalon);
+
+		if (profile == null) {
+			System.out.println("Aucun profil existant.");
+			try {
+				Profile newProfile = profileService.createProfile(this.newProfileName, this.getCompte(), this.salon);
+				System.out.println("PROFILE : " + newProfile.toString());
+				currentSalonBean.setYourProfile(newProfile);
+				currentSalonBean.setThisSalon(this.salon);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return navigationBean.getCreateProfile();
+			}
+
+		} else {
+			System.out.println("Un profil existe déjà.");
+			try {
+				profileService.activerConnexion(profile);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return navigationBean.getCreateProfile();
+			}
+			
+			/*
+			 * profile.setConnected(true); try { profileService.mettreAJour(profile,
+			 * profile.getPseudo()); } catch (Exception e) { return
+			 * navigationBean.getCreateProfile(); }
+			 * currentSalonBean.setYourProfile(profile);
+			 * currentSalonBean.setThisSalon(this.salon);
+			 */
 		}
-		return "currentSalon";
+
+		return navigationBean.getSuccesProfileCreation();
 
 	}
 
 	public String modifier() {
 		System.out.println("MODIFIER : " + this.newProfileName);
-		Profile profil = this.profileService.mettreAJour(currentSalonBean.getYourProfile(), this.newProfileName);
-		currentSalonBean.setYourProfile(profil);
-		return navigationBean.getCurrentSalon();
+		Profile profil = null;
+		try {
+			profil = this.profileService.mettreAJour(currentSalonBean.getYourProfile(), this.newProfileName);
+			currentSalonBean.setYourProfile(profil);
+			return navigationBean.getCurrentSalon();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+
 	}
 }

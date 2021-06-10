@@ -66,10 +66,13 @@
 			</p:row>
 			<p:row>
 				<p:column></p:column>
-				<p:column></p:column>
+				<p:column>
+					<p:messages id="registerMessages" />
+				</p:column>
 				<p:column>
 					<p:commandButton value="Valider"
-						action="#{inscriptionBean.inscrire()}" ajax="false" />
+						action="#{inscriptionBean.inscrire()}" update="registerMessages"
+						ajax="false" />
 				</p:column>
 			</p:row>
 		</h:form>

@@ -2,19 +2,22 @@
 package edu.bd.myProject.compte.entity.impl;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import edu.bd.myProject.compte.entity.Compte;
-import edu.bd.myProject.salons.entity.Salon;
+import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.invitation.entity.impl.InvitationImpl;
+import edu.bd.myProject.profiles.entity.Profile;
+import edu.bd.myProject.profiles.entity.impl.ProfileImpl;
 
 /**
  * @author pierr
@@ -43,6 +46,17 @@ public class CompteImpl implements Compte {
 	@Column(name = "isAdmin", nullable = false)
 	private Boolean isAdmin;
 
+	@OneToMany(targetEntity = InvitationImpl.class)
+	private List<Invitation> invitationsExpediees;
+
+	@OneToMany(targetEntity = InvitationImpl.class)
+	private List<Invitation> invitationsRecues;
+
+	@OneToMany(targetEntity = ProfileImpl.class)
+	private List<Profile> profiles;
+
+	private Boolean isConnecte;
+
 	/**
 	 * @see edu.bd.myProject.compte.entity.Compte#getLogin()
 	 */
@@ -60,6 +74,9 @@ public class CompteImpl implements Compte {
 
 	}
 
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "CompteImpl [login=" + login + ", email=" + email + ", motDePasse=" + motDePasse + ", isActif=" + isActif
@@ -162,6 +179,61 @@ public class CompteImpl implements Compte {
 	@Override
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	/**
+	 * @see edu.bd.myProject.compte.entity.Compte#getInvitationsExpedies()
+	 */
+	@Override
+	public List<Invitation> getInvitationsExpedies() {
+		return this.invitationsExpediees;
+	}
+
+	@Override
+	public void setInvitationsExpedies(List<Invitation> invitations) {
+		this.invitationsExpediees = invitations;
+	}
+
+	/**
+	 * @see edu.bd.myProject.compte.entity.Compte#getInvitationsRecues()
+	 */
+	@Override
+	public List<Invitation> getInvitationsRecues() {
+		return this.invitationsRecues;
+	}
+
+	/**
+	 * @see edu.bd.myProject.compte.entity.Compte#setInvitationsRecues(java.util.List)
+	 */
+	@Override
+	public void setInvitationsRecues(List<Invitation> invitations) {
+		this.invitationsRecues = invitations;
+	}
+
+	/**
+	 * @see edu.bd.myProject.compte.entity.Compte#getIsConnecte()
+	 */
+	@Override
+	public Boolean getIsConnecte() {
+		return this.isConnecte;
+	}
+
+	/**
+	 * @see edu.bd.myProject.compte.entity.Compte#setIsCOnnecte(java.lang.Boolean)
+	 */
+	@Override
+	public void setIsCOnnecte(Boolean isConnecte) {
+		this.isConnecte = isConnecte;
+	}
+
+	@Override
+	public List<Profile> getCreatedProfiles() {
+		return this.profiles;
+	}
+
+	@Override
+	public void setCreatedProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
 }
