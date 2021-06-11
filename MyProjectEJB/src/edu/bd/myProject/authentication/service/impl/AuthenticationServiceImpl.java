@@ -35,23 +35,47 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 */
 	@Override
 	public CoreService authentifier(String login, String motDePasse) throws Exception {
+		// Cherche le compte
 		Compte compte = comptesDao.obtenirParLogin(login);
+		
+		CoreService service;
+		
+		// Si le compte est null, alors erreur connexion
 		if (compte == null) {
-			throw new Exception("Erreur connexion");
+			throw new Exception("Erreur connexion - Compte null");
 		}
+		// Si les mots de passe ne correspondent pas, alors erreur connexion
 		if (!compte.getMotDePasse().equals(motDePasse)) {
-			throw new Exception("Erreur connexion");
+			throw new Exception("Erreur connexion - Mot de passe");
 		}
+		// Si le compte n'est pas actif, alors erreur connexion
 		if (!compte.getIsActif()) {
-			throw new Exception("Erreur connexion");
+			throw new Exception("Erreur connexion - Inactif");
 		}
+		// Si le compte associé est admin, alors service admin
 		if (compte.getIsAdmin()) {
-			coreAdminService.setUser(compte);
-			return coreAdminService;
-		} else {
-			coreUserService.setUser(compte);
-			return coreUserService;
+			service = coreAdminService;
+			// Check si le service est nul
+			if(service == null) {
+				throw new Exception("Erreur interne - Service null");	
+			}			
+
+		}// Sinon user 
+		else {
+			service = coreUserService;
+			// Check si le service est nul
+			if(service == null) {
+				throw new Exception("Erreur interne - Service null");
+			}			
 		}
+		
+		service.setUser(compte);
+		// Check si l'user est nul
+		if(service.getUser() == null) {
+			throw new Exception("Erreur interne - User null"); 
+		}
+		
+		return service;
 	}
 
 }

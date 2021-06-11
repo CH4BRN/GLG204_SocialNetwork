@@ -13,31 +13,12 @@ public class UserServiceImpl implements UserService {
 	@Inject
 	CompteDao compteDao;
 
-	private Compte user;
-
 	@Override
-	public Compte getUser() {
-		return this.user;
-	}
-
-	@Override
-	public void setUser(Compte compte) {
-		this.user = compte;
-
-	}
-
-	@Override
-	public void seDeconnecter() {
-		this.user = null;
-	}
-
-	@Override
-	public void supprimerSonCompte() throws Exception {
-		if (user == null) {
+	public void supprimerSonCompte(Compte compte) throws Exception {
+		if (compte == null) {
 			throw new Exception("Compte nul");
 		}
-		compteDao.supprimerCompte(user);
-
+		compteDao.supprimerCompte(compte);
 	}
 
 }

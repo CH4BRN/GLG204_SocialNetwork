@@ -31,9 +31,6 @@ public class ProfileBean implements Serializable {
 	@Inject
 	ProfileService profileService;
 
-	// @Inject
-	// ProfileDao profileDao;
-
 	@Named
 	@Inject
 	CurrentSalonBean currentSalonBean;
@@ -46,14 +43,30 @@ public class ProfileBean implements Serializable {
 	@Inject
 	NavigationBean navigationBean;
 
+	private Profile existingProfile = null;
+
+	public Profile getExistingProfile() throws Exception {
+		if (this.getSalon() != null && this.getCompte() != null) {
+			existingProfile = profileService.obtenirPourUnCompteEtUnSalon(getCompte(), getSalon());
+		}
+		if (existingProfile != null) {
+			newProfileName = existingProfile.getPseudo();
+		}
+		return existingProfile;
+	}
+
+	public void setExistingProfile(Profile existingProfile) {
+		this.existingProfile = existingProfile;
+	}
+
 	private Salon salon;
 
 	private Compte compte;
 
-	public Compte getCompte() {
-		if (compte == null) {
-			this.compte = currentUserBean.getCurrentAccount();
-		}
+	public Compte getCompte() throws Exception {
+
+		this.compte = currentUserBean.getCurrentAccount();
+
 		return compte;
 	}
 
@@ -77,43 +90,41 @@ public class ProfileBean implements Serializable {
 		this.newProfileName = newProfileName;
 	}
 
-	public String createProfileForSalon() {
+	public String createProfileForSalon() throws Exception {
 		System.out.println("\n\nCREATE PROFILE FOR SALON\n\n");
 		Profile profile = null;
 		Compte currentAccount = getCompte();
 		Salon currentSalon = currentSalonBean.getThisSalon();
 
+		// Obtenir profils existant
 		profile = profileService.obtenirPourUnCompteEtUnSalon(currentAccount, currentSalon);
 
 		if (profile == null) {
 			System.out.println("Aucun profil existant.");
 			try {
-				Profile newProfile = profileService.createProfile(this.newProfileName, this.getCompte(), this.salon);
-				System.out.println("PROFILE : " + newProfile.toString());
-				currentSalonBean.setYourProfile(newProfile);
-				currentSalonBean.setThisSalon(this.salon);
-
+				// Creer un nouveau profil
+				profile = profileService.createProfile(this.newProfileName, this.getCompte(), this.salon);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return navigationBean.getCreateProfile();
 			}
+			System.out.println("PROFILE : " + profile.toString());
 
 		} else {
 			System.out.println("Un profil existe déjà.");
 			try {
-				profileService.activerConnexion(profile);
+				profileService.mettreAJour(profile, newProfileName);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return navigationBean.getCreateProfile();
 			}
-			
-			/*
-			 * profile.setConnected(true); try { profileService.mettreAJour(profile,
-			 * profile.getPseudo()); } catch (Exception e) { return
-			 * navigationBean.getCreateProfile(); }
-			 * currentSalonBean.setYourProfile(profile);
-			 * currentSalonBean.setThisSalon(this.salon);
-			 */
+		}
+		try {
+			profileService.activerConnexion(profile);
+			currentSalonBean.setYourProfile(profile);
+			currentSalonBean.setThisSalon(this.salon);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 
 		return navigationBean.getSuccesProfileCreation();

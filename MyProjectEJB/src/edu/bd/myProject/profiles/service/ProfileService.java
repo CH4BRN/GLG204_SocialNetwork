@@ -29,4 +29,6 @@ public interface ProfileService {
 
 	public Profile activerConnexion(Profile profile) throws Exception;
 
+	public Profile mettreAJour(Profile newProfile);
+
 }

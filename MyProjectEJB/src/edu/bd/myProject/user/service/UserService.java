@@ -7,12 +7,6 @@ import edu.bd.myProject.compte.entity.Compte;
 @Local
 public interface UserService {
 
-	public Compte getUser();
-
-	public void setUser(Compte compte);
-
-	public void seDeconnecter();
-
-	public void supprimerSonCompte() throws Exception;
+	public void supprimerSonCompte(Compte compte) throws Exception;
 
 }

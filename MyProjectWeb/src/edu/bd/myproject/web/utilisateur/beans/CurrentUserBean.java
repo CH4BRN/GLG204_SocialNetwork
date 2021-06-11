@@ -11,15 +11,40 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.core.service.CoreService;
+import edu.bd.myProject.core.service.ServiceU;
 import edu.bd.myProject.invitation.entity.Invitation;
-import edu.bd.myProject.invitation.service.InvitationService;
-import edu.bd.myProject.user.service.UserService;
 import edu.bd.myproject.web.navigation.beans.NavigationBean;
+import edu.bd.myproject.web.salons.beans.CurrentSalonBean;
 
 @Named("currentUserBean")
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
 @ApplicationScoped
 public class CurrentUserBean {
+
+	@Named
+	@Inject
+	NavigationBean navigationBean;
+
+	@Named
+	@Inject
+	CurrentSalonBean currentSalonBean;
+
+	@Inject
+	@ServiceU
+	private CoreService coreService;
+
+	public CoreService getCoreService() {
+		return coreService;
+	}
+
+	public void setCoreService(CoreService coreService) {
+		this.coreService = coreService;
+	}
+
+	private Compte currentAccount;
+
+	private ArrayList<Invitation> currentUserInvitations;
 
 	@Override
 	public String toString() {
@@ -30,27 +55,12 @@ public class CurrentUserBean {
 	private void rafraichirInvitations() throws Exception {
 		try {
 			currentUserInvitations = new ArrayList<Invitation>();
-			List<Invitation> newInvitations = invitationService.obtenirInvitationsPourCompte(currentAccount);
-
+			List<Invitation> newInvitations = coreService.obtenirSesInvitations();
 			currentUserInvitations.addAll(newInvitations);
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-
-	@Named
-	@Inject
-	NavigationBean navigationBean;
-	
-	
-
-	@Inject
-	UserService userService;
-
-	@Inject
-	InvitationService invitationService;
-
-	private ArrayList<Invitation> currentUserInvitations;
 
 	public ArrayList<Invitation> getCurrentUserInvitations() {
 		try {
@@ -65,26 +75,19 @@ public class CurrentUserBean {
 		this.currentUserInvitations = currentUserInvitations;
 	}
 
-	private Compte currentAccount;
-
-	public Compte getCurrentAccount() {
-		if (currentAccount == null) {
-			currentAccount = userService.getUser();
-		}
-
+	public Compte getCurrentAccount() throws Exception {
+		currentAccount = coreService.getUser();
 		return currentAccount;
 	}
 
 	public void setCurrentAccount(Compte currentAccount) {
-		System.out.println(currentAccount.toString());
-
 		this.currentAccount = currentAccount;
 	}
 
 	public void refuserInvitation(String id) throws Exception {
 		System.out.println("REFUSER");
 		try {
-			this.invitationService.refuserInvitation(id);
+			coreService.refuserInvitation(id);
 			rafraichirInvitations();
 		} catch (Exception e) {
 			throw e;
@@ -93,9 +96,7 @@ public class CurrentUserBean {
 
 	public String accepterInvitation(String id) throws Exception {
 		System.out.println("ACCEPTER");
-		
-
-		return "createProfile";
+		return navigationBean.getCreateProfile();
 	}
 
 	public void addMessage(String summary, String detail) {
@@ -104,10 +105,8 @@ public class CurrentUserBean {
 	}
 
 	public String supprimerSonCompte() {
-		userService.setUser(currentAccount);
-
 		try {
-			userService.supprimerSonCompte();
+			coreService.supprimerSonCompte();
 		} catch (Exception e) {
 			e.printStackTrace();
 			addMessage("Erreur", "Compte non supprimé");
@@ -118,7 +117,8 @@ public class CurrentUserBean {
 	}
 
 	public String seDeconnecter() {
-		userService.setUser(null);
+		coreService.seDeconnecter();
+		this.currentSalonBean.reset();
 		this.currentAccount = null;
 		return navigationBean.getIndex();
 	}

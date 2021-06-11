@@ -108,18 +108,24 @@ public class SalonServiceImpl implements SalonService {
 	public Salon supprimerSalon(Salon salon) throws InCognitoDaoException {
 		try {
 			List<Post> posts = this.postDao.obtenirPourUnSalon(salon);
-			for (Post post : posts) {
-				this.postDao.supprimer(post);
+			if (posts != null) {
+				for (Post post : posts) {
+					this.postDao.supprimer(post);
+				}
 			}
 
 			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(salon);
-			for (Profile profile : profiles) {
-				this.profileDao.supprimer(profile);
+			if (profiles != null) {
+				for (Profile profile : profiles) {
+					this.profileDao.supprimer(profile);
+				}
 			}
 
 			List<Invitation> invitations = this.invitationDao.obtenirTousPourUnSalon(salon);
-			for (Invitation invitation : invitations) {
-				this.invitationDao.supprimer(invitation);
+			if (invitations != null) {
+				for (Invitation invitation : invitations) {
+					this.invitationDao.supprimer(invitation);
+				}
 			}
 
 			salonDao.supprimer(salon);

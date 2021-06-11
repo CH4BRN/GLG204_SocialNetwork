@@ -138,7 +138,8 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 	public List<Profile> obtenirActifsPourUnSalon(Salon salon) throws InCognitoDaoException {
 		try {
 			return (List<Profile>) this.getEm()
-					.createQuery("FROM ProfileImpl p WHERE p.salon = :salon").getResultList();// AND p.connected = TRUE").getResultList();
+					.createQuery("FROM ProfileImpl p WHERE p.salon = :salon AND p.connected = TRUE")
+					.setParameter("salon", salon).getResultList();
 		} catch (Exception e) {
 			return null;
 		}

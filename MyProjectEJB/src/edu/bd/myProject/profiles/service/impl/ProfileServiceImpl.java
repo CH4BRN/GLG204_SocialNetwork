@@ -41,7 +41,6 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public Profile createProfile(String pseudo, Compte compte, Salon salon) throws Exception {
-
 		try {
 			Profile profile = profileDao.obtenirNouvelleEntite();
 			profile.setPseudo(pseudo);
@@ -78,6 +77,18 @@ public class ProfileServiceImpl implements ProfileService {
 			e.printStackTrace();
 		}
 		return yourProfile;
+	}
+	
+
+	@Override
+	public Profile mettreAJour(Profile newProfile) {
+		try {
+			this.profileDao.modifier(newProfile);
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+		}
+		return newProfile;
+		
 	}
 
 	@Override
@@ -146,4 +157,5 @@ public class ProfileServiceImpl implements ProfileService {
 			throw e;
 		}
 	}
+
 }

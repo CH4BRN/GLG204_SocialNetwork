@@ -12,6 +12,9 @@ import javax.inject.Named;
 import edu.bd.myProject.admin.service.AdminService;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
+import edu.bd.myProject.core.service.CoreService;
+import edu.bd.myProject.core.service.ServiceA;
+import edu.bd.myProject.core.service.ServiceU;
 import edu.bd.myproject.web.navigation.beans.NavigationBean;
 
 @Named("adminBean")
@@ -19,26 +22,43 @@ import edu.bd.myproject.web.navigation.beans.NavigationBean;
 @ApplicationScoped
 public class AdminBean implements Serializable {
 
+	@Inject
+	@ServiceA
+	CoreService coreService;
+
+	public CoreService getCoreService() {
+		return coreService;
+	}
+
+	public void setCoreService(CoreService coreService) {
+		this.coreService = coreService;
+	}
+
 	@Named
 	@Inject
 	NavigationBean navigationBean;
 
+	@Inject
+	CompteService compteService;
+
+	@Inject
+	private AdminService adminService;
+
 	private Compte user;
 
-	public Compte getUser() {
+	public Compte getUser() throws Exception {
+		if (user == null) {
+			user = coreService.getUser();
+		}
 		return user;
 	}
 
 	public void setUser(Compte user) {
 		this.user = user;
-		this.login = user.getLogin();
 	}
 
-	@Inject
-	private AdminService adminService;
-
 	public String seDeconnecter() {
-		this.adminService.seDeconnecter();
+		coreService.seDeconnecter();
 		return navigationBean.getIndex();
 	}
 
@@ -56,7 +76,8 @@ public class AdminBean implements Serializable {
 
 	private String login;
 
-	public String getLogin() {
+	public String getLogin() throws Exception {
+		login = getUser().getLogin();
 		return login;
 	}
 
@@ -80,9 +101,6 @@ public class AdminBean implements Serializable {
 		this.comptes = comptes;
 	}
 
-	@Inject
-	CompteService compteService;
-
 	public void makeUserAdmin(String id) {
 		this.adminService.makeUserAdmin(id);
 		rafraichirListe();
@@ -96,7 +114,7 @@ public class AdminBean implements Serializable {
 
 	public void supprimer(String id) {
 		try {
-			this.adminService.supprimer(id);
+			this.adminService.supprimerUnCompteUtilisateur(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

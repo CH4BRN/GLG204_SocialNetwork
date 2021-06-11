@@ -76,7 +76,7 @@ public class SalonBean {
 		this.isPersistant = isPersistant;
 	}
 
-	public ArrayList<Salon> getParticipatedSalons() {
+	public ArrayList<Salon> getParticipatedSalons() throws Exception {
 		participatedSalons = new ArrayList<Salon>();
 		try {
 			List<Salon> salons = salonService
@@ -93,7 +93,7 @@ public class SalonBean {
 		this.participatedSalons = participatedSalons;
 	}
 
-	public ArrayList<Salon> getCurrentUserSalons() {
+	public ArrayList<Salon> getCurrentUserSalons() throws Exception {
 		this.currentUserSalons = new ArrayList<Salon>();
 		try {
 			List<Salon> salons = this.salonService
@@ -149,7 +149,7 @@ public class SalonBean {
 		return navigationBean.getSuccesSalonCreation();
 	}
 
-	public void supprimerSalon(String id) throws InCognitoDaoException {
+	public void supprimerSalon(String id) throws Exception {
 		try {
 			Salon salon = salonService.obtenirSalonParId(id);
 			if (salon == null) {
@@ -164,7 +164,7 @@ public class SalonBean {
 		}
 	}
 
-	private void rafraichirListe() {
+	private void rafraichirListe() throws Exception {
 		try {
 			List<Salon> salons = this.salonService
 					.obtenirSalonsCreesParUtilisateur(currentUserBean.getCurrentAccount());
@@ -174,7 +174,7 @@ public class SalonBean {
 		}
 	}
 
-	public String rejoindreSalon(String id) {
+	public String rejoindreSalon(String id) throws Exception {
 		Salon salon = null;
 		try {
 			salon = salonService.obtenirSalonParId(id);

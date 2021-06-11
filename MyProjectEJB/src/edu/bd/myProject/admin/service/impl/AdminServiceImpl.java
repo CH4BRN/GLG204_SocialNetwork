@@ -68,7 +68,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void supprimer(String id) throws Exception {
+	public void supprimerUnCompteUtilisateur(String id) throws Exception {
 		try {
 			Compte compte = compteDao.obtenir(id);
 			compteService.supprimerCompte(compte);

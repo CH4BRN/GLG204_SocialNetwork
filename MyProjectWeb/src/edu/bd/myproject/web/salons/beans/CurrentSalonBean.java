@@ -9,11 +9,11 @@ import javax.faces.annotation.FacesConfig;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import edu.bd.myProject.core.service.CoreService;
+import edu.bd.myProject.core.service.ServiceU;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
-import edu.bd.myProject.post.dao.PostsDao;
 import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.post.service.PostService;
-import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
@@ -24,6 +24,10 @@ import edu.bd.myproject.web.navigation.beans.NavigationBean;
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
 @ApplicationScoped
 public class CurrentSalonBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Inject
+	@ServiceU
+	CoreService coreService;
 
 	@Inject
 	private ProfileService profileService;
@@ -39,8 +43,6 @@ public class CurrentSalonBean implements Serializable {
 	private SalonService salonService;
 
 	private Salon thisSalon;
-
-	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Profile> currentProfiles;
 
@@ -128,6 +130,7 @@ public class CurrentSalonBean implements Serializable {
 	}
 
 	private void rafraichirProfilEnregistres() throws Exception {
+		System.out.println("Rafraichir profils enregistrés");
 		this.registeredProfiles = new ArrayList<Profile>();
 		if (thisSalon == null) {
 			throw new Exception("ERREUR : this salon est nul");
@@ -216,6 +219,11 @@ public class CurrentSalonBean implements Serializable {
 	public String modifierSonProfil() {
 		System.out.println("CURRENT : " + this.yourProfile.getPseudo());
 		return navigationBean.getModifyProfile();
+	}
+
+	public void reset() {
+		this.setYourProfile(null);
+		this.setThisSalon(null);
 	}
 
 }
