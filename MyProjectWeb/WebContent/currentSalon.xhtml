@@ -108,30 +108,38 @@
 	</p:tabView>
 
 
-	<h:form>
-		<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Message: " />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:inputText value="#{postBean.newPostBody}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-					</p:column>
-					<p:column>
-						<p:commandButton value="poster"
-							action="#{postBean.publishNewPost()}" />
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-		</p:dialog>
-	</h:form>
+
+	<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
+
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Message: " />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:inputText value="#{postBean.newPostBody}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+				</p:column>
+				<p:column>
+					<p:commandButton value="poster"
+						action="#{postBean.publishNewPost()}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<h:form id="link_form">
+			<h:form rendered="#{postBean.isALink}">
+				<h1>LINK</h1>
+			</h:form>
+		</h:form>
+		<p:poll interval="1" update="link_form" />
+
+	</p:dialog>
+
 
 	<p:panelGrid>
 		<p:row>

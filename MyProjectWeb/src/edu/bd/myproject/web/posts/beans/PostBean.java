@@ -17,6 +17,7 @@ import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myproject.web.salons.beans.CurrentSalonBean;
+import edu.bd.myproject.web.url.beans.UrlCheckerBean;
 import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("postBean")
@@ -44,9 +45,25 @@ public class PostBean {
 	@Inject
 	CurrentUserBean currentUserBean;
 
+	@Named
+	@Inject
+	UrlCheckerBean urlCheckerBean;
+
 	private String newPostTitle;
 
 	private String newPostBody;
+
+	private boolean isALink = true;
+
+	public boolean getIsALink() {
+		System.out.println("is " + newPostBody + " a LINK ?  " + urlCheckerBean.verifierUrl(newPostBody));
+		isALink = urlCheckerBean.verifierUrl(newPostBody);
+		return isALink;
+	}
+
+	public void setALink(boolean isALink) {
+		this.isALink = isALink;
+	}
 
 	public String getNewPostBody() {
 		return newPostBody;
