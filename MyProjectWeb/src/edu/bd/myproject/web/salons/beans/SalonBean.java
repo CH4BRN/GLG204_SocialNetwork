@@ -149,7 +149,7 @@ public class SalonBean {
 		return navigationBean.getSuccesSalonCreation();
 	}
 
-	public void supprimerSalon(String id) throws Exception {
+	public void supprimerSalon(String id)  {
 		try {
 			Salon salon = salonService.obtenirSalonParId(id);
 			if (salon == null) {
@@ -157,19 +157,24 @@ public class SalonBean {
 			}
 			System.out.println("SUPPRIMER : " + salon.getNom());
 			this.salonService.supprimerSalon(salon);
-			rafraichirListe();
+			
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
-			throw e;
+			return ;
+		}
+		try {
+			rafraichirListe();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void rafraichirListe() throws Exception {
+	private void rafraichirListe() {
 		try {
 			List<Salon> salons = this.salonService
 					.obtenirSalonsCreesParUtilisateur(currentUserBean.getCurrentAccount());
 			this.currentUserSalons.addAll(salons);
-		} catch (InCognitoDaoException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -182,12 +187,7 @@ public class SalonBean {
 			e.printStackTrace();
 			return navigationBean.getManageSalon();
 		}
-		/*
-		 * try { Profile profile =
-		 * profileDao.obtenirPourUnCompteEtUnSalon(currentUserBean.getCurrentAccount(),
-		 * salon); profileService.supprimer(profile); } catch (Exception e) {
-		 * System.out.println("Pas de profile a supprimer."); }
-		 */
+
 		profileBean.setSalon(salon);
 		profileBean.setCompte(currentUserBean.getCurrentAccount());
 		this.currentSalonBean.setThisSalon(salon);

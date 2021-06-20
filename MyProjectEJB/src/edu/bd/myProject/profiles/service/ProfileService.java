@@ -31,4 +31,6 @@ public interface ProfileService {
 
 	public Profile mettreAJour(Profile newProfile);
 
+	public List<String> exclureProfile(Salon salon, String profileId) throws Exception;
+
 }

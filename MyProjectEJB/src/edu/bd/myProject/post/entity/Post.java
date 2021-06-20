@@ -31,4 +31,8 @@ public interface Post {
 
 	public void setDate(Date date);
 
+	public String getStrDate();
+
+	public void setStrDate(String date);
+
 }

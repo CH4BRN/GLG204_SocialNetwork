@@ -50,7 +50,13 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 			this.getEm().remove(profile);
 			return profile;
 		} catch (Exception e) {
-			throw new InCognitoDaoException("Erreur supprimer", e);
+			try {
+				this.getEm().remove(profile);
+				return profile;
+			} catch (Exception e1) {
+				throw new InCognitoDaoException("Erreur supprimer", e1);
+			}
+
 		}
 	}
 
@@ -138,8 +144,8 @@ public class ProfileDaoImpl extends GenericDaoImpl implements ProfileDao {
 	public List<Profile> obtenirActifsPourUnSalon(Salon salon) throws InCognitoDaoException {
 		try {
 			return (List<Profile>) this.getEm()
-					.createQuery("FROM ProfileImpl p WHERE p.salon = :salon AND p.connected = TRUE")
-					.setParameter("salon", salon).getResultList();
+					.createQuery("FROM ProfileImpl p WHERE p.salon = :salon AND p.connected = :connected")
+					.setParameter("salon", salon).setParameter("connected", true).getResultList();
 		} catch (Exception e) {
 			return null;
 		}

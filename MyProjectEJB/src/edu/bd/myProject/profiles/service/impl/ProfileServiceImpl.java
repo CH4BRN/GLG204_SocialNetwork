@@ -1,7 +1,9 @@
 package edu.bd.myProject.profiles.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.spec.PSource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -11,6 +13,9 @@ import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.invitation.dao.InvitationDao;
 import edu.bd.myProject.invitation.entity.Invitation;
+import edu.bd.myProject.post.dao.PostsDao;
+import edu.bd.myProject.post.entity.Post;
+import edu.bd.myProject.post.service.PostService;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
@@ -38,6 +43,12 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Inject
 	InvitationDao invitationDao;
+
+	@Inject
+	PostService postService;
+
+	@Inject
+	PostsDao postDao;
 
 	@Override
 	public Profile createProfile(String pseudo, Compte compte, Salon salon) throws Exception {
@@ -78,7 +89,6 @@ public class ProfileServiceImpl implements ProfileService {
 		}
 		return yourProfile;
 	}
-	
 
 	@Override
 	public Profile mettreAJour(Profile newProfile) {
@@ -88,7 +98,7 @@ public class ProfileServiceImpl implements ProfileService {
 			e.printStackTrace();
 		}
 		return newProfile;
-		
+
 	}
 
 	@Override
@@ -156,6 +166,26 @@ public class ProfileServiceImpl implements ProfileService {
 			System.out.println(e.getMessage());
 			throw e;
 		}
+	}
+
+	@Override
+	public List<String> exclureProfile(Salon salon, String profileId) throws Exception {
+
+		List<Post> posts = postDao.obtenirPourUnProfil(profileId);
+		List<String> postId = new ArrayList<String>();
+		for (Post post : posts) {
+			postId.add(post.getId());
+		}
+		for (String id : postId) {
+			System.out.println("ID : " + id);
+			Post post = postDao.obtenir(id);
+			System.out.println("POST : " + post.getBody());
+			postDao.supprimer(post);
+			System.out.println("DELETED");
+		}
+		profileDao.supprimer(profileDao.obtenir(profileId));
+		return postId;
+
 	}
 
 }

@@ -41,7 +41,51 @@
 				</h:form>
 			</p:column>
 		</p:row>
+		<p:row>
+			<h:form>
+				<p:column>
+					<p:outputLabel value="Inviter : " />
+				</p:column>
+
+				<p:column>
+					<p:inputText value="#{emailInvitBean.emailToAdd}" />
+				</p:column>
+
+				<p:column>
+					<p:commandButton value="Inviter"
+						action="#{emailInvitBean.addEmail()}" />
+				</p:column>
+			</h:form>
+		</p:row>
 	</p:panelGrid>
+	<p:panelGrid>
+		<p:row>
+			<h:form>
+				<p:column>
+					<p:dataTable ide="emailsTable"
+						value="#{emailInvitBean.emailsToAdd}" var="emails" scrollRows="10"
+						scrollable="true" liveScroll="true" scrollHeight="150">
+						<p:column>
+							<p:outputLabel value="#{emails}" />
+						</p:column>
+						<p:column>
+							<h:form>
+								<p:commandButton value="Supprimer"
+									actionListener="#{emailInvitBean.deleteEmail(emails)}"
+									ajax="false" />
+							</h:form>
+						</p:column>
+					</p:dataTable>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Allez, on invite ! "
+						action="#{manageSalonBean.invitNewEmails()}" />
+				</p:column>
+			</h:form>
+		</p:row>
+	</p:panelGrid>
+
+
 
 	<p:tabView>
 		<p:tab>
@@ -55,6 +99,13 @@
 				<!--  PSEUDO  -->
 				<p:column headerText="Pseudo">
 					<h:outputText value="#{registeredProfiles.pseudo}" />
+				</p:column>
+				<!--  DELETE -->
+				<p:column headerText="Exclure ! ">
+					<h:form>
+						<p:commandButton value="Exclure"
+							action="#{manageSalonBean.excludeAccount(registeredProfiles.id)}" />
+					</h:form>
 				</p:column>
 
 			</p:dataTable>

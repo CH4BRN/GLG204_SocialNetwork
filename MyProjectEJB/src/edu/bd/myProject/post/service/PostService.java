@@ -15,4 +15,6 @@ public interface PostService {
 
 	public List<Post> obtenirPourUnSalon(Salon thisSalon);
 
+	public List<Post> obtenirPourUnProfil(String profileId);
+
 }

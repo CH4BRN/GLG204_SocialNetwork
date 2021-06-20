@@ -1,6 +1,7 @@
 // SalonServiceImpl.java - Copyright pierr
 package edu.bd.myProject.salons.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -12,6 +13,7 @@ import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.invitation.dao.InvitationDao;
 import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.invitation.service.InvitationService;
+import edu.bd.myProject.mailing.service.MailingService;
 import edu.bd.myProject.post.dao.PostsDao;
 import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.post.service.PostService;
@@ -27,6 +29,8 @@ import edu.bd.myProject.salons.service.SalonService;
  */
 @Stateless
 public class SalonServiceImpl implements SalonService {
+
+	private String INVITATION_MESSAGE = "Bonjour ! Vous avez reçu une invitation pour entrer sur InCognito";
 
 	@Inject
 	SalonDao salonDao;
@@ -49,6 +53,9 @@ public class SalonServiceImpl implements SalonService {
 	@Inject
 	InvitationService invitationService;
 
+	@Inject
+	MailingService mailingService;
+
 	/**
 	 * @throws InCognitoDaoException
 	 * @see edu.bd.myProject.salons.service.SalonService#creerSalon(java.lang.String,
@@ -63,14 +70,16 @@ public class SalonServiceImpl implements SalonService {
 			salon.setPersitant(isPersistant);
 			this.salonDao.inserer(salon);
 
-			for (String string : emails) {
+			for (String mail : emails) {
 				try {
-					Compte destinataire = compteDao.obtenirParEmail(string);
+					Compte destinataire = compteDao.obtenirParEmail(mail);
 					if (destinataire != null) {
 						this.invitationService.insererInvitation(createur, destinataire, salon);
+					} else {
+						this.mailingService.envoyerMail(mail, createur, "Invitation", INVITATION_MESSAGE);
 					}
 
-				} catch (InCognitoDaoException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -156,6 +165,24 @@ public class SalonServiceImpl implements SalonService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public Salon addEmailsToSalon(Salon salon, ArrayList<String> emailsToAdd, Compte createur) {
+		for (String mail : emailsToAdd) {
+			try {
+				Compte destinataire = compteDao.obtenirParEmail(mail);
+				if (destinataire != null) {
+					this.invitationService.insererInvitation(createur, destinataire, salon);
+				} else {
+					this.mailingService.envoyerMail(mail, createur, "Invitation", INVITATION_MESSAGE);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 }

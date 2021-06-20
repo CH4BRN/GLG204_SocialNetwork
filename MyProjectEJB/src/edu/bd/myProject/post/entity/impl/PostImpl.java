@@ -1,6 +1,9 @@
 package edu.bd.myProject.post.entity.impl;
 
+import java.text.DateFormat;
+import java.time.format.TextStyle;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,13 +25,15 @@ public class PostImpl implements Post {
 	@Column(name = "titre")
 	private String titre;
 
-	@ManyToOne(targetEntity = SalonImpl.class, cascade = CascadeType.REMOVE)
+	@ManyToOne(targetEntity = SalonImpl.class)
 	private Salon salon;
 
-	@ManyToOne(targetEntity = ProfileImpl.class, cascade = CascadeType.REMOVE)
+	@ManyToOne(targetEntity = ProfileImpl.class)
 	private Profile profile;
 
 	private String body;
+
+	private String strDate;
 
 	@Id()
 	@GeneratedValue(generator = "uuid")
@@ -99,6 +104,20 @@ public class PostImpl implements Post {
 	@Override
 	public void setDate(Date date) {
 		this.date = date;
+
+	}
+
+	@Override
+	public String getStrDate() {
+		DateFormat fullDateFormat = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL,
+				new Locale("FR", "fr"));
+		this.strDate = fullDateFormat.format(this.date);
+		return strDate;
+	}
+
+	@Override
+	public void setStrDate(String date) {
+		// TODO Auto-generated method stub
 
 	}
 

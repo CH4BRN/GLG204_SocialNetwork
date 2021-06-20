@@ -1,5 +1,6 @@
 package edu.bd.myProject.salons.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -22,5 +23,7 @@ public interface SalonService {
 	public Salon obtenirSalonParNom(String nom) throws Exception;
 
 	public Salon supprimerSalon(Salon id) throws InCognitoDaoException;
+
+	public Salon addEmailsToSalon(Salon salonToManage, ArrayList<String> emailsToAdd, Compte createur);
 
 }

@@ -26,10 +26,11 @@ public class PostDaoImpl extends GenericDaoImpl implements PostsDao {
 	}
 
 	@Override
-	public Post supprimer(Post t) throws InCognitoDaoException {
+	public Post supprimer(Post post) throws InCognitoDaoException {
 		try {
-			this.getEm().remove(t);
-			return t;
+			post = this.getEm().merge(post);
+			this.getEm().remove(post);
+			return post;
 		} catch (Exception e) {
 			throw new InCognitoDaoException("Erreur supprimer", e);
 		}
@@ -76,4 +77,15 @@ public class PostDaoImpl extends GenericDaoImpl implements PostsDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Post> obtenirPourUnProfil(String profileId) throws InCognitoDaoException {
+		try {
+			return (List<Post>) this.getEm().createQuery("SELECT p FROM PostImpl p WHERE p.profile.id = :profileId")
+					.setParameter("profileId", profileId).getResultList();
+		} catch (Exception e) {
+			throw new InCognitoDaoException("Erreur obtenir pour un profil", e);
+		}
+
+	}
 }

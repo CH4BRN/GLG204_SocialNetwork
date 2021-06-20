@@ -50,9 +50,25 @@ public class Bootstrap {
 		try {
 			initializeAdmin();
 			initializeUser();
+			initializeUserBrique();
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+
+	}
+
+	private void initializeUserBrique() throws Exception {
+		Compte compte = comptesDao.obtenirNouvelleEntité();
+		compte.setEmail("erreipantoine@gmail.com");
+		compte.setIsActif(true);
+		compte.setLogin("Pierre");
+		compte.setMotDePasse("SECRET");
+		compte.setIsAdmin(false);
+		try {
+			comptesDao.inserer(compte);
+		} catch (InCognitoDaoException e) {
+			throw new Exception("Erreur insertion user", e);
 		}
 
 	}

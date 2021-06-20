@@ -8,6 +8,38 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	<style>
+.custom-marker {
+	display: flex;
+	width: 2rem;
+	height: 2rem;
+	align-items: center;
+	justify-content: center;
+	color: #ffffff;
+	border-radius: 50%;
+	z-index: 1;
+}
+
+.ui-chronoline-event-content, .ui-chronoline-event-opposite {
+	line-height: 1;
+}
+
+@media screen and (max-width: 960px) {
+	.customized-chronoline .ui-chronoline-event:nth-child(even) {
+		flex-direction: row !important;
+	}
+	.customized-chronoline .ui-chronoline-event:nth-child(even) .ui-chronoline-event-content
+		{
+		text-align: left !important;
+	}
+	.customized-chronoline .ui-chronoline-event-opposite {
+		flex: 0;
+	}
+	.customized-chronoline .ui-card {
+		margin-top: 1rem;
+	}
+}
+</style>
 </h:head>
 <h:body>
 	<p:panelGrid>
@@ -74,31 +106,53 @@
 			</p:dataTable>
 		</p:tab>
 	</p:tabView>
+
+
+	<h:form>
+		<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Message: " />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:inputText value="#{postBean.newPostBody}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+					</p:column>
+					<p:column>
+						<p:commandButton value="poster"
+							action="#{postBean.publishNewPost()}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:dialog>
+	</h:form>
+
 	<p:panelGrid>
 		<p:row>
-			<h:form>
-				<p:column>
-					<p:outputLabel value="Poster quelque chose ..." />
-				</p:column>
-				<p:column>
-					<p:row>
-						<p:outputLabel value="Message: " />
-						<p:inputText value="#{postBean.newPostBody}" />
-					</p:row>
-				</p:column>
-				<p:column>
-					<p:commandButton value="poster"
-						action="#{postBean.publishNewPost()}" />
-				</p:column>
-			</h:form>
+
+			<p:column>
+				<p:commandButton value="Nouveau post" type="button"
+					onclick="PF('dlg').show();" />
+			</p:column>
+
 		</p:row>
 		<p:row>
-			<ui:repeat value="#{currentSalonBean.postedContent}" var="posts">
-				<li><h:outputLabel
-						value="#{posts.profile.pseudo} - #{posts.date}" /> <br /> <h:outputLabel
-						value=">> #{posts.body}" /></li>
-			</ui:repeat>
-
+			<div class="card">
+				<p:chronoline value="#{currentSalonBean.postedContent}" var="posts">
+			 #{posts.body}
+					<f:facet name="opposite">
+						<small class="text-secondary">#{posts.date} <br />
+							#{posts.profile.pseudo}
+						</small>
+					</f:facet>
+				</p:chronoline>
+			</div>
 		</p:row>
 	</p:panelGrid>
 	<script type="text/javascript">

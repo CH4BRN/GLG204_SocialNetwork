@@ -8,5 +8,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="E:/Windows/Downloads/eclipselink-3.0.1.v20210407-569c89c116/eclipselink/jlib/eclipselink.jar"/>
+	<classpathentry kind="lib" path="E:/Windows/Documents/javax.mail.jar"/>
+	<classpathentry kind="lib" path="E:/Windows/Documents/activation.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

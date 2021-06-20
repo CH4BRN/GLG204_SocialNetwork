@@ -14,4 +14,6 @@ public interface PostsDao extends IGenericDao<Post, String> {
 
 	public List<Post> obtenirPourUnSalon(Salon salon) throws InCognitoDaoException;
 
+	public List<Post> obtenirPourUnProfil(String profileId) throws InCognitoDaoException;
+
 }

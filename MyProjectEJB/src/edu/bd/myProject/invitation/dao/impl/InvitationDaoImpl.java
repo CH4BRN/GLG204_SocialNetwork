@@ -107,7 +107,7 @@ public class InvitationDaoImpl extends GenericDaoImpl implements InvitationDao {
 		try {
 			return (Invitation) this.getEm()
 					.createQuery("SELECT i FROM InvitationImpl i WHERE i.salon = :salon AND i.destinataire = :compte")
-					.setParameter("salonId", salon).setParameter("compteId", compte).getSingleResult();
+					.setParameter("salon", salon).setParameter("compte", compte).getSingleResult();
 		} catch (Exception e) {
 			throw new InCognitoDaoException("Erreur obtenir pour un salon", e);
 		}

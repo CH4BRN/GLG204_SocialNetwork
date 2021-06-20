@@ -203,15 +203,15 @@ public class CurrentSalonBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		try {
-			List<Profile> profiles = this.profileService.obtenirPourUnSalon(thisSalon);
-
-			if (profiles.size() == 0 && !this.thisSalon.getPersistant()) {
-				salonService.supprimerSalon(thisSalon);
+		if (!this.thisSalon.getPersistant()) {
+			List<Profile> profiles = this.profileService.obtenirActifsPourUnSalon(thisSalon);
+			if (profiles == null) {
+				try {
+					salonService.supprimerSalon(thisSalon);
+				} catch (InCognitoDaoException e) {
+					e.printStackTrace();
+				}
 			}
-		} catch (InCognitoDaoException e) {
-			e.printStackTrace();
 		}
 
 	}

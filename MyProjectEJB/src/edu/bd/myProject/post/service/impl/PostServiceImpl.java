@@ -46,10 +46,19 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<Post> obtenirPourUnSalon(Salon thisSalon) {
-		List<Post> posts;
 		try {
 			return postDao.obtenirPourUnSalon(thisSalon);
 		} catch (InCognitoDaoException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public List<Post> obtenirPourUnProfil(String profileId) {
+		try {
+			return postDao.obtenirPourUnProfil(profileId);
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
 		}

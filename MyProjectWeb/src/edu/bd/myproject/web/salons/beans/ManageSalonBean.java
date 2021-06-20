@@ -8,12 +8,19 @@ import javax.faces.annotation.FacesConfig;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.invitation.service.InvitationService;
+import edu.bd.myProject.post.dao.PostsDao;
+import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
+import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
 import edu.bd.myproject.web.navigation.beans.NavigationBean;
+import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 
 @Named("manageSalonBean")
 @FacesConfig(version = FacesConfig.Version.JSF_2_3)
@@ -26,6 +33,14 @@ public class ManageSalonBean {
 	@Inject
 	NavigationBean navigationBean;
 
+	@Named
+	@Inject
+	EmailInvitBean emailInvitBean;
+
+	@Named
+	@Inject
+	CurrentUserBean currentUserBean;
+
 	@Inject
 	ProfileDao profileDao;
 
@@ -33,7 +48,44 @@ public class ManageSalonBean {
 	SalonService salonService;
 
 	@Inject
+	ProfileService profileService;
+
+	@Inject
+	InvitationService invitationService;
+
+	@Inject
 	SalonDao salonDao;
+
+	@Inject
+	PostsDao postDao;
+
+	public String excludeAccount(String profileId) throws Exception {
+		System.out.println("Exclure : " + profileId);
+
+		try {
+			this.profileService.exclureProfile(salonToManage, profileId);
+			refreshRegisteredProfiles();
+
+		} catch (Exception e) {
+			throw e;
+		}
+		System.out.println("Exclue");
+		return navigationBean.getManageCurrentSalon();
+
+	}
+
+	public String invitNewEmails() {
+		System.out.println("INVIT ! ");
+		try {
+			this.salonService.addEmailsToSalon(this.salonToManage, emailInvitBean.getEmailsToAdd(),
+					currentUserBean.getCurrentAccount());
+			this.emailInvitBean.setEmailsToAdd(new ArrayList<String>());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "";
+	}
 
 	private ArrayList<Profile> registeredProfiles;
 
@@ -45,7 +97,7 @@ public class ManageSalonBean {
 		this.salonToManage = salonToManage;
 	}
 
-	public ArrayList<Profile> getRegisteredProfiles() throws Exception {
+	private void refreshRegisteredProfiles() throws Exception {
 		this.registeredProfiles = new ArrayList<Profile>();
 		if (salonToManage == null) {
 			throw new Exception("ERREUR : this salon est nul");
@@ -59,6 +111,12 @@ public class ManageSalonBean {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public ArrayList<Profile> getRegisteredProfiles() throws Exception {
+		refreshRegisteredProfiles();
+
 		return registeredProfiles;
 	}
 
