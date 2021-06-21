@@ -27,7 +27,7 @@ public class PostServiceImpl implements PostService {
 	 *      java.lang.String)
 	 */
 	@Override
-	public Post creerNouveauPost(Salon salon, Profile profile, String titre, String body) {
+	public Post creerNouveauPost(Salon salon, Profile profile, String titre, String body, String youtubeLink) {
 		Post post;
 		try {
 			post = postDao.obtenirNouvelleEntite();
@@ -35,6 +35,9 @@ public class PostServiceImpl implements PostService {
 			post.setProfile(profile);
 			post.setTitre(titre);
 			post.setBody(body);
+			if(youtubeLink != null) {
+				post.setYoutubeLink(youtubeLink);
+			}
 			postDao.inserer(post);
 			return post;
 		} catch (InCognitoDaoException e) {

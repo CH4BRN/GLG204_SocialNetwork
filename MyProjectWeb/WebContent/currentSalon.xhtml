@@ -2,13 +2,26 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<style>
+.datatable {
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 300px;
+}
+
+.posts {
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 900px;
+}
+
 .custom-marker {
 	display: flex;
 	width: 2rem;
@@ -69,7 +82,9 @@
 			<p:column>
 				<h:form>
 					<p:commandButton value="Modifier"
-						action="#{currentSalonBean.modifierSonProfil()}" />
+						action="#{currentSalonBean.modifierSonProfil()}">
+
+					</p:commandButton>
 				</h:form>
 			</p:column>
 			<p:column>
@@ -89,80 +104,111 @@
 		</p:row>
 	</p:panelGrid>
 
-	<p:tabView>
-		<p:tab>
-			<p:dataTable value="#{currentSalonBean.registeredProfiles}"
-				var="registeredProfiles" selectionMode="single"
-				rowKey="#{registeredProfiles.id}" rows="10">
-				<!--  ID -->
-				<p:column headerText="Id">
-					<h:outputText value="#{registeredProfiles.id}" />
-				</p:column>
-				<!--  PSEUDO  -->
-				<p:column headerText="Pseudo">
-					<h:outputText value="#{registeredProfiles.pseudo}" />
-				</p:column>
 
-			</p:dataTable>
-		</p:tab>
-	</p:tabView>
-
-
-
-	<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
-
-		<p:panelGrid>
-			<p:row>
-				<p:column>
-					<p:outputLabel value="Message: " />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-					<p:inputText value="#{postBean.newPostBody}" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
-				</p:column>
-				<p:column>
-					<p:commandButton value="poster"
-						action="#{postBean.publishNewPost()}" />
-				</p:column>
-			</p:row>
-		</p:panelGrid>
-		<h:form id="link_form">
-			<h:form rendered="#{postBean.isALink}">
-				<h1>LINK</h1>
-			</h:form>
-		</h:form>
-		<p:poll interval="1" update="link_form" />
-
-	</p:dialog>
 
 
 	<p:panelGrid>
-		<p:row>
 
+		<p:row>
+			<!--  USERS  -->
+			<p:column>
+				<p:tabView>
+					<p:tab>
+						<p:dataTable class="datatable"
+							value="#{currentSalonBean.registeredProfiles}"
+							var="registeredProfiles" selectionMode="single"
+							rowKey="#{registeredProfiles.id}" rows="10">
+							<!--  ID -->
+							<p:column headerText="Id">
+								<h:outputText value="#{registeredProfiles.id}" />
+							</p:column>
+							<!--  PSEUDO  -->
+							<p:column headerText="Pseudo">
+								<h:outputText value="#{registeredProfiles.pseudo}" />
+							</p:column>
+
+						</p:dataTable>
+					</p:tab>
+				</p:tabView>
+			</p:column>
+			<!--  POST  -->
 			<p:column>
 				<p:commandButton value="Nouveau post" type="button"
 					onclick="PF('dlg').show();" />
 			</p:column>
 
+			<!--  POSTS -->
+			<p:column>
+				<p:scrollPanel style="width:1000px;height:800px">
+					<div class="card">
+						<div class="posts">
+							<p:chronoline value="#{currentSalonBean.postedContent}"
+								var="posts">
+								
+			 #{posts.body} <br />
+								<br />
+								<p:media value="#{posts.youtubeLink}" width="425" height="344"
+									player="flash" />
+								<f:facet name="opposite">
+									<small class="text-secondary">#{posts.date} <br />
+										#{posts.profile.pseudo}
+									</small>
+								</f:facet>
+							</p:chronoline>
+						</div>
+					</div>
+				</p:scrollPanel>
+			</p:column>
+
 		</p:row>
-		<p:row>
-			<div class="card">
-				<p:chronoline value="#{currentSalonBean.postedContent}" var="posts">
-			 #{posts.body}
-					<f:facet name="opposite">
-						<small class="text-secondary">#{posts.date} <br />
-							#{posts.profile.pseudo}
-						</small>
-					</f:facet>
-				</p:chronoline>
-			</div>
-		</p:row>
+
 	</p:panelGrid>
+
+	<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
+		<h:form>
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Message: " />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:inputTextarea rows="5" cols="30"
+							value="#{postBean.newPostBody}" update=":link">
+							<p:ajax event="keyup" listener="#{postBean.getIsALink()}"
+								update="link" />
+						</p:inputTextarea>
+					</p:column>
+					<p:column>
+						<p:panel id="link">
+							<h:form
+								rendered="#{postBean.isALink and !postBean.isAYoutubeLink}">
+								<h1>LINK</h1>
+							</h:form>
+							<h:form rendered="#{postBean.isAYoutubeLink}">
+								<h1>YOUTUBE LINK</h1>
+								<p:media value="#{postBean.youtubeLink}" width="425"
+									height="344" player="flash" />
+								<h2>#{postBean.youtubeLink}</h2>
+							</h:form>
+						</p:panel>
+
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+					</p:column>
+					<p:column>
+						<p:commandButton value="poster"
+							action="#{postBean.publishNewPost()}" />
+
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+
 	<script type="text/javascript">
 		function pop(data) {
 			if (data.status == "success") {

@@ -53,12 +53,47 @@ public class PostBean {
 
 	private String newPostBody;
 
-	private boolean isALink = true;
+	private boolean isALink = false;
+
+	private boolean isAYoutubeLink = false;
+
+	private String youtubeLink = "";
+
+	public String getYoutubeLink() {
+		String youtubeLink = urlCheckerBean.getYoutubeUrl(newPostBody);
+		if (youtubeLink != null) {
+			this.youtubeLink = youtubeLink;
+		}
+		return this.youtubeLink;
+	}
+
+	public void setYoutubeLink(String youtubeLink) {
+		this.youtubeLink = youtubeLink;
+	}
 
 	public boolean getIsALink() {
-		System.out.println("is " + newPostBody + " a LINK ?  " + urlCheckerBean.verifierUrl(newPostBody));
+
 		isALink = urlCheckerBean.verifierUrl(newPostBody);
+		if (isALink) {
+			System.out.println("is " + newPostBody + " is a LINK ");
+		}
 		return isALink;
+	}
+
+	public boolean getIsAYoutubeLink() {
+		if (this.newPostBody == null) {
+			isAYoutubeLink = false;
+			return isAYoutubeLink;
+		}
+		this.youtubeLink = urlCheckerBean.getYoutubeUrl(newPostBody);
+
+		if (this.youtubeLink != null) {
+			System.out.println("is " + newPostBody + " is a YOUTUBE LINK ");
+			isAYoutubeLink = true;
+		} else {
+			isAYoutubeLink = false;
+		}
+		return isAYoutubeLink;
 	}
 
 	public void setALink(boolean isALink) {
@@ -89,7 +124,7 @@ public class PostBean {
 		Profile profile;
 		try {
 			profile = profileDao.obtenirPourUnCompteEtUnSalon(compte, salon);
-			postService.creerNouveauPost(salon, profile, this.newPostTitle, this.newPostBody);
+			postService.creerNouveauPost(salon, profile, this.newPostTitle, this.newPostBody, isAYoutubeLink?youtubeLink:null);
 			currentSalonBean.rafraichirPosts();
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.redirect(((HttpServletRequest) externalContext.getRequest()).getRequestURI());

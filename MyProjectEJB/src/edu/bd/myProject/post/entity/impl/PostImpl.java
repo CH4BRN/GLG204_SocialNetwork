@@ -35,6 +35,8 @@ public class PostImpl implements Post {
 
 	private String strDate;
 
+	private String youtubeLink;
+
 	@Id()
 	@GeneratedValue(generator = "uuid")
 	private String id;
@@ -118,6 +120,18 @@ public class PostImpl implements Post {
 	@Override
 	public void setStrDate(String date) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setYoutubeLink(String youtubeLink) {
+		this.youtubeLink = youtubeLink;
+
+	}
+
+	@Override
+	public String getYoutubeLink() {
+		return this.youtubeLink;
 
 	}
 

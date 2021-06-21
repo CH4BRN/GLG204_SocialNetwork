@@ -35,4 +35,8 @@ public interface Post {
 
 	public void setStrDate(String date);
 
+	public void setYoutubeLink(String youtubeLink);
+
+	public String getYoutubeLink();
+
 }

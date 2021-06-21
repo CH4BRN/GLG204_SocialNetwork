@@ -11,7 +11,7 @@ import edu.bd.myProject.salons.entity.Salon;
 @Local
 public interface PostService {
 
-	public Post creerNouveauPost(Salon salon, Profile profile, String titre, String body);
+	public Post creerNouveauPost(Salon salon, Profile profile, String titre, String body, String youtubeLink);
 
 	public List<Post> obtenirPourUnSalon(Salon thisSalon);
 
