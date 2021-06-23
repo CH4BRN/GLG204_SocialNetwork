@@ -8,82 +8,73 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head>
+<h:head>
+	<style type="text/css">
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+}
+</style>
+</h:head>
 <h:body>
-	<h1>Bienvenue sur InCognito</h1>
-	<h:form>
-		<p:outputLabel value="#{testBean.serviceValue}" />
-	</h:form>
-	<p:panelGrid>
-		<p:row>
-			<p:column>
-				<p:panelGrid>
-					<p:row>
-						<h:form>
-							<p:commandButton value="Créer compte"
-								action="#{navigationBean.getAccountCreation()}" />
-						</h:form>
-					</p:row>
-				</p:panelGrid>
-			</p:column>
-			<p:column>
-				<p:panelGrid>
-					<p:row>
-						<p:outputLabel value="Se connecter : " />
-					</p:row>
-					<p:row>
-						<h:form>
-							<p:panelGrid>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Login : " />
-									</p:column>
-									<p:column>
-										<p:inputText id="login" value="#{authenticationBean.login}">
-											<f:validator validatorId="authenticationLoginValidator" />
-										</p:inputText>
-									</p:column>
-									<p:column>
-										<p:message for="login" />
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Password" />
-									</p:column>
-									<p:column>
-										<p:inputText id="password"
-											value="#{authenticationBean.password}">
-											<f:validator validatorId="authenticationPasswordValidator" />
-										</p:inputText>
-									</p:column>
-									<p:column>
-										<p:message for="password" />
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column></p:column>
-									<p:column>
-										<p:messages id="authentMessages" />
-									</p:column>
-									<p:column>
-										<p:commandButton value="Valider" update="authentMessages"
-											action="#{authenticationBean.authentifier()}" ajax="false"></p:commandButton>
-									</p:column>
-								</p:row>
-							</p:panelGrid>
-						</h:form>
-					</p:row>
-				</p:panelGrid>
-			</p:column>
-		</p:row>
-		<p:row>
-			<p:column>
-				<!--  https://www.youtube.com/watch?v=yi0BBmyYIbI -->
-				<!--  https://www.youtube.com/v/yi0BBmyYIbI&amp;hl=en&amp;fs=1&amp; -->
-				<p:media value="http://www.youtube.com/v/yi0BBmyYIbI" width="425" height="344" player="flash"/>
-			</p:column>
-		</p:row>
+
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
+
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+
+
+		<h:outputText value="" />
+		<h:form>
+			<p:panelGrid columns="3" layout="grid">
+				<p:outputLabel value="Login : " />
+				<p:inputText id="login" value="#{authenticationBean.login}">
+					<f:validator validatorId="authenticationLoginValidator" />
+				</p:inputText>
+				<p:message for="login" />
+
+				<p:outputLabel value="Password : " />
+				<p:inputText id="password" value="#{authenticationBean.password}">
+					<f:validator validatorId="authenticationPasswordValidator" />
+				</p:inputText>
+				<p:message for="password" />
+
+				<p:outputLabel value="" />
+				<p:commandButton value="Valider" update="authentMessages"
+					action="#{authenticationBean.authentifier()}" ajax="false" />
+				<p:outputLabel value="" />
+
+			</p:panelGrid>
+		</h:form>
+		<h:outputText value="" />
+
+		<h:outputLabel value="" />
+		<p:messages id="authentMessages" />
+		<h:outputLabel value="" />
+
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value=" " />
+
+
+		<h:outputText value="" />
+		<h:form>
+			<p:commandButton value="Créer compte"
+				action="#{navigationBean.getAccountCreation()}" />
+		</h:form>
+		<h:outputText value="" />
 	</p:panelGrid>
+
+
 </h:body>
 </html>

@@ -1,6 +1,7 @@
 // AuthenticationLoginvalidator.java - Copyright pierr
 package edu.bd.myproject.web.authentication.validators;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
@@ -27,8 +28,13 @@ public class AuthenticationLoginvalidator extends StringValidator {
 	@Override
 	public void validate(FacesContext arg0, UIComponent arg1, String value) throws ValidatorException {
 		String login = value;
-		checkForNull(login);
-		checkForEmpty(login);
+		try {
+			checkForNull(login);
+			checkForEmpty(login);
+		} catch (Exception e) {
+			throw new ValidatorException(
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Vous devez entrer une valeur"));
+		}
 
 	}
 

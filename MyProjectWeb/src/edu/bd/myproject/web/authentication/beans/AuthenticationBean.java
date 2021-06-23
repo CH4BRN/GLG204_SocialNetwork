@@ -73,8 +73,8 @@ public class AuthenticationBean implements Serializable {
 		try {
 			service = this.authenticationService.authentifier(this.login, this.password);	
 		}catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Echec authentification " + e.getMessage(), null));
-			return navigationBean.getIndex();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Echec authentification ", null));
+			return "";
 		}
 		
 		Compte user = service.getUser();
@@ -112,14 +112,7 @@ public class AuthenticationBean implements Serializable {
 		System.out.println("Dashboard : " + service.getDashboard());
 		return service.getDashboard();
 
-		/*
-		 * } 
-		 * catch (Exception e) { 
-		 * throw new Exception(this.getClass().getSimpleName() + e.getMessage()); /* 
-		 * FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Echec authentification " + e.getMessage(), null)); 
-		 * return navigationBean.getIndex();
-		 */
-		// }
+	
 
 	}
 

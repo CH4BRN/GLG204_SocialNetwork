@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style type="text/css">
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+}
+
+.container {
+	height: 30px;
+	position: relative;
+}
+
+.center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+label {
+	display: block;
+	width: 200px;
+}
+
+.infoInput {
+	border: solid 1px #e0e0e0;
+}
+
+.companyHeaderGrid.ui-panel>*>tr, .companyHeaderGrid.ui-panel>*>tr>td {
+	border: none;
+}
+</style>
+</h:head>
+
+<h:body>
+	<!--  HEADER  -->
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
+
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+	</p:panelGrid>
+
+	<h:form>
+		<!--  MENU -->
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+
+			<p:menuitem value="Salons" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Invitations" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-user">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Paramètres" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-cog">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Deconnexion"
+				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
+				<f:param name="i" value="4" />
+			</p:menuitem>
+		</p:tabMenu>
+	</h:form>
+
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value=" " />
+		<h:outputText value="Gérer compte : " />
+		<h:outputText value=" " />
+
+		<h:outputText value=" " />
+		<h:outputText value=" " />
+		<h:outputText value=" " />
+
+		<h:outputText value=" " />
+		<h:form id="formInfos">
+			<p:panelGrid>
+				<p:row>
+					<p:column></p:column>
+					<p:column></p:column>
+					<p:column></p:column>
+					<p:column></p:column>
+				</p:row>
+				<p:row>
+
+					<p:column>
+						<h:outputLabel value="Login : " />
+					</p:column>
+					<p:column>
+
+						<p:outputLabel value="#{currentUserBean.newLogin}"
+							styleClass="infoInput"
+							rendered="#{!currentUserBean.modifyLoginState}" />
+						<p:inputText value="#{currentUserBean.newLogin}"
+							styleClass="infoInput"
+							rendered="#{currentUserBean.modifyLoginState}" id="loginInput">
+							<f:validator validatorId="inscriptionLoginValidator" />
+						</p:inputText>
+
+					</p:column>
+					<p:column>
+						<p:commandButton value="#{currentUserBean.loginAction}"
+							action="#{currentUserBean.loginModification()}"
+							update=":formInfos loginMessage" process=":formInfos" />
+					</p:column>
+					<p:column>
+						<p:message for="loginInput" styleClass="infoInput" />
+						<p:messages id="loginMessage" styleClass="infoInput" />
+					</p:column>
+
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Mot de passe : " />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{currentUserBean.newPassword}"
+							styleClass="infoInput"
+							rendered="#{!currentUserBean.modifyPasswordState}" />
+						<p:inputText value="#{currentUserBean.newPassword}"
+							styleClass="infoInput"
+							rendered="#{currentUserBean.modifyPasswordState}"
+							id="passwordInput">
+							<f:validator validatorId="inscriptionPasswordValidator" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:commandButton value="#{currentUserBean.passwordAction}"
+							action="#{currentUserBean.passwordModification()}"
+							update=":formInfos" process=":formInfos" />
+					</p:column>
+					<p:column>
+						<p:message for="passwordInput" styleClass="infoInput" />
+					</p:column>
+				</p:row>
+
+			</p:panelGrid>
+		</h:form>
+		<h:outputText value=" " />
+
+		<h:outputText value="" />
+		<h:outputText value="" />
+		<h:outputText value="" />
+
+		<h:outputText value="" />
+		<h:form>
+			<p:commandButton value="Sauver"
+				action="#{currentUserBean.saveNewInformations()}" />
+		</h:form>
+		<h:outputText value="" />
+
+	</p:panelGrid>
+</h:body>
+</html>

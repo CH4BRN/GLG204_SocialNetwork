@@ -57,8 +57,8 @@ public class CompteDaoImpl extends GenericDaoImpl implements CompteDao {
 	@Override
 	public Compte obtenirParLogin(String login) throws InCognitoDaoException {
 		try {
-			return (Compte) this.getEm().createNamedQuery("getAccount_byLogin").setParameter("login", login)
-					.getSingleResult();
+			return (Compte) this.getEm().createQuery("FROM CompteImpl c WHERE c.login = :login")
+					.setParameter("login", login).getSingleResult();
 
 		} catch (Exception e) {
 			return null;

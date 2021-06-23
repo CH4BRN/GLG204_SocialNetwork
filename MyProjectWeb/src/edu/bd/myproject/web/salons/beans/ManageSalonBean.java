@@ -129,7 +129,7 @@ public class ManageSalonBean {
 			salonDao.modifier(salonToManage);
 			return navigationBean.getManageCurrentSalon();
 		} catch (Exception e) {
-			return navigationBean.getManageSalon();
+			return navigationBean.getManageSalons();
 		}
 	}
 

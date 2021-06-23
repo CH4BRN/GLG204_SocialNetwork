@@ -82,7 +82,7 @@ public class Bootstrap {
 
 			Profile profile = profileService.createProfile("BOLOGNAISE", compte, salon);
 
-			postService.creerNouveauPost(salon, profile, "CHEVAL ?", "Bonjour ! ");
+			postService.creerNouveauPost(salon, profile, "CHEVAL ?", "Bonjour ! ", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

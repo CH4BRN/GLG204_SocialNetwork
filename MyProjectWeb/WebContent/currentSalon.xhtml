@@ -144,8 +144,9 @@
 						<div class="posts">
 							<p:chronoline value="#{currentSalonBean.postedContent}"
 								var="posts">
-								
-			 #{posts.body} <br />
+
+								<p:outputLabel value="#{posts.body}" />
+								<br />
 								<br />
 								<p:media value="#{posts.youtubeLink}" width="425" height="344"
 									player="flash" />

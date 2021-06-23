@@ -7,58 +7,83 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+	<style type="text/css">
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+}
+</style>
 </h:head>
 <h:body>
-	<h1>
-		<p:outputLabel value="User Dashboard" />
-	</h1>
-	<h2>
-		<p:outputLabel
-			value="Bienvenue, #{currentUserBean.currentAccount.login}" />
-	</h2>
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
 
-	<p:panelGrid>
-		<p:row>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Gerer salons"
-						action="#{navigationBean.getManageSalon()}" />
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Consulter invitations"
-						action="#{navigationBean.getManageInvitations()}" />
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Se déconnecter"
-						action="#{currentUserBean.seDeconnecter()}" />
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:growl id="messages" showDetail="true" />
-					<p:commandButton value="Supprimer son compte"
-						action="#{currentUserBean.supprimerSonCompte()}" update="messages">
-
-						<p:confirm header="Confirmation" message="Etes vous sûr ?"
-							icon="ui-icon-alert" />
-					</p:commandButton>
-
-
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-						responsive="true">
-						<p:commandButton value="Yes" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						<p:commandButton value="No" type="button"
-							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-					</p:confirmDialog>
-
-				</h:form>
-			</p:column>
-		</p:row>
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
 	</p:panelGrid>
+
+
+
+	<h:form>
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+
+			<p:menuitem value="Salons" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Invitations" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-user">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Paramètres" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-cog">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Deconnexion"
+				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
+				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
+			</p:menuitem>
+		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<p:panel>
+			<h1>
+				<p:outputLabel
+					value="Bienvenue, #{currentUserBean.currentAccount.login}" />
+			</h1>
+		</p:panel>
+
+		<h:outputText value="" />
+
+	</p:panelGrid>
+
+
 </h:body>
 </html>

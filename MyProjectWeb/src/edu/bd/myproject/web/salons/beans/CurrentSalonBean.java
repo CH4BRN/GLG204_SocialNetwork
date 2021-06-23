@@ -90,7 +90,7 @@ public class CurrentSalonBean implements Serializable {
 			System.out.println(e.getMessage());
 		}
 
-		return navigationBean.getCreateProfile();
+		return navigationBean.getProfileCreation();
 
 	}
 

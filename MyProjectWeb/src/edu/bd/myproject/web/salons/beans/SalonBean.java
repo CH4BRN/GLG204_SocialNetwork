@@ -122,7 +122,7 @@ public class SalonBean {
 
 		Salon salon = this.salonService.obtenirSalonParNom(newSalonName);
 		if (salon == null) {
-			return navigationBean.getCreateSalon();
+			return navigationBean.getSalonCreation();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Le salon existe déjà", null));
@@ -185,13 +185,13 @@ public class SalonBean {
 			salon = salonService.obtenirSalonParId(id);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return navigationBean.getManageSalon();
+			return navigationBean.getManageSalons();
 		}
 
 		profileBean.setSalon(salon);
 		profileBean.setCompte(currentUserBean.getCurrentAccount());
 		this.currentSalonBean.setThisSalon(salon);
-		return navigationBean.getCreateProfile();
+		return navigationBean.getProfileCreation();
 	}
 
 	public String gererSalon(String id) {
@@ -202,7 +202,7 @@ public class SalonBean {
 			return navigationBean.getManageCurrentSalon();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return navigationBean.getManageSalon();
+			return navigationBean.getManageSalons();
 		}
 
 	}

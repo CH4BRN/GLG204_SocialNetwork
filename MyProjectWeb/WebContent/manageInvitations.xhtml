@@ -8,8 +8,59 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+	<style type="text/css">
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+}
+</style>
 </h:head>
 <h:body>
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
+
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+	</p:panelGrid>
+
+
+	<h:form>
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+
+			<p:menuitem value="Salons" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Invitations" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-user">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Paramètres" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-cog">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Deconnexion"
+				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
+				<f:param name="i" value="4" />
+			</p:menuitem>
+		</p:tabMenu>
+	</h:form>
 	<h:form>
 		<p:outputLabel
 			value="Invitations pour #{currentUserBean.currentAccount.login}" />
