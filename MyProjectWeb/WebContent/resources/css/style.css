@@ -1,0 +1,99 @@
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+	border-color: white;
+	border: none !important;
+	border-style: none !important;
+	border-width: 0px !important;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+	border: none !important;
+	border-style: none !important;
+	border-width: 0px !important;
+	border-color: white;
+	border-style: none !important;
+	border-width: 0px !important;
+}
+
+.datatable {
+	border: none !important;
+	border-style: none !important;
+	border-width: 0px !important;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 300px;
+}
+
+.posts {
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 900px;
+}
+
+.ui-panel.ui-widget .ui-widget-content .ui-corner-all .page_header {
+	text-align: center;
+	background: #333333;
+}
+
+.custom-marker {
+	display: flex;
+	width: 2rem;
+	height: 2rem;
+	align-items: center;
+	justify-content: center;
+	color: #ffffff;
+	border-radius: 50%;
+	z-index: 1;
+}
+
+.ui-chronoline-event-content, .ui-chronoline-event-opposite {
+	line-height: 1;
+}
+
+@media screen and (max-width: 960px) {
+	.customized-chronoline .ui-chronoline-event:nth-child(even) {
+		flex-direction: row !important;
+	}
+	.customized-chronoline .ui-chronoline-event:nth-child(even) .ui-chronoline-event-content
+		{
+		text-align: left !important;
+	}
+	.customized-chronoline .ui-chronoline-event-opposite {
+		flex: 0;
+	}
+	.customized-chronoline .ui-card {
+		margin-top: 1rem;
+	}
+}
+
+.container {
+	height: 30px;
+	position: relative;
+}
+
+.center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+label {
+	display: block;
+	width: 200px;
+}
+
+.infoInput {
+	border: solid 1px #e0e0e0;
+}
+
+.ui-panelgrid, .ui-panelgrid td, .ui-panelgrid tr, .ui-panelgrid tbody tr td
+	{
+	border: none !important;
+	border-style: none !important;
+	border-width: 0px !important;
+}

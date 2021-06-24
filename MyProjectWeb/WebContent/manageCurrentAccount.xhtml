@@ -8,46 +8,11 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<style type="text/css">
-.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: center;
-}
 
-.customPanelGrid .ui-panelgrid-content {
-	align-items: center;
-}
-
-.container {
-	height: 30px;
-	position: relative;
-}
-
-.center {
-	margin: 0;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-}
-
-label {
-	display: block;
-	width: 200px;
-}
-
-.infoInput {
-	border: solid 1px #e0e0e0;
-}
-
-.companyHeaderGrid.ui-panel>*>tr, .companyHeaderGrid.ui-panel>*>tr>td {
-	border: none;
-}
-</style>
 </h:head>
 
 <h:body>
+	<h:outputStylesheet library="css" name="style.css" />
 	<!--  HEADER  -->
 	<p:panelGrid columns="3" layout="grid"
 		styleClass="showcase-text-align-center">
@@ -87,9 +52,31 @@ label {
 			<p:menuitem value="Deconnexion"
 				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
 				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
 			</p:menuitem>
 		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
 	</h:form>
+
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<p:panel border="0">
+			<h1>
+				<p:outputLabel value="Quelque chose à changer ?" />
+			</h1>
+		</p:panel>
+
+		<h:outputText value="" />
+
+	</p:panelGrid>
 
 	<p:panelGrid columns="3" layout="grid"
 		styleClass="showcase-text-align-center">

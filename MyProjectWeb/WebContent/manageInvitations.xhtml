@@ -8,18 +8,10 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<style type="text/css">
-.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: center;
-}
 
-.customPanelGrid .ui-panelgrid-content {
-	align-items: center;
-}
-</style>
 </h:head>
 <h:body>
+	<h:outputStylesheet library="css" name="style.css" />
 	<p:panelGrid columns="3" layout="grid"
 		styleClass="showcase-text-align-center">
 		<h:outputText value="" />
@@ -58,9 +50,30 @@
 			<p:menuitem value="Deconnexion"
 				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
 				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
 			</p:menuitem>
 		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
 	</h:form>
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<p:panel border="0">
+			<h1>
+				<p:outputLabel value="Qui vous invite ?" />
+			</h1>
+		</p:panel>
+
+		<h:outputText value="" />
+
+	</p:panelGrid>
 	<h:form>
 		<p:outputLabel
 			value="Invitations pour #{currentUserBean.currentAccount.login}" />

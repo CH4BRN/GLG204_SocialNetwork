@@ -8,75 +8,140 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
-	<h1>
-		<p:outputLabel value="Creer salon" />
-	</h1>
+	<h:outputStylesheet library="css" name="style.css" />
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
 
-	<h2>
-		<p:outputLabel value="Salon : #{salonBean.newSalonName} " />
-	</h2>
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+	</p:panelGrid>
 
+	<h:form>
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
 
-	<p:panelGrid>
-		<p:row>
-			<h:form>
-				<p:column>
-					<p:outputLabel value="Inviter quelqu'un : " />
-				</p:column>
-				<p:column>
-					<p:inputText value="#{invitSomeoneBean.adresseEmail}"
-						id="invitEmail">
-						<f:validator validatorId="emailFormatValidator" />
-					</p:inputText>
-				</p:column>
-				<p:column>
-					<p:commandButton value="inviter"
-						action="#{invitSomeoneBean.addEmail()}" ajax="false" />
-				</p:column>
-				<p:column>
-					<p:message for="invitEmail" />
-				</p:column>
-			</h:form>
-		</p:row>
+			<p:menuitem value="Salons" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Invitations" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-user">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Paramètres" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-cog">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Deconnexion"
+				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
+				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
+			</p:menuitem>
+		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<p:panel border="0">
+			<h1>
+				<p:outputLabel value="Salon créé ..." />
+			</h1>
+			<h1>
+				<p:outputLabel value="On invite quelqu'un ?" />
+			</h1>
+		</p:panel>
+
+		<h:outputText value="" />
+
+	</p:panelGrid>
+
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<p:panel border="0">
+			<h2>
+				<p:outputLabel
+					value="Votre nouveau salon s'appelle : #{salonBean.newSalonName} " />
+			</h2>
+		</p:panel>
+		<h:outputText value="" />
+
+		<h:outputText value="" />
+		<p:panelGrid>
+			<p:row>
+				<h:form>
+					<p:column>
+						<p:outputLabel value="Inviter quelqu'un : " />
+					</p:column>
+					<p:column>
+						<p:inputText value="#{invitSomeoneBean.adresseEmail}"
+							id="invitEmail">
+							<f:validator validatorId="emailFormatValidator" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:commandButton value="inviter"
+							action="#{invitSomeoneBean.addEmail()}" ajax="false" />
+					</p:column>
+					<p:column>
+						<p:message for="invitEmail" />
+					</p:column>
+				</h:form>
+			</p:row>
+		</p:panelGrid>
+		<h:outputText value="" />
+
+	</p:panelGrid>
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+
+		<p:column></p:column>
+		<p:column>
+			<p:scrollPanel style="width:500px;height:400px">
+				<p:dataScroller value="#{invitSomeoneBean.emailList}" var="emails"
+					mode="inline" rows="5" chunkSize="5">
+					<f:facet name="header">Invités : </f:facet>
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="#{emails}" />
+							</p:column>
+							<p:column>
+								<h:form>
+									<p:commandButton value="Supprimer"
+										actionListener="#{invitSomeoneBean.deleteEmail(emails)}"
+										ajax="false" />
+								</h:form>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:dataScroller>
+			</p:scrollPanel>
+		</p:column>
+		<p:column></p:column>
 	</p:panelGrid>
 
 
-
-
-	<p:dataTable ide="emailsTable" value="#{invitSomeoneBean.emailList}"
-		var="emails" scrollRows="50" scrollable="true" liveScroll="true"
-		scrollHeight="150">
-		<p:column>
-			<p:outputLabel value="#{emails}" />
-		</p:column>
-		<p:column>
-			<h:form>
-				<p:commandButton value="Supprimer"
-					actionListener="#{invitSomeoneBean.deleteEmail(emails)}"
-					ajax="false" />
-			</h:form>
-		</p:column>
-	</p:dataTable>
-
-	<h:form>
-		<p:panelGrid>
-			<p:row>
-				<p:column>
-					<p:outputLabel value="Persistant ?" />
-				</p:column>
-				<p:column>
-					<p:selectBooleanCheckbox value="#{salonBean.isPersistant}"></p:selectBooleanCheckbox>
-				</p:column>
-				<p:column>
-					<p:commandButton value="Creer salon" update="existingMessages"
-						action="#{salonBean.creerSalon()}" ajax="false" />
-				</p:column>
-				<p:column>
-					<p:messages id="existingMessages" />
-				</p:column>
-			</p:row>
-		</p:panelGrid>
-	</h:form>
 </h:body>
 
 </html>

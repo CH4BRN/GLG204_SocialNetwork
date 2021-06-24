@@ -7,18 +7,10 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<style type="text/css">
-.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: center;
-}
 
-.customPanelGrid .ui-panelgrid-content {
-	align-items: center;
-}
-</style>
 </h:head>
 <h:body>
+	<h:outputStylesheet library="css" name="style.css" />
 	<p:panelGrid columns="3" layout="grid"
 		styleClass="showcase-text-align-center">
 		<h:outputText value="" />
@@ -56,63 +48,73 @@
 			<p:menuitem value="Deconnexion"
 				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
 				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
 			</p:menuitem>
 		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
 	</h:form>
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<p:panel border="0">
+			<h1>
+				<p:outputLabel value="Alors, ces salons ?" />
+			</h1>
+		</p:panel>
+
+		<h:outputText value="" />
+
+	</p:panelGrid>
 	<p:panelGrid>
-		<p:row>
-			<p:column>
-				<h1>
-					<p:outputLabel value="Manage salons" />
-				</h1>
-			</p:column>
-		</p:row>
-		<p:row>
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<h2>
-							<p:outputLabel
-								value="Bienvenue, #{currentUserBean.currentAccount.login}" />
-						</h2>
-					</p:column>
-					<p:column>
-						<h:form>
-							<p:commandButton value="retour"
-								action="#{navigationBean.getUserDahboard()}" />
-						</h:form>
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-		</p:row>
+
 
 		<p:row>
 			<p:panelGrid>
 				<p:row>
 					<p:panelGrid>
 						<p:row>
-							<h2>Mes salons :</h2>
-						</p:row>
-						<p:row>
-							<h:form>
+							<p:column>
+								<h2>Mes salons :</h2>
+							</p:column>
+							<p:column>
+								<h:form>
+									<p:commandButton value="Nouveau salon" type="button"
+										onclick="PF('salonDlg').show();" />
+								</h:form>
+							</p:column>
 
-								<p:column>
-									<p:inputText value="#{salonBean.newSalonName}">
-										<f:validator validatorId="salonNameValidator" />
-									</p:inputText>
-								</p:column>
-								<p:column>
-									<p:commandButton value="Creer nouveau salon"
-										action="#{salonBean.checkSalon()}" ajax="false"
-										update="salonName" />
-								</p:column>
-								<p:column>
-									<p:messages id="salonName" />
-								</p:column>
-							</h:form>
 						</p:row>
-
 					</p:panelGrid>
+
+					<!--  DIALOG SALON -->
+					<p:dialog header="Nouveau salon" widgetVar="salonDlg" modal="true">
+						<h:form>
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Nom : " />
+									</p:column>
+									<p:column>
+										<p:inputText value="#{salonBean.newSalonName}" />
+									</p:column>
+									<p:column>
+										<p:commandButton value="Creer"
+											action="#{salonBean.checkSalon()}" update="salonName" />
+									</p:column>
+									<p:column>
+										<p:messages id="salonName" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</h:form>
+					</p:dialog>
 
 					<p:tabView>
 						<p:tab>

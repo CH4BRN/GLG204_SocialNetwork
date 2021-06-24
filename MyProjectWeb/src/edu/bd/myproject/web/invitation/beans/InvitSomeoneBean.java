@@ -23,7 +23,7 @@ public class InvitSomeoneBean {
 		this.adresseEmail = adresseEmail;
 	}
 
-	private ArrayList<String> emailList = new ArrayList<String>(Arrays.asList("yo@an.com"));
+	private ArrayList<String> emailList = new ArrayList<String>();
 
 	public ArrayList<String> getEmailList() {
 		return emailList;
@@ -40,6 +40,8 @@ public class InvitSomeoneBean {
 	}
 
 	public void deleteEmail(String email) {
+		
 		this.emailList.remove(email);
+		System.out.println(email + " supprimé.");
 	}
 }

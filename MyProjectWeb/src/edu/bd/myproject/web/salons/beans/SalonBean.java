@@ -122,8 +122,10 @@ public class SalonBean {
 
 		Salon salon = this.salonService.obtenirSalonParNom(newSalonName);
 		if (salon == null) {
+			System.out.println("SALON NULL");
 			return navigationBean.getSalonCreation();
 		} else {
+			System.out.println("SALON EXISTE");
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Le salon existe déjà", null));
 			return "";
