@@ -12,6 +12,19 @@
 </h:head>
 <h:body>
 	<h:outputStylesheet library="css" name="style.css" />
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
+
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+	</p:panelGrid>
+
+	<h1>Salon : #{currentSalonBean.thisSalon.nom}</h1>
 	<p:panelGrid>
 		<p:row>
 		</p:row>

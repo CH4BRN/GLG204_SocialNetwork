@@ -10,63 +10,111 @@
 <h:head>
 </h:head>
 <h:body>
-<h:outputStylesheet library="css" name="style.css" />
-	<p:panelGrid>
-		<p:row>
-			<h1>Creation de profile</h1>
-		</p:row>
-		<p:row>
-			<p:column>
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<h2>Pour le compte :</h2>
-						</p:column>
-						<p:column>
-							<h2>#{currentUserBean.currentAccount.login}</h2>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<h2>Pour le salon :</h2>
-						</p:column>
-						<p:column>
-							<h2>#{currentSalonBean.thisSalon.nom}</h2>
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-			</p:column>
-			<p:column>
-				<p:panelGrid>
-					<p:row>
-						<h:form>
-							<p:column>
-								<p:outputLabel value="Pseudo : " />
-							</p:column>
-							<p:column>
-								<p:inputText value="#{profileBean.newProfileName}" />
-							</p:column>
-							<p:column>
-								<p:commandButton value="valider"
-									onclick="this.form.target='_blank'"
-									action="#{profileBean.createProfileForSalon()}" ajax="false" />
-							</p:column>
-						</h:form>
-					</p:row>
-				</p:panelGrid>
-			</p:column>
-			<p:column>
-				<p:row>
-					<p:column></p:column>
-					<p:column>
-						<h:form>
-							<p:commandButton value="retour"
-								action="#{navigationBean.getManageSalon()}" />
-						</h:form>
-					</p:column>
-				</p:row>
-			</p:column>
-		</p:row>
+	<h:outputStylesheet library="css" name="style.css" />
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+		<h:outputText value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<h:outputText value="" />
+
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
+		<h:outputLabel value="" />
 	</p:panelGrid>
+
+	<h:form>
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+
+			<p:menuitem value="Salons" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Invitations" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-user">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Paramètres" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-cog">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Deconnexion"
+				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
+				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
+			</p:menuitem>
+		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+
+		<p:outputLabel value="" />
+		<h1>Il est temps de créer un profil.</h1>
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+		<p:panel>
+			<h2>Pour le compte :</h2>
+			<h3>#{currentUserBean.currentAccount.login}</h3>
+			<h2>Pour le salon :</h2>
+			<h2>#{currentSalonBean.thisSalon.nom}</h2>
+		</p:panel>
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+
+
+		<p:outputLabel value="" />
+		<p:panelGrid>
+			<p:row>
+				<h:form>
+					<p:column>
+						<p:outputLabel value="Pseudo : " />
+					</p:column>
+					<p:column>
+						<p:inputText value="#{profileBean.newProfileName}" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="valider"
+							onclick="PF('profilCree').show();" />
+						<!--   onclick="this.form.target='_blank'"
+						action="#{profileBean.createProfileForSalon()}"
+						-->
+
+						<p:dialog header="Profil créé" widgetVar="profilCree" modal="true">
+							<h1>Profil "#{currentSalonBean.yourProfile.pseudo}" créé</h1>
+							<p:commandButton value="Rejoindre"
+								action="#{navigationBean.getCurrentSalon()}" />
+						</p:dialog>
+					</p:column>
+				</h:form>
+			</p:row>
+		</p:panelGrid>
+		<p:outputLabel value="" />
+
+	</p:panelGrid>
+
 </h:body>
 </html>

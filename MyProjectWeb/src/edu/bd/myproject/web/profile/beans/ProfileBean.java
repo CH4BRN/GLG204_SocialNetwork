@@ -90,7 +90,7 @@ public class ProfileBean implements Serializable {
 		this.newProfileName = newProfileName;
 	}
 
-	public String createProfileForSalon() throws Exception {
+	public void createProfileForSalon() throws Exception {
 		System.out.println("\n\nCREATE PROFILE FOR SALON\n\n");
 		Profile profile = null;
 		Compte currentAccount = getCompte();
@@ -106,7 +106,7 @@ public class ProfileBean implements Serializable {
 				profile = profileService.createProfile(this.newProfileName, this.getCompte(), this.salon);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return navigationBean.getProfileCreation();
+				//return navigationBean.getProfileCreation();
 			}
 			System.out.println("PROFILE : " + profile.toString());
 
@@ -116,7 +116,7 @@ public class ProfileBean implements Serializable {
 				profileService.mettreAJour(profile, newProfileName);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return navigationBean.getProfileCreation();
+				//return navigationBean.getProfileCreation();
 			}
 		}
 		try {
@@ -127,7 +127,7 @@ public class ProfileBean implements Serializable {
 			System.out.println(e.getMessage());
 		}
 
-		return navigationBean.getSuccesProfileCreation();
+		// return navigationBean.getSuccesProfileCreation();
 
 	}
 

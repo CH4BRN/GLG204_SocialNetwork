@@ -220,6 +220,7 @@
 	<p:dialog header="Invités" widgetVar="salonDlg" modale="true">
 		<h1>Invité</h1>
 		<h:form>
+			<p:growl id="growl" showDetail="true" />
 			<p:panelGrid columns="3" layout="grid" border="0"
 				styleClass="showcase-text-align-center">
 				<h:outputText value="" />
@@ -231,11 +232,12 @@
 				</p:scrollPanel>
 				<h:outputText value="" />
 				<p:commandButton value="Continuer d'inviter"
-					action="#{dialogBean.closeDialog()}" process="@form"
-					update="@form" />
+					action="#{dialogBean.closeDialog()}" process="@form" update="@form" />
 				<h:outputText value="" />
 				<p:commandButton value="Rejoindre "
-					action="#{currentSalonBean.rejoindreSalon()}" />
+					action="#{currentSalonBean.rejoindreSalon()}">
+					
+				</p:commandButton>
 
 			</p:panelGrid>
 		</h:form>
