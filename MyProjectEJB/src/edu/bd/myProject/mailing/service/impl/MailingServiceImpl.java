@@ -30,7 +30,8 @@ public class MailingServiceImpl implements MailingService {
 	public Boolean envoyerMail(String adresseDestinataire, Compte emetteur, String titre, String corps)
 			throws Exception {
 		boolean result = false;
-
+		return true;
+		/*
 		try {
 			String SMTP = "smtp.gmail.com";
 			String PORT = "587";
@@ -87,6 +88,7 @@ public class MailingServiceImpl implements MailingService {
 			throw new Exception("Erreur mail", erreurMessage);
 		}
 		return result;
+		*/
 	}
 
 }

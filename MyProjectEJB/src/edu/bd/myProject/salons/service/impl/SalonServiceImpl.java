@@ -76,7 +76,8 @@ public class SalonServiceImpl implements SalonService {
 					if (destinataire != null) {
 						this.invitationService.insererInvitation(createur, destinataire, salon);
 					} else {
-						 // this.mailingService.envoyerMail(mail, createur, "Invitation", INVITATION_MESSAGE);
+						// this.mailingService.envoyerMail(mail, createur, "Invitation",
+						// INVITATION_MESSAGE);
 					}
 
 				} catch (Exception e) {
@@ -180,9 +181,10 @@ public class SalonServiceImpl implements SalonService {
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				return null;
 			}
 		}
-		return null;
+		return salon;
 	}
 
 }

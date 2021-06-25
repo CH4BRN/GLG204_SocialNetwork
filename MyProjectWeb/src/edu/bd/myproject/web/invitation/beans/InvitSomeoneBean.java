@@ -2,6 +2,8 @@ package edu.bd.myproject.web.invitation.beans;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;
@@ -15,6 +17,7 @@ public class InvitSomeoneBean {
 	private String adresseEmail;
 
 	public String getAdresseEmail() {
+
 		return adresseEmail;
 	}
 
@@ -26,6 +29,7 @@ public class InvitSomeoneBean {
 	private ArrayList<String> emailList = new ArrayList<String>();
 
 	public ArrayList<String> getEmailList() {
+		emailList = new ArrayList<String>(new HashSet<String>(this.emailList));
 		return emailList;
 	}
 
@@ -40,7 +44,7 @@ public class InvitSomeoneBean {
 	}
 
 	public void deleteEmail(String email) {
-		
+
 		this.emailList.remove(email);
 		System.out.println(email + " supprimé.");
 	}

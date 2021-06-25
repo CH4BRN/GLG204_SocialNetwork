@@ -102,14 +102,27 @@
 										<p:outputLabel value="Nom : " />
 									</p:column>
 									<p:column>
-										<p:inputText value="#{salonBean.newSalonName}" />
+										<p:inputText value="#{salonBean.newSalonName}" id="salonName">
+											<f:validator validatorId="salonNameValidator" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+								<p:column>
+								<p:outputLabel value="Persistant : "/>
+								</p:column>
+								<p:column>
+								<p:selectBooleanButton onLabel="Oui" offLabel="Non" value="#{salonBean.isPersistant}"
+                                onIcon="pi pi-check" offIcon="pi pi-times" style="width:6rem" />
+								</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:commandButton value="Creer" 
+											action="#{salonBean.checkSalon()}" update="salonMessage" />
 									</p:column>
 									<p:column>
-										<p:commandButton value="Creer"
-											action="#{salonBean.checkSalon()}" update="salonName" />
-									</p:column>
-									<p:column>
-										<p:messages id="salonName" />
+										<p:message id="salonMessage" for="salonName" />
 									</p:column>
 								</p:row>
 							</p:panelGrid>

@@ -66,13 +66,19 @@ public class SalonBean {
 
 	private String newSalonName;
 
-	private Boolean isPersistant = false;
+	private Boolean isPersistant;
+
+	public void changePersistant() {
+		this.isPersistant = !this.isPersistant;
+		System.out.println("PERSISTANT");
+	}
 
 	public Boolean getIsPersistant() {
 		return isPersistant;
 	}
 
 	public void setIsPersistant(Boolean isPersistant) {
+		System.out.println("PERSISTANT");
 		this.isPersistant = isPersistant;
 	}
 
@@ -123,6 +129,9 @@ public class SalonBean {
 		Salon salon = this.salonService.obtenirSalonParNom(newSalonName);
 		if (salon == null) {
 			System.out.println("SALON NULL");
+
+			creerSalon();
+
 			return navigationBean.getSalonCreation();
 		} else {
 			System.out.println("SALON EXISTE");
@@ -131,17 +140,29 @@ public class SalonBean {
 			return "";
 		}
 	}
+	
+	public String inviter() throws Exception{
+		Salon salon = currentSalonBean.getThisSalon();
+		System.out.println("Inviter pour le salon = " + salon.getNom());
+		Compte createur = currentUserBean.getCurrentAccount();
+		ArrayList<String> emails = invitSomeoneBean.getEmailList();
+		
+		Salon result = salonService.addEmailsToSalon(salon, emails, createur);
+		if (result == null) {
+			
+		}
+		return "";
+	}
 
 	public String creerSalon() throws Exception {
 
 		Salon salon = null;
 		Compte createur = currentUserBean.getCurrentAccount();
-		List<String> emails = invitSomeoneBean.getEmailList();
 		String name = this.newSalonName;
 		boolean persistant = isPersistant;
 
-		salon = this.salonService.creerSalon(name, createur, emails, persistant);
-
+		salon = this.salonService.creerSalon(name, createur, new ArrayList<String>(), persistant);
+		System.out.println("Salon créé : ".toUpperCase() + salon.toString());
 		profileBean.setSalon(salon);
 		currentSalonBean.setThisSalon(salon);
 		profileBean.setCompte(createur);
@@ -151,7 +172,7 @@ public class SalonBean {
 		return navigationBean.getSuccesSalonCreation();
 	}
 
-	public void supprimerSalon(String id)  {
+	public void supprimerSalon(String id) {
 		try {
 			Salon salon = salonService.obtenirSalonParId(id);
 			if (salon == null) {
@@ -159,10 +180,10 @@ public class SalonBean {
 			}
 			System.out.println("SUPPRIMER : " + salon.getNom());
 			this.salonService.supprimerSalon(salon);
-			
+
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
-			return ;
+			return;
 		}
 		try {
 			rafraichirListe();

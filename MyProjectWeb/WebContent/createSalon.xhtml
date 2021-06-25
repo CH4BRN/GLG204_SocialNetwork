@@ -58,60 +58,49 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
 	</h:form>
+	<h:form>
+		<p:panelGrid columns="3" layout="grid" border="0"
+			styleClass="showcase-text-align-center">
 
-	<p:panelGrid columns="3" layout="grid" border="0"
-		styleClass="showcase-text-align-center">
-		<h:outputText value="" />
-		<p:panel border="0">
-			<h1>
-				<p:outputLabel value="Salon créé ..." />
-			</h1>
-			<h1>
-				<p:outputLabel value="On invite quelqu'un ?" />
-			</h1>
-		</p:panel>
+			<p:outputLabel value="" />
+			<p:panelGrid columns="1" layout="grid" border="0"
+				styleClass="showcase-text-align-center">
+				<h1>
+					<p:outputLabel
+						value="Salon '#{currentSalonBean.thisSalon.nom}' créé." />
+				</h1>
+			</p:panelGrid>
+			<p:outputLabel value="" />
 
-		<h:outputText value="" />
+			<p:outputLabel value="" />
+			<p:outputLabel value="On invite quelqu'un ?" />
+			<p:outputLabel value="" />
 
-	</p:panelGrid>
+			<p:outputLabel value="" />
+			<p:panel>
+				<p:panelGrid columns="3" layout="grid" border="0"
+					styleClass="showcase-text-align-center">
+					<p:outputLabel value="Inviter quelqu'un : " />
+					<p:inputText value="#{invitSomeoneBean.adresseEmail}"
+						id="invitEmail">
+						<f:validator validatorId="emailFormatValidator" />
+					</p:inputText>
+					<p:commandButton value="Valider"
+						action="#{invitSomeoneBean.addEmail()}" ajax="false" />
+				</p:panelGrid>
+			</p:panel>
+			<p:outputLabel value="" />
 
-	<p:panelGrid columns="3" layout="grid" border="0"
-		styleClass="showcase-text-align-center">
-		<h:outputText value="" />
-		<p:panel border="0">
-			<h2>
-				<p:outputLabel
-					value="Votre nouveau salon s'appelle : #{salonBean.newSalonName} " />
-			</h2>
-		</p:panel>
-		<h:outputText value="" />
+			<p:outputLabel value="" />
+			<p:message for="invitEmail" />
+			<p:outputLabel value="" />
 
-		<h:outputText value="" />
-		<p:panelGrid>
-			<p:row>
-				<h:form>
-					<p:column>
-						<p:outputLabel value="Inviter quelqu'un : " />
-					</p:column>
-					<p:column>
-						<p:inputText value="#{invitSomeoneBean.adresseEmail}"
-							id="invitEmail">
-							<f:validator validatorId="emailFormatValidator" />
-						</p:inputText>
-					</p:column>
-					<p:column>
-						<p:commandButton value="inviter"
-							action="#{invitSomeoneBean.addEmail()}" ajax="false" />
-					</p:column>
-					<p:column>
-						<p:message for="invitEmail" />
-					</p:column>
-				</h:form>
-			</p:row>
+
 		</p:panelGrid>
-		<h:outputText value="" />
 
-	</p:panelGrid>
+	</h:form>
+
+
 	<p:panelGrid columns="3" layout="grid" border="0"
 		styleClass="showcase-text-align-center">
 
@@ -120,7 +109,17 @@
 			<p:scrollPanel style="width:500px;height:400px">
 				<p:dataScroller value="#{invitSomeoneBean.emailList}" var="emails"
 					mode="inline" rows="5" chunkSize="5">
-					<f:facet name="header">Invités : </f:facet>
+					<f:facet name="header">
+						<p:panelGrid columns="3" layout="grid" border="0"
+							styleClass="showcase-text-align-center">
+							<p:outputLabel value="Invités" />
+							<p:outputLabel value="" />
+							<h:form>
+								<p:commandButton value="Inviter" action="#{salonBean.inviter()}"
+									type="button" onclick="PF('salonDlg').show();" />
+							</h:form>
+						</p:panelGrid>
+					</f:facet>
 					<p:panelGrid>
 						<p:row>
 							<p:column>
@@ -137,11 +136,110 @@
 					</p:panelGrid>
 				</p:dataScroller>
 			</p:scrollPanel>
+			<p:panelGrid columns="3" layout="grid" border="0"
+				styleClass="showcase-text-align-center">
+
+
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+
+			</p:panelGrid>
 		</p:column>
-		<p:column></p:column>
+
+
+		<p:column>
+			<p:dialog header="Salon créé" widgetVar="salonCree" modal="true">
+				<p:panelGrid>
+					<p:row>
+						<p:column></p:column>
+						<p:column>
+							<p:outputLabel value="Salon : " />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{currentSalonBean.thisSalon.nom}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column></p:column>
+						<p:column>
+							<p:outputLabel value="Date creation : " />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{currentSalonBean.thisSalon.dateCreation}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column></p:column>
+						<p:column>
+							<p:outputLabel value="Createur : " />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{currentSalonBean.thisSalon.createur.login}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column></p:column>
+						<p:column>
+							<p:outputLabel value="Persistant : " />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{currentSalonBean.thisSalon.persistant}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:form>
+								<p:commandButton value="Retour"
+									action="#{navigationBean.getManageSalons()}" />
+							</h:form>
+						</p:column>
+						<p:column>
+							<h:form>
+								<!-- 
+					<p:commandButton value="Rejoindre"
+						action="#{navigationBean.getCurrentSalon()}" />
+					-->
+								<p:commandButton value="Rejoindre"
+									action="#{currentSalonBean.rejoindreSalon()}" />
+							</h:form>
+						</p:column>
+					</p:row>
+
+				</p:panelGrid>
+			</p:dialog>
+		</p:column>
+		<p:column>
+			<p:messages id="existingMessages" />
+		</p:column>
+
 	</p:panelGrid>
+	<p:dialog header="Invités" widgetVar="salonDlg" modale="true">
+		<h1>Invité</h1>
+		<h:form>
+			<p:panelGrid columns="3" layout="grid" border="0"
+				styleClass="showcase-text-align-center">
+				<h:outputText value="" />
+				<p:scrollPanel style="width:250px;height:250px">
 
+					<p:repeat value="#{invitSomeoneBean.emailList}" var="emails">
+						<p:outputLabel value="#{emails}" />
+					</p:repeat>
+				</p:scrollPanel>
+				<h:outputText value="" />
+				<p:commandButton value="Continuer d'inviter"
+					action="#{dialogBean.closeDialog()}" process="@form"
+					update="@form" />
+				<h:outputText value="" />
+				<p:commandButton value="Rejoindre "
+					action="#{currentSalonBean.rejoindreSalon()}" />
 
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
 </h:body>
 
 </html>

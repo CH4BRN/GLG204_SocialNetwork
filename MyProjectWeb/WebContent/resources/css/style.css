@@ -7,6 +7,15 @@
 	border-width: 0px !important;
 }
 
+.ui-panelgrid.showcase-text-align-center.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+	border-color: white;
+	border: none !important;
+	border-style: none !important;
+	border-width: 0px !important;
+}
+
 .customPanelGrid .ui-panelgrid-content {
 	align-items: center;
 	border: none !important;
