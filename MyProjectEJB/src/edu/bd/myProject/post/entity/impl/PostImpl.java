@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,13 +30,14 @@ public class PostImpl implements Post {
 	private Salon salon;
 
 	@ManyToOne(targetEntity = ProfileImpl.class)
+	@JoinColumn(name = "profile", referencedColumnName = "id", nullable = false)
 	private Profile profile;
 
 	private String body;
 
 	private String strDate;
 
-	private String youtubeLink;
+	private String youtubeLink = null;
 
 	@Id()
 	@GeneratedValue(generator = "uuid")

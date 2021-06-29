@@ -4,19 +4,17 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import edu.bd.myProject.admin.service.AdminService;
-import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
-import edu.bd.myProject.framework.dao.InCognitoDaoException;
 
 @Singleton
 public class AdminServiceImpl implements AdminService {
 
 	Compte compte;
 
-	@Inject
-	CompteDao compteDao;
-	
+	// @Inject
+	// CompteDao compteDao;
+
 	@Inject
 	CompteService compteService;
 
@@ -39,44 +37,33 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Compte makeUserAdmin(String id) {
 		Compte compte;
-		try {
-			compte = compteDao.obtenir(id);
-			Boolean isAdmin = compte.getIsAdmin();
-			compte.setIsAdmin(!isAdmin);
-			compteDao.modifier(compte);
-			return compte;
-		} catch (InCognitoDaoException e) {
-			e.printStackTrace();
-			return null;
-		}
+		compte = compteService.obtenirUnCompte(id);
+		// compte = compteDao.obtenir(id);
+		Boolean isAdmin = compte.getIsAdmin();
+		compte.setIsAdmin(!isAdmin);
+		compteService.mettreAJourCompte(compte);
+		// compteDao.modifier(compte);
+		return compte;
 
 	}
 
 	@Override
 	public Compte makeUserActif(String id) {
-		Compte compte;
-		try {
-			compte = compteDao.obtenir(id);
-			Boolean isActif = compte.getIsActif();
-			compte.setIsActif(!isActif);
-			compteDao.modifier(compte);
-			return compte;
-		} catch (InCognitoDaoException e) {
-			e.printStackTrace();
-			return null;
-		}
+		Compte compte = compteService.obtenirUnCompte(id);
+		// compte = compteDao.obtenir(id);
+		Boolean isActif = compte.getIsActif();
+		compte.setIsActif(!isActif);
+		// compteDao.modifier(compte);
+		compteService.mettreAJourCompte(compte);
+		return compte;
+
 	}
 
 	@Override
 	public void supprimerUnCompteUtilisateur(String id) throws Exception {
-		try {
-			Compte compte = compteDao.obtenir(id);
-			compteService.supprimerCompte(compte);
-			
-		} catch (InCognitoDaoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		Compte compte = compteService.obtenirUnCompte(id);
+		compteService.supprimerCompte(compte);
 
 	}
 

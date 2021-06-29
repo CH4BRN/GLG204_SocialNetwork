@@ -113,9 +113,14 @@ public class NavigationBean implements Serializable {
 	private static final String MODIFY_PROFILE = "modifyProfile" + FACES_REDIRECT;
 	private static final String MANAGE_CURRENT_SALON = "manageCurrentSalon" + FACES_REDIRECT;
 	private static final String MANAGE_CURRENT_ACCOUNT = "manageCurrentAccount" + FACES_REDIRECT;
+	private static final String SEE_SALONS = "seeSalons" + FACES_REDIRECT;
 
 	@Inject
 	@Named("inscriptionBean")
 	InscriptionBean inscriptionBean;
+
+	public String getSeeSalons() {
+		return this.SEE_SALONS;
+	}
 
 }

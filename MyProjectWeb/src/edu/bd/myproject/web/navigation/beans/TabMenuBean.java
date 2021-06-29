@@ -34,6 +34,34 @@ public class TabMenuBean implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
+	public String doAdminWork() {
+		FacesContext fC = FacesContext.getCurrentInstance();
+		@SuppressWarnings("unchecked")
+		Map<String, String> params = (Map<String, String>) fC.getExternalContext().getRequestParameterMap();
+		String param = ((java.util.Map<String, String>) params).get("i");
+		System.out.println("Onglet : " + param);
+		index = Integer.valueOf(param);
+		switch (index) {
+		case 0:
+			System.out.println("DASHBOARD");
+			return navigationBean.getAdminDashboard();
+
+		case 1:
+			System.out.println("ACCOUNT");
+			return navigationBean.getSeeAccount();
+
+		case 2:
+			System.out.println("SALONS");
+			return navigationBean.getSeeSalons();
+
+		default:
+			break;
+		}
+		return "";
+
+	}
+
+	@SuppressWarnings("unchecked")
 	public String doSomeWork() {
 		FacesContext fC = FacesContext.getCurrentInstance();
 		@SuppressWarnings("unchecked")
@@ -47,6 +75,7 @@ public class TabMenuBean implements Serializable {
 		switch (index) {
 		case 0:
 			return navigationBean.getUserDashboard();
+
 		case 1:
 			return navigationBean.getManageSalons();
 		case 2:

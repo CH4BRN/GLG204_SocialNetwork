@@ -17,4 +17,8 @@ public interface InvitationService {
 
 	public Invitation refuserInvitation(String id) throws Exception;
 
+	public void supprimer(Invitation invitation) throws Exception;
+
+	public List<Invitation> obtenirInvitationsPourUnSalon(Salon salon) throws Exception;
+
 }

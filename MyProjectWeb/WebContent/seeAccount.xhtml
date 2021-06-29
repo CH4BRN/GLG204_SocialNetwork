@@ -9,7 +9,58 @@
 
 <h:head></h:head>
 <h:body>
-<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="style.css" />
+
+	<p:panelGrid columns="3" layout="grid"
+		styleClass="showcase-text-align-center">
+
+		<p:outputLabel value="" />
+		<h:graphicImage value="images/incognito.png" height="75px"
+			width="200px" />
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+
+	</p:panelGrid>
+	<h:form>
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doAdminWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+
+			<p:menuitem value="Comptes" action="#{tabMenuBean.doAdminWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Salons" action="#{tabMenuBean.doAdminWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+
+			<p:menuitem value="Deconnexion"
+				action="#{currentUserBean.seDeconnecter()}" icon="pi pi-power-off">
+				<f:param name="i" value="4" />
+				<p:confirm header="Confirmation" message="Etes vous sûr ?"
+					icon="ui-icon-alert" />
+			</p:menuitem>
+		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
 	<h1>See accounts</h1>
 	<h:form>
 		<p:commandButton value="Rafraichir"

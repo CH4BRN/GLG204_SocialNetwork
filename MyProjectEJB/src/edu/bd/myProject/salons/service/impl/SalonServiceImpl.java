@@ -7,18 +7,16 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
-import edu.bd.myProject.invitation.dao.InvitationDao;
 import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.invitation.service.InvitationService;
 import edu.bd.myProject.mailing.service.MailingService;
-import edu.bd.myProject.post.dao.PostsDao;
 import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.post.service.PostService;
-import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
+import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
@@ -36,19 +34,13 @@ public class SalonServiceImpl implements SalonService {
 	SalonDao salonDao;
 
 	@Inject
-	ProfileDao profileDao;
-
-	@Inject
-	InvitationDao invitationDao;
-
-	@Inject
-	PostsDao postDao;
+	ProfileService profileService;
 
 	@Inject
 	PostService postService;
 
 	@Inject
-	CompteDao compteDao;
+	CompteService compteService;
 
 	@Inject
 	InvitationService invitationService;
@@ -72,7 +64,7 @@ public class SalonServiceImpl implements SalonService {
 
 			for (String mail : emails) {
 				try {
-					Compte destinataire = compteDao.obtenirParEmail(mail);
+					Compte destinataire = compteService.obtenirCompteParEmail(mail);
 					if (destinataire != null) {
 						this.invitationService.insererInvitation(createur, destinataire, salon);
 					} else {
@@ -115,30 +107,36 @@ public class SalonServiceImpl implements SalonService {
 	}
 
 	@Override
-	public Salon supprimerSalon(Salon salon) throws InCognitoDaoException {
+	public Salon supprimerSalon(Salon salon) throws Exception {
 		try {
-			List<Post> posts = this.postDao.obtenirPourUnSalon(salon);
+			List<Post> posts = this.postService.obtenirPourUnSalon(salon);
 			if (posts != null) {
 				for (Post post : posts) {
-					this.postDao.supprimer(post);
+					this.postService.supprimer(post);
 				}
 			}
 
-			List<Profile> profiles = this.profileDao.obtenirPourUnSalon(salon);
+			List<Profile> profiles = this.profileService.getProfilesForSalon(salon);
 			if (profiles != null) {
 				for (Profile profile : profiles) {
-					this.profileDao.supprimer(profile);
+					List<Post> postQuiReste = postService.obtenirPourUnProfil(profile.getId());
+					for (Post post : postQuiReste) {
+						postService.supprimer(post);
+					}
+					this.profileService.supprimer(profile);
 				}
 			}
 
-			List<Invitation> invitations = this.invitationDao.obtenirTousPourUnSalon(salon);
+			List<Invitation> invitations = this.invitationService.obtenirInvitationsPourUnSalon(salon);
 			if (invitations != null) {
 				for (Invitation invitation : invitations) {
-					this.invitationDao.supprimer(invitation);
+					this.invitationService.supprimer(invitation);
+
 				}
 			}
 
 			salonDao.supprimer(salon);
+
 			return salon;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -172,7 +170,7 @@ public class SalonServiceImpl implements SalonService {
 	public Salon addEmailsToSalon(Salon salon, ArrayList<String> emailsToAdd, Compte createur) {
 		for (String mail : emailsToAdd) {
 			try {
-				Compte destinataire = compteDao.obtenirParEmail(mail);
+				Compte destinataire = this.compteService.obtenirCompteParEmail(mail);
 				if (destinataire != null) {
 					this.invitationService.insererInvitation(createur, destinataire, salon);
 				} else {
@@ -185,6 +183,17 @@ public class SalonServiceImpl implements SalonService {
 			}
 		}
 		return salon;
+	}
+
+	@Override
+	public List<Salon> obtenirTousLesSalons() {
+		try {
+			return this.salonDao.obtenirTous();
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

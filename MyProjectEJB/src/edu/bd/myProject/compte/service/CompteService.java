@@ -51,8 +51,9 @@ public interface CompteService {
 	 * 
 	 * @param compte
 	 * @return
+	 * @throws Exception 
 	 */
-	public Compte supprimerCompte(Compte compte);
+	public Compte supprimerCompte(Compte compte) throws Exception;
 
 	/**
 	 * Obtenir un {@linkplain Compte} par son email.
@@ -69,5 +70,7 @@ public interface CompteService {
 	 * @return
 	 */
 	public Compte obtenirCompteParLogin(String login);
+	
+	public Compte mettreAJourCompte(Compte compte);
 
 }

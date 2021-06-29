@@ -69,4 +69,25 @@ public class InvitationServiceImpl implements InvitationService {
 
 	}
 
+	@Override
+	public void supprimer(Invitation invitation) throws Exception {
+		try {
+			invitationDao.supprimer(invitation);
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public List<Invitation> obtenirInvitationsPourUnSalon(Salon salon) throws Exception {
+		try {
+			return invitationDao.obtenirTousPourUnSalon(salon);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 }

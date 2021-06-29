@@ -1,35 +1,26 @@
+body {
+	padding: 10px 50px 20px;
+}
+
 .ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
 	{
 	text-align: center;
-	border-color: white;
-	border: none !important;
-	border-style: none !important;
-	border-width: 0px !important;
 }
 
 .ui-panelgrid.showcase-text-align-center.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
 	{
 	text-align: center;
-	border-color: white;
-	border: none !important;
-	border-style: none !important;
-	border-width: 0px !important;
 }
 
 .customPanelGrid .ui-panelgrid-content {
 	align-items: center;
-	border: none !important;
-	border-style: none !important;
-	border-width: 0px !important;
-	border-color: white;
-	border-style: none !important;
-	border-width: 0px !important;
 }
 
 .datatable {
 	border: none !important;
 	border-style: none !important;
 	border-width: 0px !important;
+	border-color: white;
 	padding-left: 15px;
 	padding-right: 15px;
 	width: 300px;
@@ -43,7 +34,6 @@
 
 .ui-panel.ui-widget .ui-widget-content .ui-corner-all .page_header {
 	text-align: center;
-	background: #333333;
 }
 
 .custom-marker {
@@ -96,13 +86,36 @@ label {
 	width: 200px;
 }
 
+#profilPanel {
+	background-color: #5B712C;
+}
+
 .infoInput {
 	border: solid 1px #e0e0e0;
 }
 
 .ui-panelgrid, .ui-panelgrid td, .ui-panelgrid tr, .ui-panelgrid tbody tr td
 	{
-	border: none !important;
-	border-style: none !important;
-	border-width: 0px !important;
+	
+}
+
+#profilPanel.ui-panelgrid ui-widget custompanelgrid {
+	border-color: #4dd561;
+}
+
+.ui-panelgrid.ui-widget.profilePanel {
+	border-color: #4dd561;
+}
+
+.ui-custompanelgrid, .ui-custompanelgrid td {
+	font-weight: bold;
+	background-color: blue !important;
+}
+
+#j_idt4:j_idt84 {
+	padding: 10px 500px 20px;
+}
+
+.userTable.ui-datatable table {
+   width: auto;
 }

@@ -3,23 +3,19 @@ package edu.bd.myProject.profiles.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.spec.PSource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
-import edu.bd.myProject.invitation.dao.InvitationDao;
 import edu.bd.myProject.invitation.entity.Invitation;
-import edu.bd.myProject.post.dao.PostsDao;
+import edu.bd.myProject.invitation.service.InvitationService;
 import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.post.service.PostService;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
-import edu.bd.myProject.salons.dao.SalonDao;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
 
@@ -30,25 +26,16 @@ public class ProfileServiceImpl implements ProfileService {
 	CompteService compteService;
 
 	@Inject
-	CompteDao compteDao;
-
-	@Inject
 	SalonService salonService;
-
-	@Inject
-	SalonDao salonDao;
 
 	@Inject
 	ProfileDao profileDao;
 
 	@Inject
-	InvitationDao invitationDao;
+	InvitationService invitationService;
 
 	@Inject
 	PostService postService;
-
-	@Inject
-	PostsDao postDao;
 
 	@Override
 	public Profile createProfile(String pseudo, Compte compte, Salon salon) throws Exception {
@@ -103,10 +90,15 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public Profile supprimer(Profile profile) throws Exception {
-		List<Invitation> invitations = this.invitationDao.obtenirTousPourUnCompte(profile.getUser());
+		List<Invitation> invitations = this.invitationService.obtenirInvitationsPourCompte(profile.getUser());
 		for (Invitation invitation : invitations) {
-			invitationDao.supprimer(invitation);
+			invitationService.supprimer(invitation);
 		}
+		List<Post> posts = this.postService.obtenirPourUnProfil(profile.getId());
+		for (Post post : posts) {
+			postService.supprimer(post);
+		}
+
 		profile = this.profileDao.supprimer(profile);
 
 		return profile;
@@ -171,20 +163,31 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<String> exclureProfile(Salon salon, String profileId) throws Exception {
 
-		List<Post> posts = postDao.obtenirPourUnProfil(profileId);
+		List<Post> posts = postService.obtenirPourUnProfil(profileId);
 		List<String> postId = new ArrayList<String>();
 		for (Post post : posts) {
 			postId.add(post.getId());
 		}
 		for (String id : postId) {
 			System.out.println("ID : " + id);
-			Post post = postDao.obtenir(id);
+			Post post = postService.obtenir(id);
 			System.out.println("POST : " + post.getBody());
-			postDao.supprimer(post);
+			postService.supprimer(post);
 			System.out.println("DELETED");
 		}
 		profileDao.supprimer(profileDao.obtenir(profileId));
 		return postId;
+
+	}
+
+	@Override
+	public List<Profile> obtenirPourUnCompte(Compte compte) {
+		try {
+			return profileDao.obtenirPourUnCompte(compte.getId());
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+			return null;
+		}
 
 	}
 

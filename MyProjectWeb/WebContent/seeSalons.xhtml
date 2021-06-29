@@ -7,10 +7,11 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head>
+<h:head>
+</h:head>
 <h:body>
-	
 	<h:outputStylesheet library="css" name="style.css" />
+
 	<p:panelGrid columns="3" layout="grid"
 		styleClass="showcase-text-align-center">
 
@@ -28,7 +29,6 @@
 		<p:outputLabel value="" />
 
 	</p:panelGrid>
-
 	<h:form>
 		<p:tabMenu activeIndex="#{tabMenuBean.index}">
 			<p:menuitem value="Overview" action="#{tabMenuBean.doAdminWork()}"
@@ -62,30 +62,32 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
 	</h:form>
-	<h1>Admin dashboard</h1>
-	<h2>Bienvenu #{adminBean.login}</h2>
-	<p:panelGrid>
-		<p:row>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Voir les comptes"
-						action="#{navigationBean.getSeeAccount()}" />
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Se déconnecter"
-						action="#{adminBean.seDeconnecter()}" ajax="false" />
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Se déconnecter"
-						action="#{adminBean.seDeconnecter()}" ajax="false" />
-				</h:form>
-			</p:column>
-
-		</p:row>
-	</p:panelGrid>
+	<p:tabView>
+		<p:tab>
+			<p:dataTable value="#{salonBean.allTheSalon}" var="salons"
+				selectionMode="single" rowKey="#{salons.id}" paginator="true"
+				rows="10">
+				<!--  ID -->
+				<p:column headerText="ID">
+					<p:outputLabel value="#{salons.id}" />
+				</p:column>
+				<!--  Nom  -->
+				<p:column headerText="Nom">
+					<p:outputLabel value="#{salons.nom}" />
+				</p:column>
+				<!--  Signal -->
+				<p:column headerText="Signalé">
+					<p:outputLabel value="#{salons.signal}" />
+				</p:column>
+				<!--  supprimer -->
+				<p:column headerText="Supprimer">
+					<h:form>
+						<p:commandButton value="Supprimer"
+							action="#{salonBean.supprimerCeSalon(salons)}" />
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</p:tab>
+	</p:tabView>
 </h:body>
 </html>

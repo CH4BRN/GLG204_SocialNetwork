@@ -70,7 +70,7 @@ public class PostDaoImpl extends GenericDaoImpl implements PostsDao {
 	@Override
 	public List<Post> obtenirPourUnSalon(Salon salon) throws InCognitoDaoException {
 		try {
-			return (List<Post>) this.getEm().createQuery("SELECT p FROM PostImpl p WHERE p.salon = :salon")
+			return (List<Post>) this.getEm().createQuery("FROM PostImpl p WHERE p.salon = :salon")
 					.setParameter("salon", salon).getResultList();
 		} catch (Exception e) {
 			throw new InCognitoDaoException("Erreur obtenir pour un salon", e);

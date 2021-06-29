@@ -4,6 +4,7 @@ package edu.bd.myProject.salons.entity.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.entity.impl.CompteImpl;
 import edu.bd.myProject.invitation.entity.Invitation;
 import edu.bd.myProject.invitation.entity.impl.InvitationImpl;
+import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.entity.impl.ProfileImpl;
 import edu.bd.myProject.salons.entity.Salon;
@@ -40,6 +42,16 @@ public class SalonImpl implements Salon {
 
 	private Boolean isPersistant = false;
 
+	private Boolean signal = false;
+
+	public Boolean getSignal() {
+		return signal;
+	}
+
+	public void setSignal(Boolean signal) {
+		this.signal = signal;
+	}
+
 	@Column(name = "nom", unique = true, nullable = false)
 	private String nom;
 
@@ -52,11 +64,14 @@ public class SalonImpl implements Salon {
 	@ManyToOne(targetEntity = CompteImpl.class)
 	private Compte createur;
 
-	@OneToMany(targetEntity = InvitationImpl.class)
+	@OneToMany(targetEntity = InvitationImpl.class, cascade = CascadeType.REMOVE)
 	private List<Invitation> invitations;
 
-	@OneToMany(targetEntity = ProfileImpl.class)
+	@OneToMany(targetEntity = ProfileImpl.class, cascade = CascadeType.REMOVE)
 	private List<Profile> profiles;
+
+	@OneToMany(targetEntity = ProfileImpl.class, cascade = CascadeType.REMOVE)
+	private List<Post> posts;
 
 	/**
 	 * @see edu.bd.myProject.salons.entity.Salon#getNom()

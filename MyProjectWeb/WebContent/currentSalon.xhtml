@@ -11,182 +11,237 @@
 <h:head>
 </h:head>
 <h:body>
+	<style type="text/css">
+.ui-stack {
+	z-index: 1000;
+}
+</style>
+
 	<h:outputStylesheet library="css" name="style.css" />
 	<p:panelGrid columns="3" layout="grid"
 		styleClass="showcase-text-align-center">
-		<h:outputText value="" />
+
+		<p:outputLabel value="" />
 		<h:graphicImage value="images/incognito.png" height="75px"
 			width="200px" />
-		<h:outputText value="" />
+		<p:outputLabel value="" />
 
-		<h:outputLabel value="" />
-		<h:outputLabel value="" />
-		<h:outputLabel value="" />
-	</p:panelGrid>
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
 
-	<h1>Salon : #{currentSalonBean.thisSalon.nom}</h1>
-	<p:panelGrid>
-		<p:row>
-		</p:row>
-		<p:row>
-			<p:column>
-				<p:outputLabel value="Vous etes : " />
-			</p:column>
-			<p:column>
-				<p:outputLabel value="#{currentSalonBean.yourProfile.user.login}" />
-			</p:column>
-		</p:row>
-		<p:row>
-			<p:column>
-				<p:outputLabel
-					value="	Vous apparaissez en tant que : #{currentSalonBean.yourProfile.pseudo} sur le salon : #{currentSalonBean.thisSalon.nom}" />
-			</p:column>
-		</p:row>
-	</p:panelGrid>
+		<p:outputLabel value="" />
 
-	<p:panelGrid>
-		<p:row>
-			<p:column>
-				<p:outputLabel value="#{currentSalonBean.yourProfile.pseudo}" />
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Modifier"
-						action="#{currentSalonBean.modifierSonProfil()}">
-
-					</p:commandButton>
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Retour"
-						action="#{navigationBean.getManageSalon()}" />
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
-					<p:commandButton value="Quitter"
-						action="#{currentSalonBean.quit()}">
-						<f:ajax execute="@this" onevent="pop" />
-					</p:commandButton>
-				</h:form>
-			</p:column>
-		</p:row>
-	</p:panelGrid>
-
-
-
-
-	<p:panelGrid>
-
-		<p:row>
-			<!--  USERS  -->
-			<p:column>
-				<p:tabView>
-					<p:tab>
-						<p:dataTable class="datatable"
-							value="#{currentSalonBean.registeredProfiles}"
-							var="registeredProfiles" selectionMode="single"
-							rowKey="#{registeredProfiles.id}" rows="10">
-							<!--  ID -->
-							<p:column headerText="Id">
-								<h:outputText value="#{registeredProfiles.id}" />
-							</p:column>
-							<!--  PSEUDO  -->
-							<p:column headerText="Pseudo">
-								<h:outputText value="#{registeredProfiles.pseudo}" />
-							</p:column>
-
-						</p:dataTable>
-					</p:tab>
-				</p:tabView>
-			</p:column>
-			<!--  POST  -->
-			<p:column>
-				<p:commandButton value="Nouveau post" type="button"
-					onclick="PF('dlg').show();" />
-			</p:column>
-
-			<!--  POSTS -->
-			<p:column>
-				<p:scrollPanel style="width:1000px;height:800px">
-					<div class="card">
-						<div class="posts">
-							<p:chronoline value="#{currentSalonBean.postedContent}"
-								var="posts">
-
-								<p:outputLabel value="#{posts.body}" />
-								<br />
-								<br />
-								<p:media value="#{posts.youtubeLink}" width="425" height="344"
-									player="flash" />
-								<f:facet name="opposite">
-									<small class="text-secondary">#{posts.date} <br />
-										#{posts.profile.pseudo}
-									</small>
-								</f:facet>
-							</p:chronoline>
-						</div>
-					</div>
-				</p:scrollPanel>
-			</p:column>
-
-		</p:row>
+		<p:outputLabel value="" />
 
 	</p:panelGrid>
-
-	<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
-		<h:form>
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Message: " />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:inputTextarea rows="5" cols="30"
-							value="#{postBean.newPostBody}" update=":link">
-							<p:ajax event="keyup" listener="#{postBean.getIsALink()}"
-								update="link" />
-						</p:inputTextarea>
-					</p:column>
-					<p:column>
-						<p:panel id="link">
-							<h:form
-								rendered="#{postBean.isALink and !postBean.isAYoutubeLink}">
-								<h1>LINK</h1>
-							</h:form>
-							<h:form rendered="#{postBean.isAYoutubeLink}">
-								<h1>YOUTUBE LINK</h1>
-								<p:media value="#{postBean.youtubeLink}" width="425"
-									height="344" player="flash" />
-								<h2>#{postBean.youtubeLink}</h2>
-							</h:form>
-						</p:panel>
-
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-					</p:column>
-					<p:column>
-						<p:commandButton value="poster"
-							action="#{postBean.publishNewPost()}" />
-
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-		</h:form>
-	</p:dialog>
-
 	<script type="text/javascript">
-		function pop(data) {
-			if (data.status == "success") {
+		function close_window() {
+			try {
 				window.close();
+			} catch (e) {
+				console.log(e)
+			}
+			try {
+				self.close();
+			} catch (e) {
+				self.close();
+			} catch (e) {
+				console.log(e)
 			}
 		}
 	</script>
+
+	<h:form>
+		<p:tabMenu activeIndex="#{tabMenuBean.index}">
+			<p:menuitem value="Overview" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-star">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+
+			<p:menuitem value="Salons" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-clone">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+
+			<p:menuitem value="Invitations" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-user">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Paramètres" action="#{tabMenuBean.doSomeWork()}"
+				icon="pi pi-cog">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+			<h:form>
+				<p:menuitem value="Quitter" action="#{currentSalonBean.quit()}"
+					icon="pi pi-power-off">
+
+				</p:menuitem>
+			</h:form>
+		</p:tabMenu>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true">
+			<p:commandButton value="Sûr et certain ! " type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Finalement, non." type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+	<h1>
+
+		<p:panelGrid columns="3" layout="grid"
+			styleClass="showcase-text-align-center">
+
+			<p:outputLabel value="" />
+			<p:panel>
+				<h:form>
+					<p:outputLabel value="#{currentSalonBean.thisSalon.nom}" />
+					<!--  STACK -->
+					<p:commandButton id="dynaButton" value="Menu" icon="pi pi-bars">
+						<p:menu overlay="true" trigger="dynaButton" my="left top"
+							at="left bottom">
+							<p:submenu label="Options">
+								<p:menuitem value="quitter" icon="images/logout.png"
+									action="#{currentSalonBean.quit()}"
+									onclick="window.close(); return false;" />
+							</p:submenu>
+						</p:menu>
+					</p:commandButton>
+					<p:commandButton value="Nouveau post" type="button"
+						onclick="PF('dlg').show();" />
+					<p:dialog header="Nouveau post" widgetVar="dlg" modal="true">
+						<h:form>
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Message: " />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputTextarea rows="5" cols="30" id="postBody"
+											value="#{postBean.newPostBody}" update=":link">
+											<f:validator validatorId="postValidator" />
+											<p:ajax event="keyup" listener="#{postBean.getIsALink()}"
+												update="link" />
+										</p:inputTextarea>
+									</p:column>
+									<p:column>
+										<p:panel id="link">
+											<h:form
+												rendered="#{postBean.isALink and !postBean.isAYoutubeLink}">
+												<h1>LINK</h1>
+											</h:form>
+											<h:form rendered="#{postBean.isAYoutubeLink}">
+												<h1>YOUTUBE LINK</h1>
+												<p:media value="#{postBean.youtubeLink}" width="425"
+													height="344" player="flash" />
+												<h2>#{postBean.youtubeLink}</h2>
+											</h:form>
+										</p:panel>
+									</p:column>
+									<p:column>
+									<h:message for="postBody"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+									</p:column>
+									<p:column>
+										<h:form>
+											<p:commandButton value="poster"
+												action="#{postBean.publishNewPost()}" ajax="false" />
+										</h:form>
+
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</h:form>
+					</p:dialog>
+				</h:form>
+			</p:panel>
+
+
+
+
+		</p:panelGrid>
+	</h1>
+
+
+
+
+	<!--  profil panel -->
+	<p:panel>
+		<p:panelGrid id="profilPanel" header="C'est vous !">
+			<p:row>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Vous etes : " />
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{currentSalonBean.yourProfile.user.login}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Vous apparaissez en tant que : " />
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{currentSalonBean.yourProfile.pseudo}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</p:panel>
+	<!--  profil panel -->
+	<p:draggable for="profilPanel" grid="20,40" />
+
+	<!--  USER panel -->
+	<p:panel id="userPanel" style="width:300px">
+		<p:dataTable class="datatable" styleClass="userTable"
+			value="#{currentSalonBean.registeredProfiles}"
+			var="registeredProfiles" selectionMode="single"
+			rowKey="#{registeredProfiles.id}" rows="10">
+			<!--  ID -->
+			<p:column headerText="Id" style="width:150px">
+				<h:outputText value="#{registeredProfiles.id}" />
+			</p:column>
+			<!--  PSEUDO  -->
+			<p:column headerText="Pseudo" style="width:150px">
+				<h:outputText value="#{registeredProfiles.pseudo}" />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+	<p:draggable for="userPanel" grid="20,40" />
+
+	<!--  POSTS panel -->
+	<p:panel id="postsPanel" style="width:1000px;height:850px">
+		<p:scrollPanel style="width:990px;height:800px">
+			<div class="card">
+				<div class="posts">
+					<p:chronoline value="#{currentSalonBean.postedContent}" var="posts">
+
+						<p:outputLabel value="#{posts.body}" />
+						<br />
+						<br />
+						<p:media value="#{posts.youtubeLink}" width="425" height="344"
+							player="flash" rendered="#{posts.youtubeLink != null}" />
+						<f:facet name="opposite">
+							<small class="text-secondary">#{posts.date} <br />
+								#{posts.profile.pseudo}
+							</small>
+						</f:facet>
+					</p:chronoline>
+				</div>
+			</div>
+		</p:scrollPanel>
+	</p:panel>
+	<p:draggable for="postsPanel" grid="20,40" />
+
+
+
 </h:body>
 
 </html>

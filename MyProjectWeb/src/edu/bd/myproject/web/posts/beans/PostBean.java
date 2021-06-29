@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.post.dao.PostsDao;
+import edu.bd.myProject.post.entity.Post;
 import edu.bd.myProject.post.service.PostService;
 import edu.bd.myProject.profiles.dao.ProfileDao;
 import edu.bd.myProject.profiles.entity.Profile;
@@ -85,10 +86,12 @@ public class PostBean {
 			isAYoutubeLink = false;
 			return isAYoutubeLink;
 		}
-		this.youtubeLink = urlCheckerBean.getYoutubeUrl(newPostBody);
 
+		System.out.println("New post body : " + newPostBody);
+		this.youtubeLink = urlCheckerBean.getYoutubeUrl(newPostBody);
+		System.out.println("YT Link : " + this.youtubeLink);
 		if (this.youtubeLink != null) {
-			System.out.println("is " + newPostBody + " is a YOUTUBE LINK ");
+			System.out.println( youtubeLink + " is a YOUTUBE LINK ");
 			isAYoutubeLink = true;
 		} else {
 			isAYoutubeLink = false;
@@ -118,13 +121,21 @@ public class PostBean {
 
 	public String publishNewPost() throws Exception {
 		Salon salon = currentSalonBean.getThisSalon();
-		System.out.println("SALON : " + salon.toString());
+
 		Compte compte = currentUserBean.getCurrentAccount();
-		System.out.println("COMPTE : " + compte.toString());
 		Profile profile;
 		try {
 			profile = profileDao.obtenirPourUnCompteEtUnSalon(compte, salon);
-			postService.creerNouveauPost(salon, profile, this.newPostTitle, this.newPostBody, isAYoutubeLink?youtubeLink:null);
+			System.out.println("SALON : " + salon.toString());
+			System.out.println("PROFILE : " + profile.getPseudo());
+			System.out.println("TITLE : " + this.newPostTitle);
+			System.out.println("BODY : " + this.newPostBody);
+
+			Post post = postService.creerNouveauPost(salon, profile, this.newPostTitle, this.newPostBody,
+					getIsAYoutubeLink() ? youtubeLink : null);
+			this.newPostTitle = "";
+			this.newPostBody = "";
+			this.youtubeLink = "";
 			currentSalonBean.rafraichirPosts();
 			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 			externalContext.redirect(((HttpServletRequest) externalContext.getRequest()).getRequestURI());

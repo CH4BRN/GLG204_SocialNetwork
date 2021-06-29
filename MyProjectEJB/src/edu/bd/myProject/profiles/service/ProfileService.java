@@ -33,4 +33,6 @@ public interface ProfileService {
 
 	public List<String> exclureProfile(Salon salon, String profileId) throws Exception;
 
+	public List<Profile> obtenirPourUnCompte(Compte compte);
+
 }

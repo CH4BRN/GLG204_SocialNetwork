@@ -20,6 +20,7 @@ public class UrlCheckerBean {
 	String extractYoutubeRegex = "^(https?)?(://)?(www.)?((youtube.com)|(youtu.be))/watch\\?v=[a-zA-Z0-9_-]*";
 
 	public String getYoutubeUrl(String chaine) {
+		System.out.println("Chaine : " + chaine);
 		Pattern pattern = Pattern.compile(extractYoutubeRegex);
 		Matcher matcher = pattern.matcher(chaine);
 		while (matcher.find()) {

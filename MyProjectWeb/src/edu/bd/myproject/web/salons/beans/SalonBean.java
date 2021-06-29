@@ -13,7 +13,6 @@ import javax.inject.Named;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
 import edu.bd.myProject.profiles.dao.ProfileDao;
-import edu.bd.myProject.profiles.entity.Profile;
 import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
@@ -27,9 +26,35 @@ import edu.bd.myproject.web.utilisateur.beans.CurrentUserBean;
 @ApplicationScoped
 public class SalonBean {
 
-	private ArrayList<Salon> participatedSalons;
+	private ArrayList<Salon> participatedSalons = new ArrayList<Salon>();
 
-	private ArrayList<Salon> currentUserSalons;
+	private ArrayList<Salon> currentUserSalons = new ArrayList<Salon>();
+
+	private ArrayList<Salon> allTheSalon = new ArrayList<Salon>();
+
+	public ArrayList<Salon> getAllTheSalon() {
+		allTheSalon = new ArrayList<Salon>();
+		List<Salon> newSalons = this.salonService.obtenirTousLesSalons();
+		if (newSalons != null) {
+			allTheSalon.addAll(newSalons);
+		}
+		return allTheSalon;
+	}
+
+	public String supprimerCeSalon(Salon salon) {
+		System.out.println("SUPPRIMER CE SALON " + salon.getNom());
+		try {
+			this.salonService.supprimerSalon(salon);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		rafraichirListe();
+		return navigationBean.getSeeSalons();
+	}
+
+	public void setAllTheSalon(ArrayList<Salon> allTheSalon) {
+		this.allTheSalon = allTheSalon;
+	}
 
 	@Named
 	@Inject
@@ -140,16 +165,16 @@ public class SalonBean {
 			return "";
 		}
 	}
-	
-	public String inviter() throws Exception{
+
+	public String inviter() throws Exception {
 		Salon salon = currentSalonBean.getThisSalon();
 		System.out.println("Inviter pour le salon = " + salon.getNom());
 		Compte createur = currentUserBean.getCurrentAccount();
 		ArrayList<String> emails = invitSomeoneBean.getEmailList();
-		
+
 		Salon result = salonService.addEmailsToSalon(salon, emails, createur);
 		if (result == null) {
-			
+
 		}
 		return "";
 	}
@@ -173,6 +198,7 @@ public class SalonBean {
 	}
 
 	public void supprimerSalon(String id) {
+		System.out.println("SUPPRIMER : " + id);
 		try {
 			Salon salon = salonService.obtenirSalonParId(id);
 			if (salon == null) {
@@ -181,7 +207,7 @@ public class SalonBean {
 			System.out.println("SUPPRIMER : " + salon.getNom());
 			this.salonService.supprimerSalon(salon);
 
-		} catch (InCognitoDaoException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
@@ -196,7 +222,16 @@ public class SalonBean {
 		try {
 			List<Salon> salons = this.salonService
 					.obtenirSalonsCreesParUtilisateur(currentUserBean.getCurrentAccount());
-			this.currentUserSalons.addAll(salons);
+			if (salons != null) {
+				this.currentUserSalons.addAll(salons);
+			}
+
+			List<Salon> tousLesSalons = this.salonService.obtenirTousLesSalons();
+			this.allTheSalon = new ArrayList<Salon>();
+			if (tousLesSalons != null) {
+				this.allTheSalon.addAll(tousLesSalons);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

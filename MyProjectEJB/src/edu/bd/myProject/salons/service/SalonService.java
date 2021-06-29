@@ -22,8 +22,10 @@ public interface SalonService {
 
 	public Salon obtenirSalonParNom(String nom) throws Exception;
 
-	public Salon supprimerSalon(Salon id) throws InCognitoDaoException;
+	public Salon supprimerSalon(Salon id) throws InCognitoDaoException, Exception;
 
 	public Salon addEmailsToSalon(Salon salonToManage, ArrayList<String> emailsToAdd, Compte createur);
+
+	public List<Salon> obtenirTousLesSalons();
 
 }

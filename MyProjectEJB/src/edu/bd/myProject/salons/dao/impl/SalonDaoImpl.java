@@ -89,7 +89,7 @@ public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 			return (List<Salon>) this.getEm().createQuery("FROM SalonImpl s WHERE s.createur.id = :id")
 					.setParameter("id", createur.getId()).getResultList();
 		} catch (Exception e) {
-			throw new InCognitoDaoException("erreur obtention salon", e);
+			return null;
 		}
 	}
 
@@ -113,8 +113,11 @@ public class SalonDaoImpl extends GenericDaoImpl implements SalonDao {
 
 	@Override
 	public List<Salon> obtenirTous() throws InCognitoDaoException {
-		// TODO Auto-generated method stub
-		return null;
+
+		String query = "SELECT s FROM SalonImpl s";
+		@SuppressWarnings("unchecked")
+		List<Salon> salons = this.getEm().createQuery(query).getResultList();
+		return salons;
 	}
 
 }

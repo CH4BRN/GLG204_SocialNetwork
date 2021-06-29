@@ -196,6 +196,7 @@ public class CurrentSalonBean implements Serializable {
 	}
 
 	public void quit() {
+		System.out.println("QUITTER ! ");
 
 		try {
 			this.profileService.passerHorsLigne(yourProfile);
@@ -208,7 +209,7 @@ public class CurrentSalonBean implements Serializable {
 			if (profiles == null) {
 				try {
 					salonService.supprimerSalon(thisSalon);
-				} catch (InCognitoDaoException e) {
+				} catch ( Exception e) {
 					e.printStackTrace();
 				}
 			}

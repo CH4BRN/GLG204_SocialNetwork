@@ -59,7 +59,7 @@ public class Bootstrap {
 	}
 
 	private void initializeUserBrique() throws Exception {
-		Compte compte = comptesDao.obtenirNouvelleEntité();
+		Compte compte = comptesDao.obtenirNouvelleEntite();
 		compte.setEmail("erreipantoine@gmail.com");
 		compte.setIsActif(true);
 		compte.setLogin("Pierre");
@@ -158,7 +158,7 @@ public class Bootstrap {
 	}
 
 	private void initializeUser() throws Exception {
-		Compte compte = comptesDao.obtenirNouvelleEntité();
+		Compte compte = comptesDao.obtenirNouvelleEntite();
 		compte.setEmail("user1@mail.com");
 		compte.setIsActif(true);
 		compte.setLogin("USER1");
@@ -170,7 +170,7 @@ public class Bootstrap {
 			throw new Exception("Erreur insertion user", e);
 		}
 
-		Compte compte2 = comptesDao.obtenirNouvelleEntité();
+		Compte compte2 = comptesDao.obtenirNouvelleEntite();
 		compte2.setEmail("user2@mail.com");
 		compte2.setIsActif(true);
 		compte2.setLogin("USER2");
@@ -185,7 +185,7 @@ public class Bootstrap {
 	}
 
 	private void initializeAdmin() throws Exception {
-		Compte compte = comptesDao.obtenirNouvelleEntité();
+		Compte compte = comptesDao.obtenirNouvelleEntite();
 		compte.setEmail("admin@email.com");
 		compte.setIsActif(true);
 		compte.setLogin("ADMIN");

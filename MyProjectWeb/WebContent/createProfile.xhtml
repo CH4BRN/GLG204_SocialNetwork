@@ -98,14 +98,12 @@
 					</p:column>
 					<p:column>
 						<p:commandButton value="valider"
-							onclick="PF('profilCree').show();" />
-						<!--   onclick="this.form.target='_blank'"
-						action="#{profileBean.createProfileForSalon()}"
-						-->
+							onclick="PF('profilCree').show();"
+							action="#{profileBean.createProfileForSalon()}" />
 
 						<p:dialog header="Profil créé" widgetVar="profilCree" modal="true">
-							<h1>Profil "#{currentSalonBean.yourProfile.pseudo}" créé</h1>
-							<p:commandButton value="Rejoindre"
+							<h1>Profil #{profileBean.newProfileName} créé</h1>
+							<p:commandButton value="Rejoindre" onclick="target='_blank'" ajax="false"
 								action="#{navigationBean.getCurrentSalon()}" />
 						</p:dialog>
 					</p:column>

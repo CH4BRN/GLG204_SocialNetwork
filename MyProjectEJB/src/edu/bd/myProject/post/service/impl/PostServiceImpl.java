@@ -67,4 +67,20 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
+	@Override
+	public Post obtenir(String id) {
+		try {
+			return postDao.obtenir(id);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public void supprimer(Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

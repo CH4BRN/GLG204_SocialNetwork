@@ -5,8 +5,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import edu.bd.myProject.authentication.service.AuthenticationService;
-import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
+import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.core.service.CoreService;
 import edu.bd.myProject.core.service.ServiceA;
 import edu.bd.myProject.core.service.ServiceU;
@@ -18,8 +18,9 @@ import edu.bd.myProject.core.service.ServiceU;
 @Stateless
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+
 	@Inject
-	CompteDao comptesDao;
+	CompteService compteService;
 
 	@Inject
 	@ServiceA
@@ -36,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	@Override
 	public CoreService authentifier(String login, String motDePasse) throws Exception {
 		// Cherche le compte
-		Compte compte = comptesDao.obtenirParLogin(login);
+		Compte compte = compteService.obtenirCompteParLogin(login);
 		
 		CoreService service;
 		

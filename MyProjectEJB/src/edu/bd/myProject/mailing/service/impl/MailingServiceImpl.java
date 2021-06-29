@@ -1,24 +1,6 @@
 package edu.bd.myProject.mailing.service.impl;
 
-import java.util.Date;
-import java.util.Properties;
-
 import javax.ejb.Stateless;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.*;
-import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.event.*;
-import java.net.*;
-import javax.activation.*;
 
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.mailing.service.MailingService;
@@ -29,7 +11,7 @@ public class MailingServiceImpl implements MailingService {
 	@Override
 	public Boolean envoyerMail(String adresseDestinataire, Compte emetteur, String titre, String corps)
 			throws Exception {
-		boolean result = false;
+		//boolean result = false;
 		return true;
 		/*
 		try {

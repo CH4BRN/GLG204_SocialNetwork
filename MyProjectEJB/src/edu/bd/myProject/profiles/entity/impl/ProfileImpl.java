@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -31,7 +32,7 @@ public class ProfileImpl implements Profile {
 	@ManyToOne(targetEntity = SalonImpl.class)
 	private Salon salon;
 
-	@OneToMany(targetEntity = PostImpl.class, cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = PostImpl.class, cascade = CascadeType.REMOVE)
 	private List<Post> posts;
 
 	private String pseudo;

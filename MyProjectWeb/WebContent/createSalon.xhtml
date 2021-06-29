@@ -58,26 +58,32 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
 	</h:form>
-	<h:form>
-		<p:panelGrid columns="3" layout="grid" border="0"
-			styleClass="showcase-text-align-center">
 
-			<p:outputLabel value="" />
-			<p:panelGrid columns="1" layout="grid" border="0"
-				styleClass="showcase-text-align-center">
+	<p:panelGrid columns="3" layout="grid" border="0"
+		styleClass="showcase-text-align-center">
+
+		<p:outputLabel value="" />
+		<p:panelGrid columns="1" layout="grid" border="0"
+			styleClass="showcase-text-align-center">
+			<h:form>
 				<h1>
 					<p:outputLabel
 						value="Salon '#{currentSalonBean.thisSalon.nom}' créé." />
+					<p:commandButton value="Rejoindre" ajax="false"
+						action="#{currentSalonBean.rejoindreSalon()}" />
 				</h1>
-			</p:panelGrid>
-			<p:outputLabel value="" />
+			</h:form>
+		</p:panelGrid>
+		<p:outputLabel value="" />
 
-			<p:outputLabel value="" />
-			<p:outputLabel value="On invite quelqu'un ?" />
-			<p:outputLabel value="" />
 
-			<p:outputLabel value="" />
-			<p:panel>
+		<p:outputLabel value="" />
+		<p:outputLabel value="On invite quelqu'un ?" />
+		<p:outputLabel value="" />
+
+		<p:outputLabel value="" />
+		<p:panel>
+			<h:form>
 				<p:panelGrid columns="3" layout="grid" border="0"
 					styleClass="showcase-text-align-center">
 					<p:outputLabel value="Inviter quelqu'un : " />
@@ -87,19 +93,18 @@
 					</p:inputText>
 					<p:commandButton value="Valider"
 						action="#{invitSomeoneBean.addEmail()}" ajax="false" />
+					<p:outputLabel value="" />
+
+					<p:message for="invitEmail" />
+					<p:outputLabel value="" />
 				</p:panelGrid>
-			</p:panel>
-			<p:outputLabel value="" />
-
-			<p:outputLabel value="" />
-			<p:message for="invitEmail" />
-			<p:outputLabel value="" />
-
-
-		</p:panelGrid>
-
-	</h:form>
-
+			</h:form>
+		</p:panel>
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+		<p:outputLabel value="" />
+	</p:panelGrid>
 
 	<p:panelGrid columns="3" layout="grid" border="0"
 		styleClass="showcase-text-align-center">
@@ -236,7 +241,7 @@
 				<h:outputText value="" />
 				<p:commandButton value="Rejoindre "
 					action="#{currentSalonBean.rejoindreSalon()}">
-					
+
 				</p:commandButton>
 
 			</p:panelGrid>

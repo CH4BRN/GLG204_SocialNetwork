@@ -11,6 +11,10 @@ import edu.bd.myProject.compte.dao.CompteDao;
 import edu.bd.myProject.compte.entity.Compte;
 import edu.bd.myProject.compte.service.CompteService;
 import edu.bd.myProject.framework.dao.InCognitoDaoException;
+import edu.bd.myProject.post.entity.Post;
+import edu.bd.myProject.post.service.PostService;
+import edu.bd.myProject.profiles.entity.Profile;
+import edu.bd.myProject.profiles.service.ProfileService;
 import edu.bd.myProject.salons.entity.Salon;
 import edu.bd.myProject.salons.service.SalonService;
 
@@ -26,6 +30,12 @@ public class CompteServiceImpl implements CompteService {
 
 	@Inject
 	SalonService salonService;
+
+	@Inject
+	PostService postService;
+
+	@Inject
+	ProfileService profileService;
 
 	/**
 	 * @throws Exception
@@ -64,14 +74,21 @@ public class CompteServiceImpl implements CompteService {
 
 	private Compte compteFactory(String login, String email, String motDePasse, Boolean isActif, Date dateCreation,
 			Boolean isAdmin) {
-		Compte compte = comptesDao.obtenirNouvelleEntité();
-		compte.setDateCreation(dateCreation);
-		compte.setEmail(email);
-		compte.setIsActif(isActif);
-		compte.setIsAdmin(isAdmin);
-		compte.setLogin(login);
-		compte.setMotDePasse(motDePasse);
-		return compte;
+		Compte compte;
+		try {
+			compte = comptesDao.obtenirNouvelleEntite();
+			compte.setDateCreation(dateCreation);
+			compte.setEmail(email);
+			compte.setIsActif(isActif);
+			compte.setIsAdmin(isAdmin);
+			compte.setLogin(login);
+			compte.setMotDePasse(motDePasse);
+			return compte;
+		} catch (InCognitoDaoException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 	/**
@@ -80,7 +97,7 @@ public class CompteServiceImpl implements CompteService {
 	@Override
 	public List<Compte> obtenirTousLesComptes() {
 		try {
-			return this.comptesDao.obtenirTousLesComptes();
+			return this.comptesDao.obtenirTous();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -88,23 +105,36 @@ public class CompteServiceImpl implements CompteService {
 	}
 
 	/**
+	 * @throws Exception
 	 * @see edu.bd.myProject.compte.service.CompteService#supprimerCompte(edu.bd.myProject.compte.entity.Compte)
 	 */
 	@Override
-	public Compte supprimerCompte(Compte compte) {
+	public Compte supprimerCompte(Compte compte) throws Exception {
+		List<Post> posts;
+
+		List<Profile> profiles = profileService.obtenirPourUnCompte(compte);
+		for (Profile profile : profiles) {
+			posts = postService.obtenirPourUnProfil(profile.getId());
+			for (Post post : posts) {
+				postService.supprimer(post);
+			}
+			profileService.supprimer(profile);
+		}
+
 		List<Salon> salons;
 		try {
 			salons = salonService.obtenirSalonsCreesParUtilisateur(compte);
 			for (Salon salon : salons) {
 				salonService.supprimerSalon(salon);
 			}
-			compte = comptesDao.supprimerCompte(compte);
 
-			return compte;
 		} catch (InCognitoDaoException e) {
 			e.printStackTrace();
 			return null;
 		}
+		compte = comptesDao.supprimer(compte);
+
+		return compte;
 	}
 
 	@Override
@@ -133,6 +163,15 @@ public class CompteServiceImpl implements CompteService {
 		try {
 			return comptesDao.obtenirParLogin(login);
 		} catch (InCognitoDaoException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Compte mettreAJourCompte(Compte compte) {
+		try {
+			return comptesDao.modifier(compte);
+		} catch (Exception e) {
 			return null;
 		}
 	}
